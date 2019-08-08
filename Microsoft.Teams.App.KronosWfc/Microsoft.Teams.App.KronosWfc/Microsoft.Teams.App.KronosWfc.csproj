@@ -1,0 +1,537 @@
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A8957933-7541-4C34-B9DE-7949FAE19AC9}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Teams.App.KronosWfc</RootNamespace>
+    <AssemblyName>Microsoft.Teams.App.KronosWfc</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <ApplicationInsightsResourceId>/subscriptions/59045825-a4cf-4fea-8af9-a13951bebab7/resourcegroups/msteams-kronos-test/providers/microsoft.insights/components/KronosDemoInsights</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/59045825-a4cf-4fea-8af9-a13951bebab7/resourcegroups/msteams-kronos-test/providers/microsoft.insights/components/KronosDemoInsights</ApplicationInsightsAnnotationResourceId>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\FxCop15\KronosCodeAnalysis.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisPath>C:\Program Files (x86)\Microsoft\FxCop 15.0 for SDL</CodeAnalysisPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AdaptiveCards, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\AdaptiveCards.1.1.2\lib\net452\AdaptiveCards.dll</HintPath>
+    </Reference>
+    <Reference Include="AdaptiveCards.Rendering.Html, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\AdaptiveCards.Rendering.Html.1.1.2\lib\net452\AdaptiveCards.Rendering.Html.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac, Version=4.9.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.9.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Mvc5.4.0.2\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.WebApi, Version=4.2.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.WebApi2.4.2.1\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Chronic, Version=0.3.2.0, Culture=neutral, PublicKeyToken=3bd1f1ef638b0d3c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Chronic.Signed.0.3.2\lib\net40\Chronic.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.4.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.9.0\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.9.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.9.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=2.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.9.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.9.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.9.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.9.1\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.TelemetryCorrelation, Version=1.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.5\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Azure.Documents.Client, Version=1.22.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.DocumentDB.1.22.0\lib\net45\Microsoft.Azure.Documents.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bot.Builder, Version=3.20.1.42, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bot.Builder.3.20.1\lib\net46\Microsoft.Bot.Builder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bot.Builder.Autofac, Version=3.20.1.42, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bot.Builder.3.20.1\lib\net46\Microsoft.Bot.Builder.Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bot.Builder.Azure, Version=3.16.3.40383, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bot.Builder.Azure.3.16.3.40383\lib\net46\Microsoft.Bot.Builder.Azure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bot.Builder.History, Version=3.16.1.38846, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bot.Builder.History.3.16.1.38846\lib\net46\Microsoft.Bot.Builder.History.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bot.Connector, Version=3.20.1.42, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bot.Connector.3.20.1\lib\net46\Microsoft.Bot.Connector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bot.Connector.Teams, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f300afd708cefcd3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bot.Connector.Teams.0.9.0\lib\net46\Microsoft.Bot.Connector.Teams.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.7.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.7.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.7.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=4.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.4.4.0\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=5.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.5.2.1\lib\net451\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Protocol.Extensions, Version=1.0.40306.1554, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Protocol.Extensions.1.0.4.403061554\lib\net45\Microsoft.IdentityModel.Protocol.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Protocols, Version=5.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Protocols.5.2.1\lib\net451\Microsoft.IdentityModel.Protocols.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect, Version=2.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Protocols.OpenIdConnect.2.1.4\lib\net451\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.2.1\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Rest.ClientRuntime.2.3.2\lib\net45\Microsoft.Rest.ClientRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=7.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.7.2.1\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Polly, Version=5.3.1.0, Culture=neutral, PublicKeyToken=c8a3ffc3f8f825cc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Polly-Signed.5.3.1\lib\net45\Polly.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.5.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.1.4\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Spatial, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.7.0\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.4\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.4\lib\net45\System.Web.Webpages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Deployment">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.4\lib\net45\System.Web.Webpages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.4\lib\net45\System.Web.Webpages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.4\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.4\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.4\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Global.asax" />
+    <Content Include="Static\CSS\site.css" />
+    <Content Include="Static\images\banner2.svg" />
+    <Content Include="Static\images\banner3.svg" />
+    <Content Include="Static\images\cancel.png" />
+    <Content Include="Static\images\cancel01.png" />
+    <Content Include="Static\images\GreenBar.png" />
+    <Content Include="Static\images\img_approved.png" />
+    <Content Include="Static\images\img_pending.png" />
+    <Content Include="Static\images\img_refused.png" />
+    <Content Include="Static\images\login_wallpaper.jpg" />
+    <Content Include="Static\images\logo.png" />
+    <Content Include="Static\images\logo_chatbot.svg" />
+    <Content Include="Static\images\ok.png" />
+    <Content Include="Static\images\SwapShift.png" />
+    <Content Include="Static\images\TimeOff.PNG" />
+    <Content Include="Static\images\UpcomingSchedule.png" />
+    <Content Include="Static\images\VioletBar.png" />
+    <Content Include="Static\Script\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <Content Include="Static\Script\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Static\Script\jquery-validation-unobtrusive\LICENSE.txt" />
+    <Content Include="Static\Script\jquery-validation\dist\additional-methods.js" />
+    <Content Include="Static\Script\jquery-validation\dist\additional-methods.min.js" />
+    <Content Include="Static\Script\jquery-validation\dist\jquery.validate.js" />
+    <Content Include="Static\Script\jquery-validation\dist\jquery.validate.min.js" />
+    <Content Include="Static\Script\jquery\dist\jquery.js" />
+    <Content Include="Static\Script\jquery\dist\jquery.min.js" />
+    <Content Include="Static\Script\jquery\LICENSE.txt" />
+    <Content Include="Static\Script\schedule.js" />
+    <Content Include="Static\Script\site.js" />
+    <Content Include="Tabs\Config.html" />
+    <Content Include="Tabs\Help.html" />
+    <Content Include="Tabs\Schedule.html" />
+    <Content Include="Cards\AdaptiveCards\TeamOvertimes\MainCard.json" />
+    <Content Include="Cards\AdaptiveCards\TeamOvertimes\Row.json" />
+    <Content Include="Cards\AdaptiveCards\TeamOvertimes\Seperator.json" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\AutofacRegistrationsConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Cards\AdaptiveCards\AdaptiveDateRange.cs" />
+    <Compile Include="Cards\AdaptiveCards\PresentEmployees\PresentEmployeeCard.cs" />
+    <Compile Include="Cards\AdaptiveCards\Punches\AdaptiveShowPunches.cs" />
+    <Compile Include="Cards\AdaptiveCards\Schedule\AdaptiveSchedule.cs" />
+    <Compile Include="Cards\AdaptiveCards\SupervisorViewTimeOffRequests\SupervisorViewTimeOffRequestsCard.cs" />
+    <Compile Include="Cards\AdaptiveCards\SwapShift\SwapShiftCard.cs" />
+    <Compile Include="Cards\AdaptiveCards\TeamOvertimes\TeamOvertimesCard.cs" />
+    <Compile Include="Cards\AdaptiveCards\VacationBalance\AdaptiveVacationBalance.cs" />
+    <Compile Include="Cards\AdaptiveCards\Welcome\WelcomeCard.cs" />
+    <Compile Include="Cards\CarouselCards\AccrualType.cs" />
+    <Compile Include="Cards\CarouselCards\CarouselShowHoursWorked.cs" />
+    <Compile Include="Cards\CarouselCards\CarouselShowPunches.cs" />
+    <Compile Include="Cards\CarouselCards\CarouselTeamOvertimes.cs" />
+    <Compile Include="Cards\HeroCards\HeroEmployeeLocation.cs" />
+    <Compile Include="Cards\HeroCards\HeroHoursWorked.cs" />
+    <Compile Include="Cards\HeroCards\HeroLeaveCard.cs" />
+    <Compile Include="Cards\HeroCards\HeroPresentEmployees.cs" />
+    <Compile Include="Cards\HeroCards\HeroShowPunches.cs" />
+    <Compile Include="Cards\AdaptiveCards\TimeOff\TimeOffRequestCard.cs" />
+    <Compile Include="Cards\AdaptiveCards\ViewTimeOffRequests\ViewTimeOffRequestsCard.cs" />
+    <Compile Include="Cards\CarouselCards\CarouselHelp.cs" />
+    <Compile Include="Cards\CarouselCards\NextVacationCard.cs" />
+    <Compile Include="Cards\CarouselCards\CarouselUpcomingShifts.cs" />
+    <Compile Include="Cards\HeroCards\HeroAddPunch.cs" />
+    <Compile Include="Cards\HeroCards\HeroShowSchedule.cs" />
+    <Compile Include="Cards\CarouselCards\CarouselVacationBalance.cs" />
+    <Compile Include="Cards\ListCards\PresentEmployeesListCard.cs" />
+    <Compile Include="CommandHandling\AuthenticateUser.cs" />
+    <Compile Include="CommandHandling\CommandValidCheck.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="DialogFactory.cs" />
+    <Compile Include="Dialogs\EmployeeLocation\EmployeeLocationDialog.cs" />
+    <Compile Include="Dialogs\Hours\ShowHoursWorkedDialog.cs" />
+    <Compile Include="Dialogs\OnLeave\OnLeaveDialog.cs" />
+    <Compile Include="Dialogs\PresentEmployees\PresentEmployeesDialog.cs" />
+    <Compile Include="Dialogs\Punch\AddPunchDialog.cs" />
+    <Compile Include="Dialogs\Punch\SavePunchDialog.cs" />
+    <Compile Include="Dialogs\Punch\SaveWorkRuleTransferDialog.cs" />
+    <Compile Include="Dialogs\Punch\ShowPunchesDialog.cs" />
+    <Compile Include="Dialogs\RootDialog.cs" />
+    <Compile Include="Dialogs\Schedule\ScheduleDialog.cs" />
+    <Compile Include="Dialogs\Shifts\UpcomingShiftsDialog.cs" />
+    <Compile Include="Dialogs\SupervisorViewTimeoff\SupervisorViewTimeOffDialog.cs" />
+    <Compile Include="Dialogs\SwapShift\SwapShiftDialog.cs" />
+    <Compile Include="Dialogs\TeamOvertimes\TeamOvertimesDialog.cs" />
+    <Compile Include="Dialogs\TimeOff\TimeOffDialog.cs" />
+    <Compile Include="Dialogs\TimeOff\ViewTimeOffRequestsDialog.cs" />
+    <Compile Include="Dialogs\Vacation\VacationBalanceDialog.cs" />
+    <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
+    <Compile Include="FilterConfig.cs" />
+    <Compile Include="Filters\CustomExceptionFilter.cs" />
+    <Compile Include="Filters\CustomLuisModelAttribute.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="IDialogFactory.cs" />
+    <Compile Include="Models\ConversationObject.cs" />
+    <Compile Include="Models\ListCard\Button.cs" />
+    <Compile Include="Models\ListCard\Content.cs" />
+    <Compile Include="Models\ListCard\Item.cs" />
+    <Compile Include="Models\ListCard\ListCard.cs" />
+    <Compile Include="Models\ListCard\Tap.cs" />
+    <Compile Include="Models\RootContextObject.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Provider\AuthenticationService.cs" />
+    <Compile Include="Provider\Core\IAuthenticationService.cs" />
+    <Compile Include="Provider\CredentialProvider.cs" />
+    <Compile Include="Resources\KronosCommand.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KronosCommand.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\KronosResourceText.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KronosResourceText.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Cards\AdaptiveCards\TimeOff\CreateTimeOffRequestCard.json" />
+    <Content Include="Cards\AdaptiveCards\TimeOff\AdvanceTimeOff1.json" />
+    <Content Include="Cards\AdaptiveCards\TimeOff\AdvanceTimeOff2.json" />
+    <Content Include="Cards\AdaptiveCards\TimeOff\AdvanceTimeOff3.json" />
+    <Content Include="Cards\AdaptiveCards\TimeOff\AdvanceTimeOff3_Hours.json" />
+    <Content Include="Cards\AdaptiveCards\TimeOff\ConfirmAdvanceTimeOff.json" />
+    <Content Include="Cards\AdaptiveCards\TimeOff\SupervisorNotificationCard.json" />
+    <Content Include="Cards\AdaptiveCards\TimeOff\EmployeeNotificationCard.json" />
+    <Content Include="Cards\AdaptiveCards\ViewTimeOffRequests\NextVacationCard.json" />
+    <Content Include="Cards\AdaptiveCards\SwapShift\ApprovalNotification.json" />
+    <Content Include="Cards\AdaptiveCards\SwapShift\AvailableShiftsToSwap.json" />
+    <Content Include="Cards\AdaptiveCards\SwapShift\Confirmation.json" />
+    <Content Include="Cards\AdaptiveCards\SwapShift\Notification.json" />
+    <Content Include="Cards\AdaptiveCards\SwapShift\RequestNotificationToEmployee.json" />
+    <Content Include="Cards\AdaptiveCards\SwapShift\SearchFilterCard.json" />
+    <Content Include="Cards\AdaptiveCards\SwapShift\ShiftToSwapSelectionCard.json" />
+    <Content Include="Cards\AdaptiveCards\SupervisorViewTimeOffRequests\AcceptRefuseBlock.json" />
+    <Content Include="Cards\AdaptiveCards\SupervisorViewTimeOffRequests\Actions_FR.json" />
+    <Content Include="Cards\AdaptiveCards\SupervisorViewTimeOffRequests\Actions_FRN.json" />
+    <Content Include="Cards\AdaptiveCards\SupervisorViewTimeOffRequests\Actions_FRNP.json" />
+    <Content Include="Cards\AdaptiveCards\SupervisorViewTimeOffRequests\Actions_FRP.json" />
+    <Content Include="Cards\AdaptiveCards\SupervisorViewTimeOffRequests\FilterItem.json" />
+    <Content Include="Cards\AdaptiveCards\SupervisorViewTimeOffRequests\json.json" />
+    <Content Include="Cards\AdaptiveCards\SupervisorViewTimeOffRequests\RequestItem.json" />
+    <Content Include="Cards\AdaptiveCards\SupervisorViewTimeOffRequests\TimeOffRequests.json" />
+    <Content Include="Cards\AdaptiveCards\TimeOff\HistoryItem.json" />
+    <Content Include="Cards\AdaptiveCards\TimeOff\ApprovalConfirmationCard.json" />
+    <Content Include="Cards\AdaptiveCards\Welcome\WelcomeCard.json" />
+    <Content Include="Cards\AdaptiveCards\Welcome\TourCard.json" />
+    <Content Include="Cards\AdaptiveCards\TimeOff\CancelTimeOffRequest.json" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Connected Services\Application Insights\ConnectedService.json" />
+    <Content Include="Cards\AdaptiveCards\ViewTimeOffRequests\TimeOffRequestItem.json" />
+    <Content Include="Cards\AdaptiveCards\ViewTimeOffRequests\Actions_TN.json" />
+    <Content Include="Cards\AdaptiveCards\ViewTimeOffRequests\Actions_TNP.json" />
+    <Content Include="Cards\AdaptiveCards\ViewTimeOffRequests\Actions_TP.json" />
+    <Content Include="Cards\AdaptiveCards\ViewTimeOffRequests\Actions_T.json" />
+    <Content Include="Cards\AdaptiveCards\Schedule\ScheduleContent.json" />
+    <Content Include="Cards\AdaptiveCards\Schedule\MainSchedule.json" />
+    <Content Include="Cards\AdaptiveCards\SupervisorViewTimeOffRequests\Latest\RequestItem.json" />
+    <Content Include="Cards\AdaptiveCards\SupervisorViewTimeOffRequests\Latest\TimeOffRequests.json" />
+    <Content Include="Cards\AdaptiveCards\SupervisorViewTimeOffRequests\Latest\Actions_F.json" />
+    <Content Include="Cards\AdaptiveCards\SupervisorViewTimeOffRequests\Latest\Actions_FN.json" />
+    <Content Include="Cards\AdaptiveCards\SupervisorViewTimeOffRequests\Latest\Actions_FNP.json" />
+    <Content Include="Cards\AdaptiveCards\SupervisorViewTimeOffRequests\Latest\Actions_FP.json" />
+    <Content Include="Cards\AdaptiveCards\SupervisorViewTimeOffRequests\test.json" />
+    <Content Include="Cards\AdaptiveCards\SupervisorViewTimeOffRequests\Latest\AcceptRefuse.json" />
+    <Content Include="Cards\AdaptiveCards\SupervisorViewTimeOffRequests\Latest\RequestItemNoAction.json" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Cards\AdaptiveCards\SwapShift\SubmitterNotification.json" />
+    <Content Include="Cards\AdaptiveCards\SwapShift\EmpApprovNotification.json" />
+    <Content Include="Cards\AdaptiveCards\TimeOff\TimeOffSuccessCard.json" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Static\Script\jquery-validation-unobtrusive\.bower.json" />
+    <Content Include="Static\Script\jquery-validation\.bower.json" />
+    <Content Include="Static\Script\jquery-validation\LICENSE.md" />
+    <Content Include="Static\Script\jquery\.bower.json" />
+    <Content Include="Static\Script\jquery\dist\jquery.min.map" />
+    <Content Include="Views\Login\Close.cshtml" />
+    <None Include="Properties\PublishProfiles\Kronos-testapp - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\Kronos-testapp - FTP1.pubxml" />
+    <None Include="Properties\PublishProfiles\Kronos-testapp - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\Kronos-testapp - Web Deploy1.pubxml" />
+    <None Include="Properties\PublishProfiles\Kronosdemoapp - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\Kronosdemoapp - Web Deploy.pubxml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Cards\AdaptiveCards\AddPunch\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\KronosCommand.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>KronosCommand.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\KronosResourceText.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>KronosResourceText.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Teams.App.KronosWfc.BusinessLogic\Microsoft.Teams.App.KronosWfc.BusinessLogic.csproj">
+      <Project>{b2cac781-8bf6-46c6-8111-22d9e74e0318}</Project>
+      <Name>Microsoft.Teams.App.KronosWfc.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Teams.App.KronosWfc.Common\Microsoft.Teams.App.KronosWfc.Common.csproj">
+      <Project>{b047d997-cbaa-4850-b453-f021d2984b31}</Project>
+      <Name>Microsoft.Teams.App.KronosWfc.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Teams.App.KronosWfc.Models\Microsoft.Teams.App.KronosWfc.Models.csproj">
+      <Project>{b1e78425-3927-40a7-8966-d83f0d63438e}</Project>
+      <Name>Microsoft.Teams.App.KronosWfc.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>63470</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:63470/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:63470/</IISAppRootUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Azure.DocumentDB.1.22.0\build\Microsoft.Azure.DocumentDB.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Azure.DocumentDB.1.22.0\build\Microsoft.Azure.DocumentDB.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.9.0\build\Microsoft.ApplicationInsights.DependencyCollector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.9.0\build\Microsoft.ApplicationInsights.DependencyCollector.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.9.0\build\Microsoft.ApplicationInsights.PerfCounterCollector.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.9.0\build\Microsoft.ApplicationInsights.PerfCounterCollector.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.9.0\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.9.0\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.WindowsServer.2.9.0\build\Microsoft.ApplicationInsights.WindowsServer.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.WindowsServer.2.9.0\build\Microsoft.ApplicationInsights.WindowsServer.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ApplicationInsights.Web.2.9.0\build\Microsoft.ApplicationInsights.Web.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ApplicationInsights.Web.2.9.0\build\Microsoft.ApplicationInsights.Web.targets'))" />
+  </Target>
+  <Import Project="..\packages\Microsoft.Azure.DocumentDB.1.22.0\build\Microsoft.Azure.DocumentDB.targets" Condition="Exists('..\packages\Microsoft.Azure.DocumentDB.1.22.0\build\Microsoft.Azure.DocumentDB.targets')" />
+  <Import Project="..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.9.0\build\Microsoft.ApplicationInsights.DependencyCollector.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.9.0\build\Microsoft.ApplicationInsights.DependencyCollector.targets')" />
+  <Import Project="..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.9.0\build\Microsoft.ApplicationInsights.PerfCounterCollector.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.9.0\build\Microsoft.ApplicationInsights.PerfCounterCollector.targets')" />
+  <Import Project="..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.9.0\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.9.0\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets')" />
+  <Import Project="..\packages\Microsoft.ApplicationInsights.WindowsServer.2.9.0\build\Microsoft.ApplicationInsights.WindowsServer.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.WindowsServer.2.9.0\build\Microsoft.ApplicationInsights.WindowsServer.targets')" />
+  <Import Project="..\packages\Microsoft.ApplicationInsights.Web.2.9.0\build\Microsoft.ApplicationInsights.Web.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.Web.2.9.0\build\Microsoft.ApplicationInsights.Web.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

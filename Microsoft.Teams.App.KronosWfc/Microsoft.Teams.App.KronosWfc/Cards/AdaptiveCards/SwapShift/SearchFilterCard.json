@@ -1,0 +1,133 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "weight": "Bolder",
+          "text": "Swap Shift Request"
+        },
+        {
+          "type": "TextBlock",
+          "spacing": "None",
+          "size": "Small",
+          "weight": "Bolder",
+          "text": "Use this to refine the search for available shifts.",
+          "isSubtle": true
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "Medium",
+      "weight": "Bolder",
+      "text": "Locations",
+      "isSubtle": true
+    },
+    {
+      "type": "Input.ChoiceSet",
+      "id": "SelectedLocation",
+      "spacing": "Small",
+      "value": "All",
+      "isMultiSelect": false,
+      "style": "compact",
+      "choices": [
+        {
+          "title": "All Locations",
+          "value": "All"
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "Medium",
+      "weight": "Bolder",
+      "text": "Jobs",
+      "isSubtle": true
+    },
+    {
+      "type": "Input.ChoiceSet",
+      "id": "SelectedJob",
+      "spacing": "Small",
+      "isMultiSelect": false,
+      "style": "compact",
+      "value": "{JobsValue}",
+      "choices": [
+        {AllJobs}
+      ]
+    },
+
+    {
+      "type": "TextBlock",
+      "spacing": "None",
+      "color": "Attention",
+      "size": "Small",
+      "weight": "Bolder",
+      "text": "{noJobsFound}",
+      "isSubtle": true
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "Medium",
+      "weight": "Bolder",
+      "text": "Employees",
+      "isSubtle": true
+    },
+    {
+      "type": "Input.ChoiceSet",
+      "id": "SelectedEmployee",
+      "spacing": "Small",
+      "value": "{EmployeeValue}",
+      "isMultiSelect": false,
+      "style": "compact",
+      "choices": [
+        {AllEmps}
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "None",
+      "color": "Attention",
+      "size": "Small",
+      "weight": "Bolder",
+      "text": "{noEmpsFound}",
+      "isSubtle": true
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "Back",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "back swap 1"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "Cancel",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "cancel swap"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "Next",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "next swap 3"
+        }
+      }
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}

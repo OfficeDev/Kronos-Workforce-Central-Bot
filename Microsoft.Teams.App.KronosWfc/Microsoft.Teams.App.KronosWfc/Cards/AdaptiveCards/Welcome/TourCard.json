@@ -1,0 +1,83 @@
+﻿{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "size": "Small",
+          "text": "Happy to show you around. Here are some things  we can do."
+        },
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "weight": "Bolder",
+                  "text": "{text}",
+                  "wrap": true
+                }
+              ],
+              "width": "stretch"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "horizontalAlignment": "Left",
+      "spacing": "None",
+      "minHeight": "50px",
+      "items": [
+        {
+          "type": "Image",
+          "url": "{imageUrl}",
+          "size": "Stretch"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [ 
+           {
+          "type": "TextBlock",
+         
+          "text": "{descriptiveText}",
+          "wrap": true
+        }
+      ]
+    }
+  ],
+
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "{actionText}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "{action}"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "Help",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "{Help}"
+        }
+      }
+    }
+
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}

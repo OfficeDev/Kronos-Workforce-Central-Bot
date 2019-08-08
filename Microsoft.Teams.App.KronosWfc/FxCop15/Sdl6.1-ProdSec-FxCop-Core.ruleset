@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Skype ProdSec Core FxCop Security Rules for SDL 6.1" Description="Skype ProdSec Core FxCop Security Rules for SDL 6.1" ToolsVersion="11.0">
+  <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+    <Rule Id="CA2100" Action="Warning" />
+    <Rule Id="CA2116" Action="Warning" />
+    <Rule Id="CA2117" Action="Warning" />
+    <Rule Id="CA2120" Action="Warning" />
+    <Rule Id="CA3050" Action="Error" />
+    <Rule Id="CA3051" Action="Error" />
+    <Rule Id="CA3052" Action="Error" />
+    <Rule Id="CA3053" Action="Error" />
+    <Rule Id="CA3054" Action="Error" />
+    <Rule Id="CA3055" Action="Error" />
+    <Rule Id="CA3056" Action="Error" />
+    <Rule Id="CA3057" Action="Error" />
+    <Rule Id="CA3058" Action="Error" />
+    <Rule Id="CA3059" Action="Error" />
+    <Rule Id="CA3060" Action="Error" />
+    <Rule Id="CA3061" Action="Error" />
+    <Rule Id="CA3062" Action="Error" />
+    <Rule Id="CA3063" Action="Error" />
+    <Rule Id="CA3064" Action="Error" />
+    <Rule Id="CA3065" Action="Error" />
+    <Rule Id="CA3066" Action="Error" />
+    <Rule Id="CA3067" Action="Error" />
+    <Rule Id="CA3068" Action="Error" />
+    <Rule Id="CA3069" Action="Error" />
+    <Rule Id="CA3070" Action="Error" />
+    <Rule Id="CA3071" Action="Error" />
+    <Rule Id="CA3072" Action="Error" />
+    <Rule Id="CA3073" Action="Error" />
+    <Rule Id="CA3074" Action="Error" />
+    <Rule Id="CA5350" Action="Error" />
+    <Rule Id="CA5351" Action="Error" />
+    <Rule Id="CA5352" Action="Error" />
+    <Rule Id="CA5353" Action="Error" />
+    <Rule Id="CA5354" Action="Error" />
+    <Rule Id="CA5355" Action="Error" />
+    <Rule Id="CA5356" Action="Error" />
+    <Rule Id="CA5357" Action="Error" />
+  </Rules>
+</RuleSet>

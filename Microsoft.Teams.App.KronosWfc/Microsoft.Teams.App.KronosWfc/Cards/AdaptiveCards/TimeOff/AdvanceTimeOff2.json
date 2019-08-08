@@ -1,0 +1,81 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "TextBlock",
+      "size": "Large",
+      "weight": "Bolder",
+      "text": "{Title}"
+    },
+    {
+      "type": "Container",
+      "spacing": "Medium",
+      "items": [
+        {
+          "type": "TextBlock",
+          "weight": "Bolder",
+          "text": "{Duration}: ",
+          "wrap": true
+        }
+      ]
+    },
+    {
+      "type": "Input.ChoiceSet",
+      "id": "duration",
+      "style": "expanded",
+      "value": "{duration}",
+      "choices": [
+        {
+          "title": "Full Day",
+          "value": "FULL_DAY"
+        },
+        {
+          "title": "First Half Day",
+          "value": "FIRST_HALF_DAY"
+        },
+        {
+          "title": "Hours",
+          "value": "HOURS"
+        },
+        {
+          "title": "Half Day",
+          "value": "HALF_DAY"
+        }
+      ]
+    }    
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "{Back}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "back advanced time off 1"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "{Cancel}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "cancel time off"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "{Next}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "next advanced time off 3"
+        }
+      }
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}

@@ -1,0 +1,7 @@
+﻿<Request Action ="Load" >
+  <Schedule QueryDateSpan ="4/22/2019 - 5/5/2019">
+    <Employees>
+      <PersonIdentity PersonNumber ="STAFFHUB" />
+    </Employees>
+  </Schedule>
+</Request>

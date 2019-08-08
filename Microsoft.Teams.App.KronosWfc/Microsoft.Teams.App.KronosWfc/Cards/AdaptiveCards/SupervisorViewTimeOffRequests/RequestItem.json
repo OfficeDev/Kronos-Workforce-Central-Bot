@@ -1,0 +1,195 @@
+{
+  "type": "Container",
+  "id": "ClosedRequestItemContainer",
+  "separator": {Seperator},
+  "items": [
+    {
+      "type": "ColumnSet",
+      "spacing": "Medium",
+      "columns": [
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "TextBlock",
+              "weight": "Bolder",
+              "spacing": "None",
+              "text": "{txt_Status}:",
+              "wrap": true
+            }
+          ],
+          "width": 1
+        },
+        {
+          "type": "Column",
+          "spacing": "None",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "{Status}",
+              "wrap": true,
+              "color": "{StatusColor}"
+            }
+          ],
+          "width": 3
+        }
+      ]
+    },
+    {
+      "type": "ColumnSet",
+      "spacing": "None",
+      "columns": [
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "TextBlock",
+              "weight": "Bolder",
+              "spacing": "None",
+              "text": "{txt_Employee}:",
+              "wrap": true
+            }
+          ],
+          "width": 1
+        },
+        {
+          "type": "Column",
+          "spacing": "None",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "{Employee}",
+              "wrap": true
+            }
+          ],
+          "width": 3
+        }
+      ]
+    },
+    {
+      "type": "ColumnSet",
+      "spacing": "None",
+      "columns": [
+        {
+          "type": "Column",
+          "spacing": "None",
+          "items": [
+            {
+              "type": "TextBlock",
+              "weight": "Bolder",
+              "text": "{txt_PayCode}:",
+              "wrap": true
+            }
+          ],
+          "width": 1
+        },
+        {
+          "type": "Column",
+          "spacing": "None",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "{PayCode}",
+              "wrap": true
+            }
+          ],
+          "width": 3
+        }
+      ]
+    },
+    {
+      "type": "ColumnSet",
+      "spacing": "None",
+      "columns": [
+        {
+          "type": "Column",
+          "spacing": "None",
+          "items": [
+            {
+              "type": "TextBlock",
+              "weight": "Bolder",
+              "text": "{txt_Date}:",
+              "wrap": true
+            }
+          ],
+          "width": 1
+        },
+        {
+          "type": "Column",
+          "spacing": "None",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "{DateRange} ({Days})",
+              "wrap": true
+            }
+          ],
+          "width": 3
+        }
+      ]
+    },
+    {
+      "type": "ColumnSet",
+      "spacing": "None",
+      "columns": [
+        {
+          "type": "Column",
+          "spacing": "None",
+          "items": [
+            {
+              "type": "TextBlock",
+              "weight": "Bolder",
+              "text": "{txt_TimePeriod}:",
+              "wrap": true
+            }
+          ],
+          "width": 1
+        },
+        {
+          "type": "Column",
+          "spacing": "None",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "{TimePeriod} {Hours}",
+              "wrap": true
+            }
+          ],
+          "width": 3
+        }
+      ]
+    },
+    {
+      "type": "ColumnSet",
+      "spacing": "None",
+      "columns": [
+        {
+          "type": "Column",
+          "spacing": "None",
+          "items": [
+            {
+              "type": "TextBlock",
+              "weight": "Bolder",
+              "text": "{txt_Comments}:",
+              "wrap": true
+            }
+          ],
+          "width": 1
+        },
+        {
+          "type": "Column",
+          "spacing": "None",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "{Comment}",
+              "wrap": true
+            }
+          ],
+          "width": 3
+        }
+      ]
+    }
+    {AcceptRefuseBlock}
+  ]
+}

@@ -1,0 +1,384 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style type="text/css">
+
+        .feel {
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+            border: 1px solid #e3e3e3;
+            border-radius: 4px;
+        }
+
+        #listcontainer {
+            height: 100%;
+            overflow: auto;
+            padding: 10px 0;
+            float: left;
+            width: 24%;
+            margin-left: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            background-color: white;
+        }
+
+        #panelcontainer {
+            float: left;
+            width: 73%;
+            height: 100%;
+            background-color: white;
+        }
+
+            #panelcontainer .panel-body {
+                padding: 15px;
+            }
+
+            #panelcontainer .panel-heading {
+                font-weight: bold;
+                padding: 10px 15px;
+                border-bottom: 1px solid transparent;
+                border-top-left-radius: 3px;
+                border-top-right-radius: 3px;
+            }
+
+        #parentcontainer {
+            height: 98vh;
+            margin-top: 1vh;
+        }
+
+
+        #listcontainer .header {
+            font-weight: bold;
+            padding-left: 2px;
+            font-size: 14px;
+        }
+
+        #listcontainer ul {
+            margin-top: 2px;
+        }
+
+        html, body {
+            height: 100%;
+            overflow-y: hidden;
+            background-color: transparent;
+        }
+
+        body {
+            font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .glyphy {
+            padding-left: 3px;
+        }
+
+        .nav > li > a {
+            color: black;
+        }
+
+        .nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover, .nav-pills > li > a:hover {
+            background-color: rgba(85,88,175,0.8);
+            color: white !important;
+        }
+
+        /* For Dark Theme  */
+        .theme-dark, .theme-dark .nav a {
+            color: white !important;
+        }
+
+            .theme-dark #listcontainer, .theme-dark #panelcontainer {
+                background: #2d2c2c;
+            }
+    </style>
+</head>
+<body>
+    <div id="parentcontainer">
+        <div id="listcontainer" class="container feel">
+            <span class="glyphicon glyphicon-list-alt glyphy"></span>
+            <span class="header">General</span>
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a data-toggle="tab" href="#menu0">About Kronos Bot</a></li>
+                <li><a data-toggle="tab" href="#menu1">Common Information</a></li>
+                <li><a data-toggle="tab" href="#menu2">Authentication</a></li>
+                <li><a data-toggle="tab" href="#menu3">Summary</a></li>
+            </ul>
+            <span class="glyphicon glyphicon-list-alt glyphy"></span>
+            <span class="header">Dialogues</span>
+            <ul class="nav nav-pills nav-stacked">
+                <li><a data-toggle="tab" href="#menu4">Accrual Balance</a></li>
+                <li><a data-toggle="tab" href="#menu5">Add Punch</a></li>
+                <li><a data-toggle="tab" href="#menu6">Hours Worked</a></li>
+                <li><a data-toggle="tab" href="#menu7">List of Punches</a></li>
+                <li><a data-toggle="tab" href="#menu8">My Upcoming Shifts</a></li>
+                <li><a data-toggle="tab" href="#menu9">My Time Off Requests</a></li>
+                <li><a data-toggle="tab" href="#menu10">Overtimes</a></li>
+                <li><a data-toggle="tab" href="#menu11">My Schedule</a></li>
+                <li><a data-toggle="tab" href="#menu12">Sick Day</a></li>
+                <li><a data-toggle="tab" href="#menu13">Where is someone today</a></li>
+                <li><a data-toggle="tab" href="#menu14">Who is not here</a></li>
+                <li><a data-toggle="tab" href="#menu15">Who is here</a></li>
+                <li><a data-toggle="tab" href="#menu16">Swap Shift Request</a></li>
+                <li><a data-toggle="tab" href="#menu17">Time Off Request</a></li>
+                <li><a data-toggle="tab" href="#menu18">My employee's Time Off Requests</a></li>
+            </ul>
+        </div>
+        <div id="panelcontainer" class="tab-content feel">
+            <div id="menu0" class="tab-pane fade in active">
+                <div class="panel-heading">About Kronos Bot</div>
+                <div class="panel-body">
+                    <div>
+                        <p>
+                            Work smarter by using Kronos Bot to quickly get information from Workforce Central application. Ask questions about your vacation balance. See who is approaching overtime on your team this week. Find out what your schedule is for next week and much more...
+                        </p>
+                    </div>
+                    <div>
+                        <p>The main goals of the solution are:</p>
+                        <ul>
+                            <li>
+                                Simplify labor management by asking questions to Kronos Bot rather than logging into the web application.
+                            </li>
+                            <li>
+                                Improve user experience and productivity by quickly providing important schedule and time and attendance information with ease.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div id="menu1" class="tab-pane fade">
+                <div class="panel-heading">
+                    Common Information
+                </div>
+
+                <div class="panel-body">
+                    <div>
+                        <p>Kronos Bot consists of fifteen dialogues. Five of them (<i>Overtimes</i>, <i>Where is Someone Today</i>, <i>Who is Here</i>, <i>Who is Not Here</i>, <i>My Employee's Time Off Requests</i>) are available only for managers.</p>
+
+                    </div>
+                </div>
+            </div>
+            <div id="menu2" class="tab-pane fade">
+                <div class="panel-heading">
+                    Authentication
+                </div>
+                <div class="panel-body">
+                    <div>
+                        <p>
+                            Kronos WFC Bot currently only supports authentication with your Kronos credentials using <i>Click to Log In</i> option.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div id="menu3" class="tab-pane fade">
+                <div class="panel-heading">
+                    Summary
+                </div>
+                <div class="panel-body">
+                    <div><p>As of now Kronos Bot supports a limited number of dialogues, mostly related to the Timekeeping and Accruals. The Bot is able to recognize spoken or text input. It is trained to understand commonly used phrases, ask additional questions if needed, and provide answers.</p><ul></ul></div><div><p>Kronos Bot supports the following dialogues:</p><ul><li>Accrual Balance</li><li>Add Punch</li><li>Hours Worked</li><li>List of Punches</li><li>My Upcoming Shifts</li><li>My Time Off Requests</li><li>Overtimes</li><li>My Schedule</li><li>Sick Day</li><li>Where is Someone Today</li><li>Who is Here</li><li>Who is Not Here</li><li>Create Swap Shift Request</li><li>Create Time Off Request</li><li>My Employee's Time Off Requests</li></ul></div>
+                </div>
+            </div>
+            <div id="menu4" class="tab-pane fade">
+                <div class="panel-heading">
+                    Accrual Balance
+                </div>
+                <div class="panel-body">
+                    <div><p>This dialogue will display accrual balances for the user.</p><ul></ul></div><div><p>Dialogue Examples:</p><ul><li>How many vacation hours do I have?</li><li>Show my accruals</li><li>Give me my vacation balance</li><li>Accrual balance</li><li>My available vacation hours</li><li>What’s my vacation balance?</li></ul></div>
+                </div>
+            </div>
+            <div id="menu5" class="tab-pane fade">
+                <div class="panel-heading">
+                    Add Punch
+                </div>
+                <div class="panel-body">
+                    <div>
+                        <p>This dialogue helps user to add punch or punch in with transfer.</p><ul></ul>
+                    </div>
+                    <div>
+                        <p>Dialogue Examples:</p>
+                        <ul>
+                            <li>Add Punch</li>
+                            <li>Add Punch with Transfer</li>
+                            <li>Punch in with transfer</li>
+                            <li>Clock in with transfer</li>
+                            <li>Transfer me to</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="menu6" class="tab-pane fade">
+                <div class="panel-heading">
+                    Hours Worked
+                </div>
+                <div class="panel-body">
+                    <div><p>This dialogue will display the number of hours the user worked during the specified period.</p><ul></ul></div><div><p>Dialogue Examples:</p><ul><li>Show me hours I worked this week</li><li>Give me my hours worked today</li><li>Number of hours I worked from Monday till Friday</li><li>How many hours did I work this month?</li><li>My worked hours</li></ul></div>
+                </div>
+            </div>
+            <div id="menu7" class="tab-pane fade">
+                <div class="panel-heading">
+                    List of Punches
+                </div>
+                <div class="panel-body">
+                    <div><p>This dialogue displays the user`s punches for the given period.</p><ul></ul></div><div><p>Dialogue Examples:</p><ul><li>Show me my punch list</li><li>Give me a list of punches for today</li><li>I need to get punches for yesterday</li><li>I want to see punches from the 1st of September till today</li><li>Can you show punches created this Monday?</li><li>Today's list of punches</li></ul></div>
+                </div>
+            </div>
+            <div id="menu8" class="tab-pane fade">
+                <div class="panel-heading">
+                    My Upcoming Shifts
+                </div>
+                <div class="panel-body">
+                    <div><p>Dialogue will return shifts with transfer (if exist) for <b>one specified day</b>.</p><ul></ul></div><div><p>Dialogue Examples:</p><ul><li>What are my shifts for Tuesday?</li><li>What are my transfers for Tuesday?</li><li>When is my next shift?</li><li>Shifts next Friday</li><li>My shifts for tomorrow</li><li>Show shifts for Tuesday</li><li>Show me my shifts for the 1st of February</li><li>Show my upcoming shifts</li></ul></div>
+                </div>
+            </div>
+            <div id="menu9" class="tab-pane fade">
+                <div class="panel-heading">
+                    My Time Off Requests
+                </div>
+                <div class="panel-body">
+                    <div>
+                        <p>
+                            This dialogue will display all time off requests <i>from today</i>.
+                        </p><ul></ul>
+                    </div>
+                    <div>
+                        <p>Dialogue Examples:</p>
+                        <ul>
+                            <li>When is my next vacation?</li>
+                            <li>Show me my time off requests</li>
+                            <li>My time off requests</li>
+                            <li>Has my paid time off been approved?</li>
+                            <li>Has my PTO been approved?</li>
+                            <li>Has my time off been approved?</li>
+                            <li>Has my leave been approved?</li>
+                            <li>Has my vacation been approved?</li>
+                            <li>Show vacation requests</li>
+                            <li>Next vacation requests</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="menu10" class="tab-pane fade">
+                <div class="panel-heading">
+                    Overtimes
+                </div>
+                <div class="panel-body">
+                    <div>
+                        <p>This dialogue (available only to managers) shows the number of overtime hours for the team members.</p>
+                        <ul></ul>
+                    </div>
+                    <div>
+                        <p>Dialogue Examples:</p>
+                        <ul>
+                            <li>Who is approaching overtime this week?</li>
+                            <li>Show me the number of overtime hours for current pay period</li>
+                            <li>Give me the team's overtimes from September 4 to October 10</li>
+                            <li>Number of overtime hours for the team last month</li>
+                            <li>Overtime hours for this Monday</li>
+                            <li>Today's employee overtimes</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p><b>NOTE:</b> This dialogue is available only for managers.</p>
+                        <ul></ul>
+                    </div>
+                </div>
+            </div>
+            <div id="menu11" class="tab-pane fade">
+                <div class="panel-heading">
+                    My Schedule
+                </div>
+                <div class="panel-body">
+                    <div>
+                        <p>This dialogue shows the employee`s schedule.</p><ul></ul>
+                    </div><div><p>Dialogue Examples:</p><ul><li>What’s my schedule for tomorrow?</li><li>Tell me the schedule for next week</li><li>Show my schedule for today</li><li>Show schedule for period from 1/1/2018 to 1/8/2018</li><li>Schedule on 1/1/2018</li><li>Next Sunday schedule</li><li>Monday schedule</li><li>When was I working last month?</li><li>Show me last week’s schedule</li><li>Schedule for the period of the 2nd of January to the 6th of January</li></ul></div>
+                </div>
+            </div>
+            <div id="menu12" class="tab-pane fade">
+                <div class="panel-heading">
+                    Sick Day
+                </div>
+                <div class="panel-body">
+                    <div><p>This dialogue helps the user to submit a sick day off. Internally it creates a "Sick Hours" pay code edit with the specified duration for the given date.</p><ul></ul></div><div><p>Dialogue Examples:</p><ul><li>I would like to take 4 hours sick day off for today</li><li>8 hours sick leave</li><li>I need to take sick leave</li><li>I want to have a sick day off</li><li>Can I have a sick day off for tomorrow?</li><li>I need 8 hours sick leave on the 3rd of November</li><li>Give me sick leave for next Monday</li></ul></div>
+                </div>
+            </div>
+            <div id="menu13" class="tab-pane fade">
+                <div class="panel-heading">
+                    Where is Someone Today
+                </div>
+                <div class="panel-body">
+                    <div><p>This dialogue (available only to managers) displays a list of employees` locations for today.</p><ul></ul></div><div><p>Dialogue Examples:</p><ul><li>Where is Eliza Adams today?</li><li>Eliza Adams location</li><li>Eliza location</li><li>Adams location today</li><li>Eliza Adams location with punches</li><li>Show me where is Eliza</li></ul></div><div><p><b>NOTE:</b> This dialogue is available only for managers.</p><ul></ul></div>
+                </div>
+            </div>
+            <div id="menu14" class="tab-pane fade">
+                <div class="panel-heading">
+                    Who is not here
+                </div>
+                <div class="panel-body">
+                    <div><p>This dialogue displays a list of employees (of the logged in manager) who did not clock in today.</p><ul></ul></div><div><p>Dialogue Examples:</p><ul><li>Missing in punches for the team</li><li>Who is not here?</li><li>Who didn't clock in today?</li><li>Who didn't add in punches?</li><li>Who didn't punch in today yet?</li><li>Who is not here from my team?</li><li>Absence list</li></ul></div><div><p><b>NOTE:</b> This dialogue is available only for managers.</p><ul></ul></div>
+                </div>
+            </div>
+            <div id="menu15" class="tab-pane fade">
+                <div class="panel-heading">
+                    Who is here
+                </div>
+                <div class="panel-body">
+                    <div><p>This dialogue displays a list of employees (of the logged in manager) who clocked in today.</p><ul></ul></div><div><p>Dialogue Examples:</p><ul><li>Who is here</li><li>Who clocked in today?</li><li>Who punched in today?</li><li>Who is here from my team?</li><li>Presence list</li></ul></div><div><p><b>NOTE:</b> This dialogue is available only for managers.</p><ul></ul></div>
+                </div>
+            </div>
+            <div id="menu16" class="tab-pane fade">
+                <div class="panel-heading">
+                    Swap Shift Request
+                </div>
+                <div class="panel-body">
+                    <div><p>This dialog allows an employee to define and submit a request to swap a shift with a colleague. The dialog is available for Microsoft Teams only.</p><ul></ul></div><div><p>Dialogue Examples:</p><ul><li>Swap shift</li><li>Swap shift for tomorrow</li><li>Create swap shift request for next monday</li></ul></div>
+                </div>
+            </div>
+            <div id="menu17" class="tab-pane fade">
+                <div class="panel-heading">
+                    Time Off Request
+                </div>
+                <div class="panel-body">
+                    <div><p>This dialog allows an employee to define and submit a request to be excused from regular work duties for different reasons. The dialog is available for Microsoft Teams only.</p><ul></ul></div><div><p>Dialogue Examples:</p><ul><li>Submit time off request</li><li>I need to take time off for next monday</li><li>Create vacation request for tomorrow</li><li>Take vacation for the 1st, October, 2018</li></ul></div>
+                </div>
+            </div>
+            <div id="menu18" class="tab-pane fade">
+                <div class="panel-heading">
+                    My Employee's Time Off Requests
+                </div>
+                <div class="panel-body">
+                    <div><p>This dialog allows manager to find time off requests created by her employees. The dialog is available for Microsoft Teams only.</p><ul></ul></div><div><p>Dialogue Examples:</p><ul><li>Time Off requests of employees</li><li>Eliza Adams time off requests</li><li>Employee's leave requests for today</li><li>My employee's vacation requests next month</li></ul></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#listcontainer ul li').click(function () {
+                $('#listcontainer ul li.active').removeClass('active');
+            });
+        });
+
+        var setTheme = function (theme) {
+            if (!theme) {
+                return;
+            }
+
+            document.body.classList.remove('theme-dark');
+            document.body.classList.remove('theme-contrast');
+            theme !== 'default' && document.body.classList.add('theme-' + theme);
+        };
+
+        microsoftTeams.initialize();
+
+        microsoftTeams.getContext(function (context) {
+            if (context && context.theme) {
+                setTheme(context.theme);
+            }
+        });
+        microsoftTeams.registerOnThemeChangeHandler(setTheme);
+    </script>
+</body>
+</html>

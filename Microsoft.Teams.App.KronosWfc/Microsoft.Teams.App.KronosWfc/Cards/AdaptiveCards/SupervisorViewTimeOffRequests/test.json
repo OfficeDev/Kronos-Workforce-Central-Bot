@@ -1,0 +1,15 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "Here is a ninja cat:"
+    },
+    {
+      "type": "Image",
+      "url": "http://adaptivecards.io/content/cats/1.png",
+      "size": "Medium"
+    }
+  ],
+  "version": "1.0"
+}

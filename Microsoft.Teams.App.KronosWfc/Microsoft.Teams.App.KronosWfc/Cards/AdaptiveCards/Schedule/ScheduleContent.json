@@ -1,0 +1,46 @@
+{
+  "type": "ColumnSet",
+  "separator": true,
+  "columns": [
+    {
+      "type": "Column",
+      "height": "40px",
+      "items": [
+        {
+          "type": "Image",
+          "url": "{barImg}",
+          "width": "8px",
+          "height": "40px",
+          "altText": ""
+        }
+      ],
+      "width": "auto"
+    },
+    {
+      "type": "Column",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "{txt_DatePeriod}",
+          "weight": "{wght_DatePeriod}",
+          "isSubtle": {imp_DatePeriod}
+        },
+        {
+          "type": "TextBlock",
+          "spacing": "Small",
+          "text": "{txt_Shift}",
+          "weight": "{wght_Shift}",
+          "isSubtle": {imp_Shift}
+        },
+        {
+          "type": "TextBlock",
+          "spacing": "Small",
+          "text": "{txt_TimeOff}",
+          "weight": "{wght_TimeOff}",
+          "isSubtle": {imp_TimeOff}
+        }
+      ],
+      "width": "stretch"
+    }
+  ]
+}

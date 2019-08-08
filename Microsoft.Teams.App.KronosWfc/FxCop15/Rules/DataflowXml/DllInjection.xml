@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataFlowRule>
+  <Problem>
+    <![CDATA[Potential DLL injection vulnerability was found where parameter {0} in call to {1} is tainted by user-controlled data from {2}.]]>
+  </Problem>
+
+  <Sources>
+    <Member type="group" name="WebInputs" file ="WebInputsGroup"/>
+  </Sources>
+
+  <Conditionals>
+    <Member type="group" name="ReadOnlyMethods" file ="ConditionalsGroup"/>
+  </Conditionals>
+  
+  <Sanitizers>
+    <Member type="group" name="DllInjection" file="CustomSanitizersGroup" optional="true"/>
+
+    <Member name="System.IDisposable::Dispose(this)" return="0" input="0x2" />
+  </Sanitizers>
+
+  <Sinks>
+    <Member name="System.Reflection.Assembly::LoadFrom(System.String)" input="0x2" />
+    <Member name="System.Reflection.Assembly::LoadFrom(System.String,System.Security.Policy.Evidence)" input="0x2" />
+    <Member name="System.Reflection.Assembly::LoadFrom(System.String,System.Security.Policy.Evidence,MgdArr[u8],System.Configuration.Assemblies.AssemblyHashAlgorithm)" input="0x2" />
+    <Member name="System.Reflection.Assembly::LoadFrom(System.String,MgdArr[u8],System.Configuration.Assemblies.AssemblyHashAlgorithm)" input="0x2" />
+    <Member name="System.Reflection.Assembly::Load(System.String)" input="0x2" />
+    <Member name="System.Reflection.Assembly::Load(System.String,System.Security.Policy.Evidence)" input="0x2" />
+    <Member name="System.Reflection.Assembly::LoadWithPartialName(System.String)" input="0x2" />
+    <Member name="System.Reflection.Assembly::LoadWithPartialName(System.String,System.Security.Policy.Evidence)" input="0x2" />
+    <Member name="System.Reflection.Assembly::Load(MgdArr[u8])" input="0x2" />
+    <Member name="System.Reflection.Assembly::Load(MgdArr[u8],MgdArr[u8])" input="0x2" />
+    <Member name="System.Reflection.Assembly::Load(MgdArr[u8],MgdArr[u8],System.Security.SecurityContextSource)" input="0x2" />
+    <Member name="System.Reflection.Assembly::Load(MgdArr[u8],MgdArr[u8],System.Security.Policy.Evidence)" input="0x2" />
+    <Member name="System.Reflection.Assembly::LoadFile(System.String)" input="0x2" />
+    <Member name="System.Reflection.Assembly::LoadFile(System.String,System.Security.Policy.Evidence)" input="0x2" />
+    <Member name="System.Reflection.Assembly::LoadModule(this,System.String,MgdArr[u8])" input="0x4" />
+    <Member name="System.Reflection.Assembly::LoadModule(this,System.String,MgdArr[u8],MgdArr[u8])" input="0x4" />
+    <Member name="System.Reflection.RuntimeAssembly::LoadModule(this,System.String,MgdArr[u8],MgdArr[u8])" input="0x4" />
+    <Member name="System.AppDomain::ExecuteAssembly(this,System.String)" input="0x4" />
+    <Member name="System.AppDomain::ExecuteAssembly(this,System.String,System.Security.Policy.Evidence)" input="0x4" />
+    <Member name="System.AppDomain::ExecuteAssembly(this,System.String,System.Security.Policy.Evidence,MgdArr[object32->class112])" input="0x4" />
+    <Member name="System.AppDomain::ExecuteAssembly(this,System.String,MgdArr[object32->class112])" input="0x4" />
+    <Member name="System.AppDomain::ExecuteAssembly(this,System.String,System.Security.Policy.Evidence,MgdArr[object32->class112],MgdArr[u8],System.Configuration.Assemblies.AssemblyHashAlgorithm)" input="0x4" />
+    <Member name="System.AppDomain::ExecuteAssembly(this,System.String,MgdArr[object32->class112],MgdArr[u8],System.Configuration.Assemblies.AssemblyHashAlgorithm)" input="0x4" />
+    <Member name="System.AppDomain::ExecuteAssemblyByName(this,System.String)" input="0x4" />
+    <Member name="System.AppDomain::ExecuteAssemblyByName(this,System.String,System.Security.Policy.Evidence)" input="0x4" />
+    <Member name="System.AppDomain::ExecuteAssemblyByName(this,System.String,System.Security.Policy.Evidence,MgdArr[object32->class112])" input="0x4" />
+    <Member name="System.AppDomain::ExecuteAssemblyByName(this,System.String,MgdArr[object32->class112])" input="0x4" />
+    <Member name="System.AppDomain::Load(this,System.Reflection.AssemblyName)" input="0x4" />
+    <Member name="System.AppDomain::Load(this,System.String)" input="0x4" />
+    <Member name="System.AppDomain::Load(this,MgdArr[u8])" input="0x4" />
+    <Member name="System.AppDomain::Load(this,MgdArr[u8],MgdArr[u8])" input="0x4" />
+    <Member name="System.AppDomain::Load(this,MgdArr[u8],MgdArr[u8],System.Security.Policy.Evidence)" input="0x4" />
+    <Member name="System.AppDomain::Load(this,System.Reflection.AssemblyName,System.Security.Policy.Evidence)" input="0x4" />
+    <Member name="System.AppDomain::Load(this,System.String,System.Security.Policy.Evidence)" input="0x4" />
+    
+    <!-- silverlight -->
+    <Member name="System.Windows.AssemblyPart::Load(this,System.IO.Stream)" input="0x4" />
+  </Sinks>
+</DataFlowRule>

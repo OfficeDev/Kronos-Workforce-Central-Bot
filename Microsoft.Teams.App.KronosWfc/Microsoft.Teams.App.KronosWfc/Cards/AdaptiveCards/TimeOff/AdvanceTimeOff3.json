@@ -1,0 +1,66 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "TextBlock",
+      "size": "Large",
+      "weight": "Bolder",
+      "text": "{Title}"
+    },
+    {
+      "type": "Container",
+      "spacing": "Medium",
+      "items": [
+        {
+          "type": "TextBlock",
+          "weight": "Bolder",
+          "text": "{TimeOffType}: ",
+          "wrap": true
+        }
+      ]
+    },
+    {
+      "type": "Input.ChoiceSet",
+      "id": "DeductFrom",
+      "style": "expanded",
+      "value": "{DeductFrom}",
+      "choices": [
+        {Paycodes}
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "{Back}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "back advanced time off 2"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "{Cancel}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "cancel time off"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "{Next}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "next advanced time off 4"
+        }
+      }
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}

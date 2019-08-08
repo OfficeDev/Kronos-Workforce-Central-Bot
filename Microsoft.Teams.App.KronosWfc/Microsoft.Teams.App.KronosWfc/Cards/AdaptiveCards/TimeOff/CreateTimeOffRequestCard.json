@@ -1,0 +1,82 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "TextBlock",
+      "size": "Large",
+      "weight": "Bolder",
+      "text": "{Title}"
+    },
+    {
+      "type": "TextBlock",
+      "text": "{TypeOfTimeOff}",
+      "spacing": "Medium"
+    },
+    {
+      "type": "Input.ChoiceSet",
+      "id": "reason",
+      "style": "compact",
+      "spacing": "Small",
+      "value": "{SelectedPayCode}",
+      "choices": [
+        {Paycodes}
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "text": "{StartDate}",
+      "spacing": "Medium"
+    },
+    {
+      "type": "Input.Date",
+      "id": "sdt",
+      "value": "sdtValue",
+      "spacing": "Small"
+    },
+    {
+      "type": "TextBlock",
+      "text": "{EndDate}",
+      "spacing": "Medium"
+    },
+    {
+      "type": "Input.Date",
+      "id": "edt",
+      "value": "edtValue",
+      "spacing": "Small"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "{Cancel}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "cancel time off"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "{Submit}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "submit time off request"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "{Advanced}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "create advanced time off request"
+        }
+      }
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}

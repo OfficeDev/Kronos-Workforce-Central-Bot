@@ -1,0 +1,80 @@
+{
+    "type": "AdaptiveCard",
+    "body": [
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "verticalContentAlignment": "Center",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "size": "Large",
+                            "text": "{Title}",
+                            "wrap": true
+                        }
+                    ],
+                    "width": 5
+                },
+                {
+                    "type": "Column",
+                    "verticalContentAlignment": "Center",
+                    "items": [
+                      {
+                        "type": "Image",
+                        "horizontalAlignment": "Right",
+                        "url": "{PendingImg}",
+                        "width": "80px",
+                        "height": "17px",
+                        "altText": ""
+                      }
+                    ],
+                    "width": 2
+                }
+            ]
+        },
+        {
+            "type": "TextBlock",
+            "spacing": "None",
+            "text": "{Info}",
+            "isSubtle": true,
+            "wrap": true
+        },
+        {
+            "type": "FactSet",
+            "facts": [
+                {
+                    "title": "{Type} :",
+                    "value": "{Paycode}"
+                },
+                {
+                  "title": "{StartDate_Txt} :",
+                  "value": "{StartDate}"
+                },
+                {
+                    "title": "{EndDate_Txt} :",
+                    "value": "{EndDate}"
+                },
+                {
+                    "title": "{Duration_Txt} :",
+                    "value": "{Duration}"
+                }
+            ]
+        }
+    ],
+    "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "{AdditionalRequest}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "Create time off request"
+        }
+      }
+    }
+  ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0"
+}

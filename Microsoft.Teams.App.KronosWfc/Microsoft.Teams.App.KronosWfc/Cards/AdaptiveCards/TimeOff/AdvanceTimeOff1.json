@@ -1,0 +1,69 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "TextBlock",
+      "weight": "Bolder",
+      "size": "Large",
+      "text": "{Title}"
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "Medium",
+      "weight": "Bolder",
+      "text": "{StartDate}"
+    },
+    {
+      "type": "Input.Date",
+      "spacing": "Small",
+      "id": "sdt",
+      "value": "sdtValue"
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "Medium",
+      "weight": "Bolder",
+      "text": "{EndDate}"
+    },
+    {
+      "type": "Input.Date",
+      "id": "edt",
+      "spacing": "Small",
+      "value": "edtValue"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "{Back}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "create time off request"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "{Cancel}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "cancel time off"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "{Next}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "next advanced time off 2"
+        }
+      }
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}

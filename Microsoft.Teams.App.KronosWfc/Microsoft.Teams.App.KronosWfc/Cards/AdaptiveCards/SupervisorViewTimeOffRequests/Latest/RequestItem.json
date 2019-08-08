@@ -1,0 +1,90 @@
+{
+  "type": "Container",
+  "spacing": "Medium",
+  "separator": {Seperator},
+  "selectAction": {
+    "type": "Action.Submit",
+    "id": "{index}",
+    "data": {
+      "msteams": {
+        "type": "invoke",
+        "value": "{\"type\": \"task/fetch\", \"text\": \"TOR list open modal\" }"
+      },
+      "RequestId": "{RequestId}",
+      "QueryDateSpan": "{QueryDateSpan}",
+      "PersonNumber": "{PersonNumber}",
+      "EmpName": "{EmpName}",
+      "Date": "{DateRange}",
+      "PayCode": "{PayCode}",
+      "TimePeriod": "{TimePeriod}",
+      "Note": "{Note}",
+      "Index": "{index}",
+      "CurrentPage": "{CurrentPage}",
+      "Comments": {Comments},
+      "conversationId": "{conversationId}",
+      "activityId": "{activityId}"
+    }
+  },
+  "items": [
+    {
+      "type": "ColumnSet",
+      "columns": [
+        
+        {
+          "type": "Column",
+          "verticalContentAlignment": "Center",
+          "items": [
+            {
+              "type": "TextBlock",
+              "weight": "Bolder",
+              "text": "{Name}",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "size": "Small",
+              "spacing": "None",
+              "text": "{Role}",
+              "isSubtle": true,
+              "wrap": true
+            }
+          ],
+          "width": "2"
+        },
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "TextBlock",
+              "horizontalAlignment": "Right",
+              "weight": "Bolder",
+              "size": "Small",
+              "text": "{DateRange}",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "size": "Small",
+              "horizontalAlignment": "Right",
+              "spacing": "None",
+              "isSubtle": true,
+              "text": "{PayCode}"
+            }
+          ],
+          "width": "2"
+        },
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "Image",
+              "url": "{StatusImg}",
+              "altText": ""
+            }
+          ],
+          "width": "1"
+        }
+      ]
+    }
+  ]
+}

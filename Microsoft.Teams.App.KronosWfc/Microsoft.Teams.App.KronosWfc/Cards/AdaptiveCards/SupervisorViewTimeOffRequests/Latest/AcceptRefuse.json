@@ -1,0 +1,283 @@
+{
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "body": [
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "width": 1,
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "{txt_Status}:",
+              "weight": "bolder"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": 2,
+          "items": [
+            {
+              "type": "TextBlock",
+              "horizontalAlignment": "Right",
+              "text": "{Status}"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": 3,
+          "items": [
+            
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "width": 1,
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "{txt_Employee}:",
+              "weight": "bolder"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": 2,
+          "items": [
+            {
+              "type": "TextBlock",
+              "horizontalAlignment": "Right",
+              "text": "{EmpName}"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": 3,
+          "items": [
+
+          ]
+        }
+      ],
+      "spacing": "None"
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "width": 1,
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "{txt_Paycode}:",
+              "weight": "bolder"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": 2,
+          "items": [
+            {
+              "type": "TextBlock",
+              "horizontalAlignment": "Right",
+              "text": "{PayCode}"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": 3,
+          "items": [
+
+          ]
+        }
+      ],
+      "spacing": "None"
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "width": 1,
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "{txt_Date}:",
+              "weight": "bolder"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": 2,
+          "items": [
+            {
+              "type": "TextBlock",
+              "horizontalAlignment": "Right",
+              "text": "{Date}"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": 3,
+          "items": [
+
+          ]
+        }
+      ],
+      "spacing": "None"
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "width": 1,
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "{txt_TimePeriod}:",
+              "weight": "bolder"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": 2,
+          "items": [
+            {
+              "type": "TextBlock",
+              "horizontalAlignment": "Right",
+              "text": "{TimePeriod}"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": 3,
+          "items": [
+
+          ]
+        }
+      ],
+      "spacing": "None"
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "width": 1,
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "{txt_Note}:",
+              "weight": "bolder"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": 2,
+          "items": [
+            {
+              "type": "TextBlock",
+              "horizontalAlignment": "Right",
+              "text": "{Note}"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": 3,
+          "items": [
+
+          ]
+        }
+      ],
+      "spacing": "None"
+    },
+    {
+      "type": "TextBlock",
+      "text": "{SelectComment}",
+      "spacing": "Large"
+    },
+    {
+      "type": "Input.ChoiceSet",
+      "spacing": "Small",
+      "id": "Comment",
+      "style": "compact",
+      "value": "{CommentValue}",
+      "choices": [
+        {CommentRows}
+      ],
+      "wrap": true
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "Medium",
+      "text": "{EnterNote}",
+      "wrap": true
+    },
+    {
+      "type": "Input.Text",
+      "id": "note",
+      "spacing": "Small",
+      "isMultiline": true,
+      "placeholder": "{EnterNote}"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "{txt_Refuse}",
+      "data": {
+        "msteams": {
+          "type": "task/submit",
+          "text": "{RefuseCommand}"
+        },
+        "RequestId": "{RequestId}",
+        "QueryDateSpan": "{QueryDateSpan}",
+        "PersonNumber": "{PersonNumber}",
+        "EmpName": "{EmpName}",
+        "Index": "{index}",
+        "CurrentPage": "{CurrentPage}",
+        "conversationId": "{conversationId}",
+        "activityId": "{activityId}"
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "{txt_Approve}",
+      "data": {
+        "msteams": {
+          "type": "task/submit",
+          "text": "{ApproveCommand}"
+        },
+        "RequestId": "{RequestId}",
+        "QueryDateSpan": "{QueryDateSpan}",
+        "PersonNumber": "{PersonNumber}",
+        "EmpName": "{EmpName}",
+        "Index": "{index}",
+        "CurrentPage": "{CurrentPage}",
+        "conversationId": "{conversationId}",
+        "activityId": "{activityId}"
+      }
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
+}

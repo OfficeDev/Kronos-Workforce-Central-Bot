@@ -1,0 +1,45 @@
+{
+  "type": "Container",
+  "spacing": "{Spacing}",
+  "separator": "{Separator}",
+  "items": [
+    {
+      "type": "ColumnSet",
+      "columns": [        
+        {
+          "type": "Column",
+          "verticalContentAlignment": "Center",
+          "items": [
+            {
+              "type": "TextBlock",
+              "weight": "Bolder",
+              "text": "{Name}",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "size": "Small",
+              "spacing": "None",
+              "text": "{Role}",
+              "isSubtle": true,
+              "wrap": true
+            }
+          ],
+          "width": "3"
+        },
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "TextBlock",
+              "horizontalAlignment": "Right",
+              "text": "{Overtime} hrs",
+              "wrap": true
+            }
+          ],
+          "width": "2"
+        }
+      ]
+    }
+  ]
+}

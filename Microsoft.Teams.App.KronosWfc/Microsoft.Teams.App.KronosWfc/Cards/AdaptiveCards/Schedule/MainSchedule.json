@@ -1,0 +1,35 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "TextBlock",
+      "size": "Large",
+      "text": "{txt_CardTitle}"
+    },
+    {
+      "type": "Container",
+      "id": "content",
+      "separator": true,
+      "items": [
+        {card_Content}
+      ]
+    },
+    {
+      "type": "Container",
+      "separator": true,
+      "items": [
+        {
+          "type": "FactSet",
+          "facts": [
+            {
+              "title": "{txt_Totalhrs}",
+              "value": "{val_TotalHrs}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}

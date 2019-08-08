@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataFlowRule>
+  <Problem>
+    <![CDATA[Potential XML injection vulnerability was found where parameter {0} in call to {1} is tainted by user-controlled data from {2}.]]>
+  </Problem>
+
+  <Sources>
+    <Member type="group" name="WebInputs" file ="WebInputsGroup"/>
+  </Sources>
+
+  <Conditionals>
+    <Member type="group" name="ReadOnlyMethods" file ="ConditionalsGroup"/>
+  </Conditionals>
+
+  <Sanitizers>
+    <Member type="group" name="PrimitiveTypeConverters" file="SanitizersGroup"/>
+    <Member type="group" name="XmlInjection" file="CustomSanitizersGroup" optional="true"/>
+
+    <Member name="Microsoft.Security.Application.AntiXss::XmlAttributeEncode(System.String)" input="0x2" />
+    <Member name="Microsoft.Security.Application.AntiXss::XmlEncode(System.String)" input="0x2" />
+    <Member name="Microsoft.Security.Application.Encoder::XmlAttributeEncode(System.String)" input="0x2" />
+    <Member name="Microsoft.Security.Application.Encoder::XmlEncode(System.String)" input="0x2" />
+
+    <Member name="System.IDisposable::Dispose(this)" return="0" input="0x2" />
+  </Sanitizers>
+ 
+  <Sinks>
+    <Member name="System.Xml.XmlNode::set_InnerXml(this,System.String)" input="0x4" />
+    <Member name="System.Xml.XmlAttribute::set_InnerXml(this,System.String)" input="0x4" />
+    <Member name="System.Xml.XmlDocument::set_InnerXml(this,System.String)" input="0x4" />
+    <Member name="System.Xml.XmlDocumentFragment::set_InnerXml(this,System.String)" input="0x4" />
+    <Member name="System.Xml.XmlElement::set_InnerXml(this,System.String)" input="0x4" />
+    <Member name="System.Xml.XmlEntity::set_InnerXml(this,System.String)" input="0x4" />
+    <Member name="System.Xml.XmlNotation::set_InnerXml(this,System.String)" input="0x4" />
+    <Member name="System.Xml.XmlDocument::Load(this,System.String)" input="0x4" />
+    <Member name="System.Xml.XmlDocument::Load(this,System.IO.Stream)" input="0x4" />
+    <Member name="System.Xml.XmlDocument::Load(this,System.IO.TextReader)" input="0x4" />
+    <Member name="System.Xml.XmlDocument::Load(this,System.Xml.XmlReader)" input="0x4" />
+    <Member name="System.Xml.XmlDocument::LoadXml(this,System.String)" input="0x4" />
+    <Member name="System.Xml.XPath.XPathDocument::LoadFromWriter(this,LoadFlags,System.String)" input="0x4" />
+    <Member name="System.Xml.XPath.XPathDocument::LoadFromReader(this,System.Xml.XmlReader,System.Xml.XmlSpace)" input="0x4" />
+    <Member name="System.Xml.XmlTextReader::.ctor(this,System.IO.Stream)" input="0x4" />
+    <Member name="System.Xml.XmlTextReader::.ctor(this,System.String,System.IO.Stream)" input="0x4" />
+    <Member name="System.Xml.XmlTextReader::.ctor(this,System.IO.Stream,System.Xml.XmlNameTable)" input="0x4" />
+    <Member name="System.Xml.XmlTextReader::.ctor(this,System.String,System.IO.Stream,System.Xml.XmlNameTable)" input="0x4" />
+    <Member name="System.Xml.XmlTextReader::.ctor(this,System.IO.TextReader)" input="0x4" />
+    <Member name="System.Xml.XmlTextReader::.ctor(this,System.String,System.IO.TextReader)" input="0x4" />
+    <Member name="System.Xml.XmlTextReader::.ctor(this,System.IO.TextReader,System.Xml.XmlNameTable)" input="0x4" />
+    <Member name="System.Xml.XmlTextReader::.ctor(this,System.String,System.IO.TextReader,System.Xml.XmlNameTable)" input="0x4" />
+    <Member name="System.Xml.XmlTextReader::.ctor(this,System.IO.Stream,System.Xml.XmlNodeType,System.Xml.XmlParserContext)" input="0x4" />
+    <Member name="System.Xml.XmlTextReader::.ctor(this,System.String,System.Xml.XmlNodeType,System.Xml.XmlParserContext)" input="0x4" />
+    <Member name="System.Xml.XmlTextReader::.ctor(this,System.String)" input="0x4" />
+    <Member name="System.Xml.XmlTextReader::.ctor(this,System.String,System.Xml.XmlNameTable)" input="0x4" />
+    <Member name="System.Xml.DocumentXmlWriter::WriteRaw(this,MgdArr[c16],i32,i32)" input="0x4" />
+    <Member name="System.Xml.DocumentXmlWriter::WriteRaw(this,System.String)" input="0x4" />
+    <Member name="System.Xml.Linq.XElement::Load(System.String)" input="0x2" />
+    <Member name="System.Xml.Linq.XElement::Load(System.String,System.Xml.Linq.LoadOptions)" input="0x2" />
+    <Member name="System.Xml.XmlTextWriter::WriteRaw(this,MgdArr[c16],i32,i32)" input="0x4" />
+    <Member name="System.Xml.XmlTextWriter::WriteRaw(this,System.String)" input="0x4" />
+  </Sinks>
+</DataFlowRule>

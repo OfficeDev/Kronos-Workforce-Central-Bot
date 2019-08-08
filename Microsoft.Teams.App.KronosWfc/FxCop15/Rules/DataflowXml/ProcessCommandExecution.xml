@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataFlowRule>
+  <Problem>
+    <![CDATA[Potential user-controlled process creation vulnerability was found where parameter {0} in call to {1} is tainted by user-controlled data from {2}.]]>
+  </Problem>
+
+  <Sources>
+    <Member type="group" name="WebInputs" file ="WebInputsGroup"/>
+  </Sources>
+
+  <Conditionals>
+    <Member type="group" name="ReadOnlyMethods" file ="ConditionalsGroup"/>
+  </Conditionals>
+  
+  <Sanitizers>
+    <Member type="group" name="ProcessCommandExecution" file="CustomSanitizersGroup" optional="true"/>
+
+    <!-- not applicable -->
+  </Sanitizers>
+
+  <Sinks>
+    <Member name="System.Diagnostics.ProcessStartInfo::set_FileName(this,System.String)" input="0x4"/>
+    <Member name="System.Diagnostics.ProcessStartInfo::set_Arguments(this,System.String)" input="0x4"/>
+    <Member name="System.Diagnostics.Process::Start(System.String,System.String,System.Security.SecureString,System.String)" input="0x6" />
+    <Member name="System.Diagnostics.Process::Start(System.String,System.String,System.String,System.Security.SecureString,System.String)" input="0x6"/>
+    <Member name="System.Diagnostics.Process::Start(System.String)" input="0x2"/>
+    <Member name="System.Diagnostics.Process::Start(System.String,System.String)" input="0x6"/>
+  </Sinks>
+</DataFlowRule>

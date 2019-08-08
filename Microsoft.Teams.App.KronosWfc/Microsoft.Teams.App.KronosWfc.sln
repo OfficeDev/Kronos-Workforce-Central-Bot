@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.539
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Teams.App.KronosWfc", "Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc.csproj", "{A8957933-7541-4C34-B9DE-7949FAE19AC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Teams.App.KronosWfc.BusinessLogic", "Microsoft.Teams.App.KronosWfc.BusinessLogic\Microsoft.Teams.App.KronosWfc.BusinessLogic.csproj", "{B2CAC781-8BF6-46C6-8111-22D9E74E0318}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Teams.App.KronosWfc.Common", "Microsoft.Teams.App.KronosWfc.Common\Microsoft.Teams.App.KronosWfc.Common.csproj", "{B047D997-CBAA-4850-B453-F021D2984B31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Teams.App.KronosWfc.Models", "Microsoft.Teams.App.KronosWfc.Models\Microsoft.Teams.App.KronosWfc.Models.csproj", "{B1E78425-3927-40A7-8966-D83F0D63438E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Teams.App.KronosWfc.Service", "Microsoft.Teams.App.KronosWfc.Service\Microsoft.Teams.App.KronosWfc.Service.csproj", "{D63F5E57-C7DD-44E8-A14B-BD51952AE198}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Teams.App.KronosWfc.Tests", "Microsoft.Teams.App.KronosWfc.Tests\Microsoft.Teams.App.KronosWfc.Tests.csproj", "{068CF21B-4D5A-4E28-9DFA-B986EEF40429}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A8957933-7541-4C34-B9DE-7949FAE19AC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8957933-7541-4C34-B9DE-7949FAE19AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8957933-7541-4C34-B9DE-7949FAE19AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8957933-7541-4C34-B9DE-7949FAE19AC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2CAC781-8BF6-46C6-8111-22D9E74E0318}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2CAC781-8BF6-46C6-8111-22D9E74E0318}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2CAC781-8BF6-46C6-8111-22D9E74E0318}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2CAC781-8BF6-46C6-8111-22D9E74E0318}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B047D997-CBAA-4850-B453-F021D2984B31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B047D997-CBAA-4850-B453-F021D2984B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B047D997-CBAA-4850-B453-F021D2984B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B047D997-CBAA-4850-B453-F021D2984B31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1E78425-3927-40A7-8966-D83F0D63438E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1E78425-3927-40A7-8966-D83F0D63438E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1E78425-3927-40A7-8966-D83F0D63438E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1E78425-3927-40A7-8966-D83F0D63438E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D63F5E57-C7DD-44E8-A14B-BD51952AE198}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D63F5E57-C7DD-44E8-A14B-BD51952AE198}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D63F5E57-C7DD-44E8-A14B-BD51952AE198}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D63F5E57-C7DD-44E8-A14B-BD51952AE198}.Release|Any CPU.Build.0 = Release|Any CPU
+		{068CF21B-4D5A-4E28-9DFA-B986EEF40429}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{068CF21B-4D5A-4E28-9DFA-B986EEF40429}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{068CF21B-4D5A-4E28-9DFA-B986EEF40429}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{068CF21B-4D5A-4E28-9DFA-B986EEF40429}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {088D1C63-1E90-4359-B56A-77FCC1A95210}
+	EndGlobalSection
+EndGlobal
