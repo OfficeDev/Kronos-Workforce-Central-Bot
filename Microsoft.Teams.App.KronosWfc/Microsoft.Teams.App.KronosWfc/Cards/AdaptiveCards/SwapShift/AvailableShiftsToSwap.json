@@ -1,0 +1,79 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "weight": "Bolder",
+          "text": "Swap Shift Request"
+        },
+        {
+          "type": "TextBlock",
+          "spacing": "None",
+          "size": "Small",
+          "weight": "Bolder",
+          "text": "Select available shift to swap:",          
+          "isSubtle": true
+        }
+      ]
+    },
+    {
+      "type": "Input.ChoiceSet",
+      //"spacing": "Medium",
+     
+      "isMultiSelect": false,
+      "style": "compact",
+      "value": "{Choice1}",
+      "id": "SelectedShift",
+      "choices": [ {rows} ]
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "None",
+      "color": "Attention",
+      "size": "Small",
+      "weight": "Bolder",
+      "text": "{noShiftFound}",
+      "isSubtle": true
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "Back",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          //"displayText": "Back",
+          "text": "back swap 2"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "Cancel",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          //"displayText": "Cancel",
+          "text": "cancel swap"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "Next",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          //"displayText": "Next",
+          "text": "next swap 4"
+        }
+      }
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}

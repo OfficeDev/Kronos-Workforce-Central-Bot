@@ -1,0 +1,12 @@
+"actions": [
+  {
+    "type": "Action.Submit",
+    "title": "{txt_RequestTimeoff}",
+    "data": {
+      "msteams": {
+        "type": "messageBack",
+        "text": "Create time off request"
+      }
+    }
+  }
+]

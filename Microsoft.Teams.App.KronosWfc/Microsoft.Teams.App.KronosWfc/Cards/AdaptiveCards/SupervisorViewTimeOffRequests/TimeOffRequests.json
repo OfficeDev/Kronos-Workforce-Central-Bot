@@ -1,0 +1,54 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "Container",
+      "id": "MainContainer",
+      "items": [
+        {
+          "type": "TextBlock",
+          "weight": "Bolder",
+          "text": "{txt_CardTitle}",
+          "wrap": true
+        },
+        {
+          "type": "TextBlock",
+          "spacing": "None",
+          "size": "Small",
+          "text": "{txt_CardInfo}",
+          "isSubtle": true,
+          "wrap": true
+        },
+        {
+          "type": "Container",
+          "id": "FilterContainer",
+          "isVisible": {ShowFilters},
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "{txt_FilterBy}"
+            }
+            {FilterItems}
+          ]
+        },
+        {
+          "type": "Container",
+          "id": "ClosedRequestsContainer",
+          "isVisible": {ShowRequestList},
+          "items": [
+            {RequestList}
+          ]
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "isVisible": {NoTimeOffRequests},
+      "text": "{txt_NoTimeOffRequests}",
+      "wrap": true
+    }
+  ],
+  {Actions},
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}

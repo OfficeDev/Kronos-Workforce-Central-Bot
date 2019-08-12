@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataFlowRule>
+  <Problem>
+    <![CDATA[Potential user-controlled regular expression vulnerability (regex injection) was found where parameter {0} in call to {1} is tainted by user-controlled data from {2}.]]>
+  </Problem>
+    
+  <Sources>
+    <Member type="group" name="WebInputs" file ="WebInputsGroup"/>
+  </Sources>
+
+  <Conditionals>
+    <Member type="group" name="ReadOnlyMethods" file ="ConditionalsGroup"/>
+  </Conditionals>
+  
+  <Sanitizers>
+    <Member type="group" name="RegexInjection" file="CustomSanitizersGroup" optional="true"/>
+
+    <Member name="System.IDisposable::Dispose(this)" return="0" input="0x2" />
+  </Sanitizers>
+    
+  <Sinks>
+    <Member name="System.Text.RegularExpressions.Regex::.ctor(this,System.String)" input="0x4" />
+    <Member name="System.Text.RegularExpressions.Regex::.ctor(this,System.String,System.Text.RegularExpressions.RegexOptions)" input="0x4" />
+    <Member name="System.Text.RegularExpressions.Regex::.ctor(this,System.String,System.Text.RegularExpressions.RegexOptions,bool8)" input="0x4" />
+    <Member name="System.Text.RegularExpressions.Regex::IsMatch(System.String,System.String)" input="0x4" />
+    <Member name="System.Text.RegularExpressions.Regex::IsMatch(System.String,System.String,System.Text.RegularExpressions.RegexOptions)" input="0x4" />
+    <Member name="System.Text.RegularExpressions.Regex::Match(System.String,System.String)" input="0x4" />
+    <Member name="System.Text.RegularExpressions.Regex::Match(System.String,System.String,System.Text.RegularExpressions.RegexOptions)" input="0x4" />
+    <Member name="System.Text.RegularExpressions.Regex::Matches(System.String,System.String)" input="0x4" />
+    <Member name="System.Text.RegularExpressions.Regex::Matches(System.String,System.String,System.Text.RegularExpressions.RegexOptions)" input="0x4" />
+    <Member name="System.Text.RegularExpressions.Regex::Replace(System.String,System.String,System.String)" input="0x4" />
+    <Member name="System.Text.RegularExpressions.Regex::Replace(System.String,System.String,System.String,System.Text.RegularExpressions.RegexOptions)" input="0x4" />
+    <Member name="System.Text.RegularExpressions.Regex::Replace(System.String,System.String,System.Text.RegularExpressions.MatchEvaluator)" input="0x4" />
+    <Member name="System.Text.RegularExpressions.Regex::Replace(System.String,System.String,System.Text.RegularExpressions.MatchEvaluator,System.Text.RegularExpressions.RegexOptions)" input="0x4" />
+    <Member name="System.Text.RegularExpressions.Regex::Split(System.String,System.String)" input="0x4" />
+    <Member name="System.Text.RegularExpressions.Regex::Split(System.String,System.String,System.Text.RegularExpressions.RegexOptions)" input="0x4" />
+    <Member name="System.Net.DelayedRegex::.ctor(this,System.String)" input="0x4" />
+  </Sinks>
+</DataFlowRule>

@@ -1,0 +1,115 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "TextBlock",
+      "size": "Large",
+      "weight": "Bolder",
+      "text": "{Title}"
+    },
+    {
+      "type": "Container",
+      "spacing": "None",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "{ConfirmTimeOffRequest}:",
+          "wrap": true
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "Medium",
+      "text": "**{PayCode_txt}:** {DeductFrom}"
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "Small",
+      "text": "**{Date_txt}:** {DurationDate}"
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "Small",
+      "text": "{DurationHours}"
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "Small",
+      "text": "**{Duration_txt}:** {Duration}"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "{Back}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "back advanced time off 3"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "{Cancel}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "cancel time off"
+        }
+      }
+    },
+    {
+      "type": "Action.ShowCard",
+      "title": "{Confirm}",
+      "card": {
+        "type": "AdaptiveCard",
+        "body": [
+          {
+            "type": "TextBlock",
+            "text": "{SelectComment}",
+            "wrap": true
+          },
+          {
+            "type": "Input.ChoiceSet",
+            "spacing": "Small",
+            "id": "Comment",
+            "style": "compact",
+            "value": "{CommentValue}",
+            "choices": [
+              {CommentRows}
+            ]
+          },
+          {
+            "type": "TextBlock",
+            "spacing": "Medium",
+            "text": "{EnterNote}",
+            "wrap": true
+          },
+          {
+            "type": "Input.Text",
+            "id": "note",
+            "spacing": "Small",
+            "isMultiline": true,
+            "placeholder": "{EnterNote}"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Action.Submit",
+            "title": "{Submit}",
+            "data": {
+              "msteams": {
+                "type": "messageBack",
+                "text": "submit advanced time off request"
+              }
+            }
+          }
+        ]
+      }
+    }    
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}

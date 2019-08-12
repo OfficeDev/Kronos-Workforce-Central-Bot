@@ -1,0 +1,84 @@
+﻿
+@{
+    Layout = null;
+}
+@model Microsoft.Teams.App.KronosWfc.Models.User
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Static/CSS/site.css" rel="stylesheet" />
+    <title>Workforce Central</title>
+</head>
+<body>
+    <script src="https://unpkg.com/@("@microsoft/teams-js@1.4.3")/dist/MicrosoftTeams.min.js"></script>
+    <script src="~/Static/Script/jquery/dist/jquery.min.js"></script>
+    <script src="~/Static/Script/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/Static/Script/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Static/Script/site.js"></script>
+    <div id="wrapper" class="wrapper bgImg">
+        <div id="mainContent" class="content">
+            <div id="loginBaseLogo">
+                <img src="~/Static/images/logo_chatbot.svg" width="300" />
+            </div>
+
+            <div id="authenticationFormApp" class="container">
+                <div class="formContainer">
+
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div id="messageBox" class="show">
+                            <div class="message-wrapper">
+                                <span class="error">@ViewData.ModelState["Invalid"].Errors.FirstOrDefault().ErrorMessage</span>
+                            </div>
+                        </div>
+                    }
+                    <div class="form">
+                        @using (Html.BeginForm("LoginAction", "Login", FormMethod.Post, new { id = "signinform" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                <div class="form-group">
+
+                                    @Html.LabelFor(model => model.UserName)
+                                    @Html.EditorFor(model => model.UserName)
+                                    @Html.ValidationMessageFor(model => model.UserName, "", new { @style = "display: none" })
+                                </div>
+                                <div class="form-group">
+
+                                    @Html.LabelFor(model => model.Password)
+                                    @Html.EditorFor(model => model.Password)
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @style = "display: none" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.HiddenFor(model => model.TenantId, new { Value = ViewBag.Tid })
+
+
+                                    <input type="submit" value="Submit" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="help">
+                        <span>Don't have a Kronos account? Get a demo, purchase or learn more about our services </span><a href="https://www.kronos.com/products/workforce-dimensions-suite" rel="noopener noreferrer">here</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script type="application/javascript">
+        var wrapper = document.getElementById("wrapper");
+        var contentWidth = wrapper.offsetWidth;
+        var contentHeight = wrapper.offsetHeight;
+        var width = 600;
+        var height = 720;
+        var xoffset = (contentWidth < width) ? (contentWidth  / 2) - (width / 2) : 0;
+        window.resizeTo(contentWidth < width ? width : contentWidth, contentHeight < height ? height : contentHeight);
+        window.moveBy(xoffset, 0);
+    </script>
+
+</body>
+</html>

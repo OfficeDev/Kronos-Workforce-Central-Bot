@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataFlowRule>
+  <Problem>
+    <![CDATA[Potential XAML injection vulnerability was found where parameter {0} in call to {1} is tainted by user-controlled data from {2}.]]>
+  </Problem>
+
+  <Sources>
+    <Member type="group" name="WebInputs" file ="WebInputsGroup"/>
+  </Sources>
+
+  <Conditionals>
+    <Member type="group" name="ReadOnlyMethods" file ="ConditionalsGroup"/>
+  </Conditionals>
+
+  <Sanitizers>
+    <Member type="group" name="PrimitiveTypeConverters" file="SanitizersGroup"/>
+    <Member type="group" name="XamlInjection" file="CustomSanitizersGroup" optional="true"/>
+
+    <Member name="System.IDisposable::Dispose(this)" return="0" input="0x2" />
+  </Sanitizers>
+
+  <Sinks>
+    <!-- silverlight's -->
+    <Member name="System.Windows.Markup.XamlReader::Load(System.String)" input="0x2" />
+    <Member name="System.Windows.Markup.XamlReader::LoadWithInitialTemplateValidation(System.String)" input="0x2" />
+
+    <!-- WPF's -->
+    <Member name="System.Windows.Markup.XamlReader::Load(System.IO.Stream)" input="0x2" />
+    <Member name="System.Windows.Markup.XamlReader::Load(System.Xml.XmlReader)" input="0x2" />
+    <Member name="System.Windows.Markup.XamlReader::Load(System.IO.Stream,System.Windows.Markup.ParserContext)" input="0x2" />
+    <Member name="System.Windows.Markup.XamlReader::LoadAsync(this,System.IO.Stream)" input="0x4" />
+    <Member name="System.Windows.Markup.XamlReader::LoadAsync(this,System.Xml.XmlReader)" input="0x4" />
+    <Member name="System.Windows.Markup.XamlReader::LoadAsync(this,System.IO.Stream,System.Windows.Markup.ParserContext)" input="0x4" />
+    <Member name="System.Windows.Markup.XamlReader::LoadAsync(this,System.Xml.XmlReader,System.Windows.Markup.ParserContext)" input="0x4" />
+    <Member name="System.Windows.Markup.XamlReader::Load(System.Xml.XmlReader,System.Windows.Markup.ParserContext,System.Windows.Markup.XamlParseMode)" input="0x2" />
+    <Member name="System.Windows.Markup.XamlReader::Load(System.Xaml.XamlReader,System.Windows.Markup.ParserContext)" input="0x2" />
+    <Member name="System.Windows.Markup.XamlReader::Load(System.Xaml.XamlReader)" input="0x2" />
+  </Sinks>
+</DataFlowRule>

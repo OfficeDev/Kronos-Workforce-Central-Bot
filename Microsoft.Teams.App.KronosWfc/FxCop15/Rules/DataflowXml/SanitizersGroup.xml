@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Groups>
+    <MemberGroup name="PrimitiveTypeConverters">
+        <Member name="System.Boolean::Parse(System.String)" return="0" input="0x2" />
+        <Member name="System.Byte::Parse(System.String)" return="0" input="0x2" />
+        <Member name="System.Char::Parse(System.String)" return="0" input="0x2" />
+        <Member name="System.Int16::Parse(System.String)" return="0" input="0x2" />
+        <Member name="System.Int32::Parse(System.String)" return="0" input="0x2" />
+        <Member name="System.Int64::Parse(System.String)" return="0" input="0x2" />
+        <Member name="System.Single::Parse(System.String)" return="0" input="0x2" />
+        <Member name="System.Double::Parse(System.String)" return="0" input="0x2" />
+        <Member name="System.Decimal::Parse(System.String)" return="0" input="0x2" />
+        <Member name="System.DateTime::Parse(System.String)" return="0" input="0x2" />
+        <Member name="System.TimeSpan::Parse(System.String)" return="0" input="0x2" />
+
+        <Member name="System.Boolean::Parse(System.String,System.Globalization.NumberStyles)" return="0" input="0x2" />
+        <Member name="System.Byte::Parse(System.String,System.Globalization.NumberStyles)" return="0" input="0x2" />
+        <Member name="System.Char::Parse(System.String,System.Globalization.NumberStyles)" return="0" input="0x2" />
+        <Member name="System.Int16::Parse(System.String,System.Globalization.NumberStyles)" return="0" input="0x2" />
+        <Member name="System.Int32::Parse(System.String,System.Globalization.NumberStyles)" return="0" input="0x2" />
+        <Member name="System.Int64::Parse(System.String,System.Globalization.NumberStyles)" return="0" input="0x2" />
+        <Member name="System.Single::Parse(System.String,System.Globalization.NumberStyles)" return="0" input="0x2" />
+        <Member name="System.Double::Parse(System.String,System.Globalization.NumberStyles)" return="0" input="0x2" />
+        <Member name="System.Decimal::Parse(System.String,System.Globalization.NumberStyles)" return="0" input="0x2" />
+        <Member name="System.DateTime::Parse(System.String,System.Globalization.NumberStyles)" return="0" input="0x2" />
+        <Member name="System.TimeSpan::Parse(System.String,System.Globalization.NumberStyles)" return="0" input="0x2" />
+
+        <Member name="System.Boolean::Parse(System.String,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.Byte::Parse(System.String,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.Char::Parse(System.String,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.Int16::Parse(System.String,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.Int32::Parse(System.String,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.Int64::Parse(System.String,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.Single::Parse(System.String,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.Double::Parse(System.String,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.Decimal::Parse(System.String,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.DateTime::Parse(System.String,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.TimeSpan::Parse(System.String,System.IFormatProvider)" return="0" input="0x2" />
+
+        <Member name="System.Boolean::Parse(System.String,System.Globalization.NumberStyles,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.Byte::Parse(System.String,System.Globalization.NumberStyles,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.Char::Parse(System.String,System.Globalization.NumberStyles,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.Int16::Parse(System.String,System.Globalization.NumberStyles,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.Int32::Parse(System.String,System.Globalization.NumberStyles,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.Int64::Parse(System.String,System.Globalization.NumberStyles,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.Single::Parse(System.String,System.Globalization.NumberStyles,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.Double::Parse(System.String,System.Globalization.NumberStyles,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.Decimal::Parse(System.String,System.Globalization.NumberStyles,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.DateTime::Parse(System.String,System.Globalization.NumberStyles,System.IFormatProvider)" return="0" input="0x2" />
+        <Member name="System.TimeSpan::Parse(System.String,System.Globalization.NumberStyles,System.IFormatProvider)" return="0" input="0x2" />
+
+        <Member name="System.Boolean::TryParse(System.String,bool8)" return="0" input="0x2" />
+        <Member name="System.Byte::TryParse(System.String,u8)" return="0" input="0x2" />
+        <Member name="System.Char::TryParse(System.String,c16)" return="0" input="0x2" />
+        <Member name="System.Int16::TryParse(System.String,i16)" return="0" input="0x2" />
+        <Member name="System.Int32::TryParse(System.String,i32)" return="0" input="0x2" />
+        <Member name="System.Int64::TryParse(System.String,i64)" return="0" input="0x2" />
+        <Member name="System.Single::TryParse(System.String,f32)" return="0" input="0x2" />
+        <Member name="System.Double::TryParse(System.String,f64)" return="0" input="0x2" />
+        <Member name="System.Decimal::TryParse(System.String,System.Decimal)" return="0" input="0x2" />
+        <Member name="System.DateTime::TryParse(System.String,System.DateTime)" return="0" input="0x2" />
+        <Member name="System.TimeSpan::TryParse(System.String,System.TimeSpan)" return="0" input="0x2" />
+
+        <Member name="System.Boolean::TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,bool8)" return="0" input="0x2" />
+        <Member name="System.Byte::TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,u8)" return="0" input="0x2" />
+        <Member name="System.Char::TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,c16)" return="0" input="0x2" />
+        <Member name="System.Int16::TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,i16)" return="0" input="0x2" />
+        <Member name="System.Int32::TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,i32)" return="0" input="0x2" />
+        <Member name="System.Int64::TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,i64)" return="0" input="0x2" />
+        <Member name="System.Single::TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,f32)" return="0" input="0x2" />
+        <Member name="System.Double::TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,f64)" return="0" input="0x2" />
+        <Member name="System.Decimal::TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,System.Decimal)" return="0" input="0x2" />
+        <Member name="System.DateTime::TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,System.DateTime)" return="0" input="0x2" />
+        <Member name="System.TimeSpan::TryParse(System.String,System.Globalization.NumberStyles,System.IFormatProvider,System.TimeSpan)" return="0" input="0x2" />
+        
+        <Member name="System.Number::ParseInt32(System.String,System.Globalization.NumberStyles,System.Globalization.NumberFormatInfo)" return="0" input="0x2" />
+        <Member name="System.Number::ParseInt64(System.String,System.Globalization.NumberStyles,System.Globalization.NumberFormatInfo)" return="0" input="0x2" />
+        <Member name="System.Number::TryParseInt32(System.String,System.Globalization.NumberStyles,System.Globalization.NumberFormatInfo,i32)" return="0" input="0x2" />
+        <Member name="System.Number::TryParseInt64(System.String,System.Globalization.NumberStyles,System.Globalization.NumberFormatInfo,i64)" return="0" input="0x2" />
+        <Member name="System.Globalization.TimeSpanParse::StringParser::ParseInt(this,i32,i32,TimeSpanResult)" return="0" input="0x2" />
+      
+        <Member name="System.Guid::.ctor(this,System.String)" return="0" input="0x4" />
+    </MemberGroup>
+</Groups>

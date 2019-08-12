@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataFlowRule>
+  <Problem>
+    <![CDATA[Potential file canonicalization vulnerability was found where parameter {0} in call to {1} is tainted by user-controlled data from {2}.]]>
+  </Problem>
+
+  <Sources>
+    <Member type="group" name="WebInputs" file ="WebInputsGroup"/>
+  </Sources>
+
+  <Conditionals>
+    <Member type="group" name="ReadOnlyMethods" file ="ConditionalsGroup"/>
+  </Conditionals>
+    
+  <Sanitizers>
+    <Member type="group" name="FileCanonicalization" file="CustomSanitizersGroup" optional="true"/>
+
+    <Member name="System.IDisposable::Dispose(this)" return="0" input="0x2" />
+  </Sanitizers>
+
+  <Sinks>
+    <Member name="System.IO.File::AppendAllText(System.String,System.String)" input="0x2" />
+    <Member name="System.IO.File::AppendAllText(System.String,System.String,System.Text.Encoding)" input="0x2" />
+    <Member name="System.IO.File::AppendText(System.String)" input="0x2" />
+    <Member name="System.IO.File::Copy(System.String,System.String)" input="0x6" />
+    <Member name="System.IO.File::Copy(System.String,System.String,bool8)" input="0x6" />
+    <Member name="System.IO.File::Create(System.String)" input="0x2" />
+    <Member name="System.IO.File::Create(System.String)" input="0x2" />
+    <Member name="System.IO.File::Create(System.String,i32)" input="0x2" />
+    <Member name="System.IO.File::Create(System.String,i32)" input="0x2" />
+    <Member name="System.IO.File::Create(System.String,i32,System.IO.FileOptions)" input="0x2" />
+    <Member name="System.IO.File::Create(System.String,i32,System.IO.FileOptions)" input="0x2" />
+    <Member name="System.IO.File::Create(System.String,i32,System.IO.FileOptions,System.Security.AccessControl.FileSecurity)" input="0x2" />
+    <Member name="System.IO.File::Create(System.String,i32,System.IO.FileOptions,System.Security.AccessControl.FileSecurity)" input="0x2" />
+    <Member name="System.IO.File::CreateText(System.String)" input="0x2" />
+    <Member name="System.IO.File::CreateText(System.String)" input="0x2" />
+    <Member name="System.IO.File::Delete(System.String)" input="0x2" />
+    <Member name="System.IO.Directory::Exists(System.String)" input="0x2" />
+    <Member name="System.IO.File::Exists(System.String)" input="0x2" />
+    <Member name="System.IO.LongPathFile::Exists(System.String)" input="0x2" />
+    <Member name="System.IO.LongPathDirectory::Exists(System.String)" input="0x2" />
+    <Member name="System.IO.File::InternalReadAllText(System.String,System.Text.Encoding)" input="0x2" />
+    <Member name="System.IO.File::Move(System.String,System.String)" input="0x6" />
+    <Member name="System.IO.File::Open(System.String,System.IO.FileMode)" input="0x2" />
+    <Member name="System.IO.File::Open(System.String,System.IO.FileMode,System.IO.FileAccess)" input="0x2" />
+    <Member name="System.IO.File::Open(System.String,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare)" input="0x2" />
+    <Member name="System.IO.File::OpenFile(System.String,System.IO.FileAccess,Microsoft.Win32.SafeHandles.SafeFileHandle)" input="0x2" />
+    <Member name="System.IO.File::OpenRead(System.String)" input="0x2" />
+    <Member name="System.IO.File::OpenText(System.String)" input="0x2" />
+    <Member name="System.IO.File::OpenWrite(System.String)" input="0x2" />
+    <Member name="System.IO.File::ReadAllBytes(System.String)" input="0x2" />
+    <Member name="System.IO.File::ReadAllLines(System.String)" input="0x2" />
+    <Member name="System.IO.File::ReadAllLines(System.String,System.Text.Encoding)" input="0x2" />
+    <Member name="System.IO.File::ReadAllText(System.String)" input="0x2" />
+    <Member name="System.IO.File::ReadAllText(System.String,System.Text.Encoding)" input="0x2" />
+    <Member name="System.IO.File::WriteAllBytes(System.String,MgdArr[u8])" input="0x2" />
+    <Member name="System.IO.File::WriteAllLines(System.String,MgdArr[object32->class112])" input="0x2" />
+    <Member name="System.IO.File::WriteAllLines(System.String,MgdArr[object32->class112],System.Text.Encoding)" input="0x2" />
+    <Member name="System.IO.File::WriteAllLines(System.String,interface? System.Collections.Generic.IEnumerable`1&lt;object32->class112>)" input="0x2" />
+    <Member name="System.IO.File::WriteAllLines(System.String,interface? System.Collections.Generic.IEnumerable`1&lt;object32->class112>,System.Text.Encoding)" input="0x2" />
+    <Member name="System.IO.File::WriteAllLines(System.String,MgdArr[object32->class64])" input="0x2" />
+    <Member name="System.IO.File::WriteAllLines(System.String,MgdArr[object32->class64],System.Text.Encoding)" input="0x2" />
+    <Member name="System.IO.File::WriteAllLines(System.String,interface? System.Collections.Generic.IEnumerable`1&lt;object32->class64>)" input="0x2" />
+    <Member name="System.IO.File::WriteAllLines(System.String,interface? System.Collections.Generic.IEnumerable`1&lt;object32->class64>,System.Text.Encoding)" input="0x2" />
+    <Member name="System.IO.File::WriteAllText(System.String,System.String)" input="0x2" />
+    <Member name="System.IO.File::WriteAllText(System.String,System.String,System.Text.Encoding)" input="0x2" />
+    <Member name="System.IO.FileInfo::.ctor(this,System.String)" input="0x4" />
+    <Member name="System.IO.FileInfo::CopyTo(this,System.String)" input="0x4" />
+    <Member name="System.IO.FileInfo::CopyTo(this,System.String,bool8)" input="0x4" />
+    <Member name="System.IO.FileInfo::Replace(this,System.String,System.String)" input="0xC" />
+    <Member name="System.IO.FileInfo::Replace(this,System.String,System.String,bool8)" input="0xC" />
+  </Sinks>
+</DataFlowRule>

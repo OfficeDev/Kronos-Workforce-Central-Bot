@@ -1,0 +1,71 @@
+{
+    "type": "AdaptiveCard",
+    "body": [
+        {
+            "type": "TextBlock",
+            "size": "Large",
+            "weight": "Bolder",
+            "text": "{Title}"
+        },
+      {
+        "type": "TextBlock",
+        "spacing": "Medium",
+        "weight": "Bolder",
+        "text": "{StartTime}: "
+      },
+      {
+        "type": "Input.Time",
+        "id": "StartTime",
+        "spacing": "Small",
+        "title": "New Input.Toggle",
+        "value": "{sTime}"
+      },
+      {
+        "type": "TextBlock",
+        "spacing": "Medium",
+        "weight": "Bolder",
+        "text": "{EndTime}: "
+      },
+      {
+        "type": "Input.Time",
+        "id": "EndTime",
+        "spacing": "Small",
+        "title": "New Input.Toggle",
+        "value": "{eTime}"
+      }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "{Back}",
+          "data": {
+            "msteams": {
+              "type": "messageBack",
+              "text": "back advanced time off 2"
+            }
+          }
+        },
+      {
+        "type": "Action.Submit",
+        "title": "{Cancel}",
+        "data": {
+          "msteams": {
+            "type": "messageBack",
+            "text": "cancel time off"
+          }
+        }
+      },
+        {
+            "type": "Action.Submit",
+            "title": "{Next}",
+          "data": {
+            "msteams": {
+              "type": "messageBack",
+              "text": "next advanced time off 3_Hrs"
+            }
+          }
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0"
+}

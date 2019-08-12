@@ -1,0 +1,37 @@
+﻿
+@{
+    Layout = null;
+}
+
+@using Microsoft.Teams.App.KronosWfc.Models
+@model LoginResponse
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Close</title>
+</head>
+<body>
+    <script src="https://unpkg.com/@("@microsoft/teams-js@1.4.3")/dist/MicrosoftTeams.min.js"></script>
+    <script src="~/Static/Script/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        //window.close();
+        var microsoftTeams;
+
+        $(document).ready(function () {
+            microsoftTeams.initialize();
+
+            var obj = {
+                JsessionID: @Html.Raw(Json.Encode(Model.JsessionID)),
+                PersonNumber: @Html.Raw(Json.Encode(Model.PersonNumber)),
+                Name:  @Html.Raw(Json.Encode(Model.Name))
+            };
+
+            microsoftTeams.authentication.notifySuccess(JSON.stringify(obj));
+        });
+
+    </script>
+   
+</body>
+</html>

@@ -1,0 +1,115 @@
+{
+  "type": "ColumnSet",
+  "spacing": "Medium",
+  "columns": [
+    {
+      "type": "Column",
+      "spacing": "None",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "spacing": "None",
+          "columns": [
+            {
+              "type": "Column",
+              "spacing": "None",
+              "items": [
+                {
+                  "type": "Image",
+                  "horizontalAlignment": "Center",
+                  "selectAction": {
+                    "type": "Action.Submit",
+                    "id": "{index}_Approve",
+                    "title": "Approve",
+                    "data": {
+                      "msteams": {
+                        "type": "messageBack",
+                        "text": "{ApproveCommand}"
+                      },
+                      "RequestId": "{RequestId}",
+                      "QueryDateSpan": "{QueryDateSpan}",
+                      "PersonNumber": "{PersonNumber}",
+                      "EmpName": "{EmpName}",
+                      "Index": "{index}",
+                      "CurrentPage": "{CurrentPage}"
+                    }
+                  },
+                  "url": "{AcceptIco}",
+                  "width": "23px",
+                  "height": "23px",
+                  "altText": ""
+                },
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Center",
+                  "spacing": "None",
+                  "size": "Small",
+                  "weight": "Bolder",
+                  "color": "Good",
+                  "text": "{txt_Approve}",
+                  "wrap": true
+                }
+              ],
+              "width": 3
+            },
+            {
+              "type": "Column",
+              "spacing": "None",
+              "items": [
+                {
+                  "type": "Image",
+                  "horizontalAlignment": "Center",
+                  "selectAction": {
+                    "type": "Action.Submit",
+                    "id": "{index}_Refuse",
+                    "title": "Refuse",
+                    "data": {
+                      "msteams": {
+                        "type": "messageBack",
+                        "text": "{RefuseCommand}"
+                      },
+                      "RequestId": "{RequestId}",
+                      "QueryDateSpan": "{QueryDateSpan}",
+                      "PersonNumber": "{PersonNumber}",
+                      "EmpName": "{EmpName}",
+                      "Index": "{index}",
+                      "CurrentPage": "{CurrentPage}"
+                    }
+                  },
+                  "url": "{RefuseIco}",
+                  "width": "40px",
+                  "height": "40px",
+                  "altText": ""
+                },
+                {
+                  "type": "TextBlock",
+                  "horizontalAlignment": "Center",
+                  "spacing": "None",
+                  "size": "Small",
+                  "weight": "Bolder",
+                  "color": "Attention",
+                  "text": "{txt_Refuse}",
+                  "wrap": true
+                }
+              ],
+              "width": 3
+            }
+          ]
+        }
+      ],
+      "width": 1
+    },
+    {
+      "type": "Column",
+      "spacing": "None",
+      "items": [
+        {
+          "type": "Input.Text",
+          "id": "{index}_Comment",
+          "placeholder": "{txt_EnterYourComment}"
+        }
+      ],
+      "width": 3
+    }
+  ]
+}

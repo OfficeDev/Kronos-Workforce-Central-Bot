@@ -1,0 +1,81 @@
+{
+  "type": "Container",
+  "spacing": "Medium",
+  "items": [
+    {
+      "type": "TextBlock",
+      "weight": "Bolder",
+      "text": "{DateRange}",
+      "wrap": true
+    },
+    {
+      "type": "ColumnSet",
+      "spacing": "None",
+      "columns": [
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "{Duration_txt}: {Duration}",
+              "size": "Small",
+              "isSubtle": true,
+              "wrap": true
+            }
+          ],
+          "width": "auto"
+        },
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "|",
+              "isSubtle": true,
+              "wrap": true
+            }
+          ],
+          "width": "auto"
+        },
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "ColumnSet",
+              "columns": [
+                {
+                  "type": "Column",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "{Status_txt}: ",
+                      "isSubtle": true,
+                      "size": "Small",
+                      "wrap": true
+                    }
+                  ],
+                  "width": "auto"
+                },
+                {
+                  "type": "Column",
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "color": "{StatusColor}",
+                      "text": "{Status}",
+                      "size": "Small",
+                      "isSubtle": true,
+                      "wrap": true
+                    }
+                  ],
+                  "width": "auto"
+                }
+              ]
+            }
+          ],
+          "width": "auto"
+        }
+      ]
+    }
+  ]
+}

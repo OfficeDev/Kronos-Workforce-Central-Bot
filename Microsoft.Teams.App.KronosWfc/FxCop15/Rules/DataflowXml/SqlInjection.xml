@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataFlowRule>
+  <Problem>
+    <![CDATA[Potential SQL injection vulnerability was found where parameter {0} in call to {1} is tainted by user-controlled data from {2}.]]>
+  </Problem>
+
+  <Sources>
+    <Member type="group" name="WebInputs" file ="WebInputsGroup"/>
+  </Sources>
+
+  <Conditionals>
+    <Member type="group" name="ReadOnlyMethods" file ="ConditionalsGroup"/>
+  </Conditionals>
+  
+  <Sanitizers>
+    <Member type="group" name="PrimitiveTypeConverters" file="SanitizersGroup"/>
+    <Member type="group" name="SqlInjection" file="CustomSanitizersGroup" optional="true"/>
+
+    <Member name="System.Data.SqlClient.SqlParameter::.ctor(this,System.String,System.Data.SqlDbType,i32,System.Data.ParameterDirection,bool8,u8,u8,System.String,System.Data.DataRowVersion,System.Object)" input="0x4" return="0" />
+    <Member name="System.Data.SqlClient.SqlParameter::.ctor(this,System.String,System.Data.SqlDbType,i32,System.Data.ParameterDirection,u8,u8,System.String,System.Data.DataRowVersion,bool8,System.Object,System.String,System.String,System.String)" input="0x4" return="0" />
+    <Member name="System.Data.SqlClient.SqlParameter::.ctor(this,System.String,System.Data.SqlDbType)" input="0x4" return="0" />
+    <Member name="System.Data.SqlClient.SqlParameter::.ctor(this,System.String,System.Object)" input="0x4" return="0" />
+    <Member name="System.Data.SqlClient.SqlParameter::.ctor(this,System.String,System.Data.SqlDbType,i32)" input="0x4" return="0" />
+    <Member name="System.Data.SqlClient.SqlParameter::.ctor(this,System.String,System.Data.SqlDbType,i32,System.String)" input="0x4" return="0" />
+
+    <Member name="System.Data.OleDb.OleDbParameter::.ctor(this,System.String,System.Object)" input="0x4" return="0" />
+    <Member name="System.Data.OleDb.OleDbParameter::.ctor(this,System.String,System.Data.OleDb.OleDbType)" input="0x4" return="0" />
+    <Member name="System.Data.OleDb.OleDbParameter::.ctor(this,System.String,System.Data.OleDb.OleDbType,i32)" input="0x4" return="0" />
+    <Member name="System.Data.OleDb.OleDbParameter::.ctor(this,System.String,System.Data.OleDb.OleDbType,i32,System.String)" input="0x4" return="0" />
+    <Member name="System.Data.OleDb.OleDbParameter::.ctor(this,System.String,System.Data.OleDb.OleDbType,i32,System.Data.ParameterDirection,bool8,u8,u8,System.String,System.Data.DataRowVersion,System.Object)" input="0x4" return="0" />
+    <Member name="System.Data.OleDb.OleDbParameter::.ctor(this,System.String,System.Data.OleDb.OleDbType,i32,System.Data.ParameterDirection,u8,u8,System.String,System.Data.DataRowVersion,bool8,System.Object)" input="0x4" return="0" />
+
+    <Member name="System.Data.Odbc.OdbcParameter::.ctor(this,System.String,System.Object)" input="0x4" return="0" />
+    <Member name="System.Data.Odbc.OdbcParameter::.ctor(this,System.String,System.Data.Odbc.OdbcType)" input="0x4" return="0" />
+    <Member name="System.Data.Odbc.OdbcParameter::.ctor(this,System.String,System.Data.Odbc.OdbcType,i32)" input="0x4" return="0" />
+    <Member name="System.Data.Odbc.OdbcParameter::.ctor(this,System.String,System.Data.Odbc.OdbcType,i32,System.String)" input="0x4" return="0" />
+    <Member name="System.Data.Odbc.OdbcParameter::.ctor(this,System.String,System.Data.Odbc.OdbcType,i32,System.Data.ParameterDirection,bool8,u8,u8,System.String,System.Data.DataRowVersion,System.Object)" input="0x4" return="0" />
+    <Member name="System.Data.Odbc.OdbcParameter::.ctor(this,System.String,System.Data.Odbc.OdbcType,i32,System.Data.ParameterDirection,u8,u8,System.String,System.Data.DataRowVersion,bool8,System.Object)" input="0x4" return="0" />
+
+    <Member name="System.IDisposable::Dispose(this)" return="0" input="0x2" />
+  </Sanitizers>
+
+  <Sinks>
+    <!-- System.Data.SqlClient -->
+    <Member name="System.Data.SqlClient.SqlCommand::.ctor(this,System.String)" input="0x4" />
+    <Member name="System.Data.SqlClient.SqlCommand::.ctor(this,System.String,System.Data.SqlClient.SqlConnection)" input="0x4" />
+    <Member name="System.Data.SqlClient.SqlCommand::.ctor(this,System.String,System.Data.SqlClient.SqlConnection,System.Data.SqlClient.SqlTransaction)" input="0x4" />
+    <Member name="System.Data.SqlClient.SqlCommand::set_CommandText(this,System.String)" input="0x4" />
+
+    <!-- OleDb -->
+    <Member name="System.Data.OleDb.OleDbCommand::.ctor(this,System.String)" input="0x4" />
+    <Member name="System.Data.OleDb.OleDbCommand::.ctor(this,System.String,System.Data.OleDb.OleDbConnection)" input="0x4" />
+    <Member name="System.Data.OleDb.OleDbCommand::.ctor(this,System.String,System.Data.OleDb.OleDbConnection,System.Data.OleDb.OleDbTransaction)" input="0x4" />
+    <Member name="System.Data.OleDb.OleDbCommand::set_CommandText(this,System.String)" input="0x4" />
+    <Member name="System.Data.OleDb.OleDbDataAdapter::.ctor(this,System.String,System.String)" input="0x4" />
+    <Member name="System.Data.OleDb.OleDbDataAdapter::.ctor(this,System.String,System.Data.OleDb.OleDbConnection)" input="0x4" />
+
+    <!-- Odbc -->
+    <Member name="System.Data.Odbc.OdbcCommand::.ctor(this,System.String)" input="0x4" />
+    <Member name="System.Data.Odbc.OdbcCommand::.ctor(this,System.String,System.Data.Odbc.OdbcConnection)" input="0x4" />
+    <Member name="System.Data.Odbc.OdbcCommand::.ctor(this,System.String,System.Data.Odbc.OdbcConnection,System.Data.Odbc.OdbcTransaction)" input="0x4" />
+    <Member name="System.Data.Odbc.OdbcCommand::set_CommandText(this,System.String)" input="0x4" />
+    <Member name="System.Data.Odbc.OdbcDataAdapter::.ctor(this,System.String,System.Data.Odbc.OdbcConnection)" input="0x4" />
+    <Member name="System.Data.Odbc.OdbcDataAdapter::.ctor(this,System.String,System.String)" input="0x4" />
+
+    <!-- Web.UI.WebControls.SqlDataSource -->
+    <Member name="System.Web.UI.WebControls.SqlDataSource::.ctor(this,System.String,System.String)" input="0xC" />
+    <Member name="System.Web.UI.WebControls.SqlDataSource::.ctor(this,System.String,System.String,System.String)" input="0x1C" />
+    <Member name="System.Web.UI.WebControls.SqlDataSource::set_ConnectionString(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.SqlDataSource::set_DeleteCommand(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.SqlDataSource::set_InsertCommand(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.SqlDataSource::set_SelectCommand(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.SqlDataSource::set_UpdateCommand(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.SqlDataSource::CreateConnection(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.SqlDataSource::CreateCommand(this,System.String,System.Data.Common.DbConnection)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.SqlDataSourceView::set_DeleteCommand(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.SqlDataSourceView::set_InsertCommand(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.SqlDataSourceView::set_SelectCommand(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.SqlDataSourceView::set_UpdateCommand(this,System.String)" input="0x4" />
+  </Sinks>
+</DataFlowRule>

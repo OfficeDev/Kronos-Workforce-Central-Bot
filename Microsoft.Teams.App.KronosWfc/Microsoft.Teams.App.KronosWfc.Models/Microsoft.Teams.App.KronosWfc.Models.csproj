@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B1E78425-3927-40A7-8966-D83F0D63438E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Teams.App.KronosWfc.Models</RootNamespace>
+    <AssemblyName>Microsoft.Teams.App.KronosWfc.Models</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\FxCop15\KronosCodeAnalysis.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisPath>C:\Program Files (x86)\Microsoft\FxCop 15.0 for SDL</CodeAnalysisPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Bot.Connector">
+      <HintPath>..\packages\Microsoft.Bot.Connector.3.20.1\lib\net46\Microsoft.Bot.Connector.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdvancedTimeOff.cs" />
+    <Compile Include="Comments.cs" />
+    <Compile Include="LoginResponse.cs" />
+    <Compile Include="RequestEntities\CommentList\Request.cs" />
+    <Compile Include="RequestEntities\Hours\Request.cs" />
+    <Compile Include="RequestEntities\HyperFind\Request.cs" />
+    <Compile Include="RequestEntities\JobAssignment\Request.cs" />
+    <Compile Include="RequestEntities\Logon\Request.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestEntities\PersonInformation\Request.cs" />
+    <Compile Include="RequestEntities\PersonInfo\Request.cs" />
+    <Compile Include="RequestEntities\PresentEmployees\Request.cs" />
+    <Compile Include="RequestEntities\Punch\AddPunch\Request.cs" />
+    <Compile Include="RequestEntities\Punch\ShowPunches\Request.cs" />
+    <Compile Include="RequestEntities\Punch\WorkRuleTransfer\Request.cs" />
+    <Compile Include="RequestEntities\RequestManagement.cs" />
+    <Compile Include="RequestEntities\Schedule\Request.cs" />
+    <Compile Include="RequestEntities\SubTypeParams\Request.cs" />
+    <Compile Include="RequestEntities\SwapShift\JobRequest.cs" />
+    <Compile Include="RequestEntities\SwapShift\LoadEligibleEmployees\Request.cs" />
+    <Compile Include="RequestEntities\SwapShift\ShiftDetailsRequest.cs" />
+    <Compile Include="RequestEntities\SwapShift\SubmitRequest\Request.cs" />
+    <Compile Include="RequestEntities\TimeOffRequests\Request.cs" />
+    <Compile Include="RequestEntities\TimeOff\AddRequest\Request.cs" />
+    <Compile Include="RequestEntities\TimeOff\SubmitRequest\Request.cs" />
+    <Compile Include="RequestEntities\Vacation\ViewBalance\Request.cs" />
+    <Compile Include="ResponseEntities\CommentList\Response.cs" />
+    <Compile Include="ResponseEntities\Error.cs" />
+    <Compile Include="ResponseEntities\HyperFind\Response.cs" />
+    <Compile Include="ResponseEntities\JobAssignment\Response.cs" />
+    <Compile Include="ResponseEntities\Hours\Response.cs" />
+    <Compile Include="ResponseEntities\Logon\Response.cs" />
+    <Compile Include="ResponseEntities\PersonInformation\Response.cs" />
+    <Compile Include="ResponseEntities\PersonInfo\Response.cs" />
+    <Compile Include="ResponseEntities\PresentEmployees\Response.cs" />
+    <Compile Include="ResponseEntities\Punch\AddPunch\Response.cs" />
+    <Compile Include="ResponseEntities\Punch\ShowPunches\Response.cs" />
+    <Compile Include="ResponseEntities\Punch\WorkRuleTransfer\Response.cs" />
+    <Compile Include="ResponseEntities\Schedule\Response.cs" />
+    <Compile Include="ResponseEntities\Shifts\UpcomingShifts\Response.cs" />
+    <Compile Include="ResponseEntities\SubTypeParams\Response.cs" />
+    <Compile Include="ResponseEntities\SwapShift\CreateSwapShift\Response.cs" />
+    <Compile Include="ResponseEntities\SwapShift\JobResponse.cs" />
+    <Compile Include="ResponseEntities\SwapShift\LoadEligibleEmployees\Response.cs" />
+    <Compile Include="ResponseEntities\TimeOffRequests\Response.cs" />
+    <Compile Include="ResponseEntities\TimeOff\AddResponse\Response.cs" />
+    <Compile Include="ResponseEntities\TimeOff\SubmitResponse\Response.cs" />
+    <Compile Include="ResponseEntities\Vacation\ViewBalance\Response.cs" />
+    <Compile Include="SwapShiftObj.cs" />
+    <Compile Include="TaskModel.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="ViewTorListObj.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

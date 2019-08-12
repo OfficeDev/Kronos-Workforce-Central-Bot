@@ -1,0 +1,34 @@
+"actions": [
+    {
+      "type": "Action.Submit",
+      "title": "{txt_RequestTimeoff}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "Create time off request"
+        }
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "{txt_Next}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "{NextCommand}"
+        },
+        "CurrentPage": "{CurrentPage}"
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "{txt_Previous}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "{PreviousCommand}"
+        },
+        "CurrentPage": "{CurrentPage}"
+      }
+    }
+  ]

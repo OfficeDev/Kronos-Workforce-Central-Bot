@@ -1,0 +1,876 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ChooseOption" xml:space="preserve">
+    <value>Please choose an option.</value>
+    <comment>Please choose an option.</comment>
+  </data>
+  <data name="CommandNotRecognized" xml:space="preserve">
+    <value>Sorry, I cannot understand you or I lost track of our conversation. Type "help" and discover available actions.</value>
+    <comment>Command is not recognized</comment>
+  </data>
+  <data name="ContextMissing" xml:space="preserve">
+    <value>Context or activity is missing.</value>
+    <comment>Message to show that the context or activity object is missing</comment>
+  </data>
+  <data name="CurrentSchedulePeriod" xml:space="preserve">
+    <value>Current Schedule Period</value>
+    <comment>Current Schedule Period button</comment>
+  </data>
+  <data name="DateRange" xml:space="preserve">
+    <value>Date Range</value>
+    <comment>Date Range button</comment>
+  </data>
+  <data name="DefaultSchedule" xml:space="preserve">
+    <value>Here is your schedule for the period - </value>
+    <comment>Default Schedule text</comment>
+  </data>
+  <data name="ForEndDate" xml:space="preserve">
+    <value>For what end date?</value>
+    <comment>for what end date</comment>
+  </data>
+  <data name="ForStartDate" xml:space="preserve">
+    <value>For what start date?</value>
+    <comment>For what start date</comment>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>from</value>
+    <comment>From</comment>
+  </data>
+  <data name="InvalidDate" xml:space="preserve">
+    <value>Sorry, I can't understand you. Please specify the date using format according to your locale policy.</value>
+    <comment>Invalid Date user input error text</comment>
+  </data>
+  <data name="NextSchedulePeriod" xml:space="preserve">
+    <value>Next Schedule Period</value>
+    <comment>Next Schedule Period button</comment>
+  </data>
+  <data name="ScheduleDateRange" xml:space="preserve">
+    <value>ScheduleDateRange</value>
+    <comment>ScheduleDateRange dialog</comment>
+  </data>
+  <data name="SignInLabel" xml:space="preserve">
+    <value>Sign-in required</value>
+    <comment>Sign In</comment>
+  </data>
+  <data name="Till" xml:space="preserve">
+    <value>till</value>
+    <comment>Till</comment>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>**Today**</value>
+    <comment>Today schedule string</comment>
+  </data>
+  <data name="YourScheduleTitle" xml:space="preserve">
+    <value>Your Schedule</value>
+    <comment>Your schedule card title</comment>
+  </data>
+  <data name="SignOutMessage" xml:space="preserve">
+    <value>You have been signed out from Kronos.</value>
+    <comment>Sign out from Kronos</comment>
+  </data>
+  <data name="NoSchedule" xml:space="preserve">
+    <value>No schedule found</value>
+    <comment>No schedule found</comment>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>current</value>
+    <comment>current keyword</comment>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>next</value>
+    <comment>next keyword</comment>
+  </data>
+  <data name="SignInSuccess" xml:space="preserve">
+    <value>You have been successfully authenticated.</value>
+    <comment>You have been successfully authenticated.</comment>
+  </data>
+  <data name="ClickLogin" xml:space="preserve">
+    <value>Click to Log In</value>
+    <comment>Click to Log In</comment>
+  </data>
+  <data name="CurrentShift" xml:space="preserve">
+    <value>Current Week Shifts</value>
+    <comment>current week shifts</comment>
+  </data>
+  <data name="NextShift" xml:space="preserve">
+    <value>Next Week Shifts</value>
+    <comment>next week shifts</comment>
+  </data>
+  <data name="YourShiftsTitle" xml:space="preserve">
+    <value>Your Shifts</value>
+    <comment>Your Shifts</comment>
+  </data>
+  <data name="NoShifts" xml:space="preserve">
+    <value>No shifts were found</value>
+    <comment>No shifts were found</comment>
+  </data>
+  <data name="DefaultShiftsText" xml:space="preserve">
+    <value>Here are your shifts for - </value>
+    <comment>Default Shifts Text</comment>
+  </data>
+  <data name="NoPermission" xml:space="preserve">
+    <value>Sorry, you do not have permission for this operation. ☹</value>
+    <comment>No permission text</comment>
+  </data>
+  <data name="AddPunch" xml:space="preserve">
+    <value>Add punch</value>
+  </data>
+  <data name="AnotherTimePeriod" xml:space="preserve">
+    <value>Another Time Period</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
+  <data name="ConfirmPunchWithTransfer" xml:space="preserve">
+    <value>You are performing punch with work rule transfer &lt;b&gt;{punchType}&lt;/b&gt; at &lt;b&gt;{datetime}&lt;/b&gt;. Is that correct?</value>
+  </data>
+  <data name="CurrentWeek" xml:space="preserve">
+    <value>Current Week</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>Days</value>
+  </data>
+  <data name="EmpNotFoundForNotification" xml:space="preserve">
+    <value>Since employee not found, notification is not sent.</value>
+  </data>
+  <data name="EnteredOn" xml:space="preserve">
+    <value>Entered On</value>
+  </data>
+  <data name="EnterEmpName" xml:space="preserve">
+    <value>Please enter an employee name or a part of it</value>
+  </data>
+  <data name="EnterEndDate" xml:space="preserve">
+    <value>Enter end date</value>
+  </data>
+  <data name="EnterStartDate" xml:space="preserve">
+    <value>Enter start date</value>
+  </data>
+  <data name="EnterTimeframe" xml:space="preserve">
+    <value>Enter the timeframe for shifts</value>
+  </data>
+  <data name="EnterTimeframeForSchedule" xml:space="preserve">
+    <value>Enter the timeframe for schedule</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="HereAreEmpWhoAreHere" xml:space="preserve">
+    <value>Here are employees who are here today.</value>
+  </data>
+  <data name="HereAreEmpWhoAreNotHere" xml:space="preserve">
+    <value>Here are employees who are not here today.</value>
+  </data>
+  <data name="HoursWorked" xml:space="preserve">
+    <value>How many hours did I work?</value>
+  </data>
+  <data name="HoursWorkedDateRangeText" xml:space="preserve">
+    <value>Here are the worked hours for the period - from &lt;b&gt;{startDate}&lt;/b&gt; till &lt;b&gt;{endDate}&lt;/b&gt;.</value>
+  </data>
+  <data name="HoursWorkedText" xml:space="preserve">
+    <value>Here are the worked hours for the period - &lt;b&gt;{payPeriod}&lt;/b&gt;.</value>
+  </data>
+  <data name="LastPunch" xml:space="preserve">
+    <value>Last punch</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="MySchedule" xml:space="preserve">
+    <value>Show my schedule</value>
+  </data>
+  <data name="NextVacation" xml:space="preserve">
+    <value>When is my next vacation?</value>
+  </data>
+  <data name="NoComment" xml:space="preserve">
+    <value>(none)</value>
+  </data>
+  <data name="NoDataFound" xml:space="preserve">
+    <value>Sorry, no data found. ☹</value>
+  </data>
+  <data name="NoEmpFoundByName" xml:space="preserve">
+    <value>No employee was found by name {txt}</value>
+  </data>
+  <data name="NoEmployeesClockedToday" xml:space="preserve">
+    <value>No employee was found who has clocked in today.</value>
+  </data>
+  <data name="NoEmployeesNotClockedToday" xml:space="preserve">
+    <value>No employee was found who has not clocked in today.</value>
+  </data>
+  <data name="NoPunchesForToday" xml:space="preserve">
+    <value>No punches found for today</value>
+  </data>
+  <data name="NoPunchesFound" xml:space="preserve">
+    <value>No punches found for the period - **{payPeriod}**.</value>
+  </data>
+  <data name="NoPunchesFoundDR" xml:space="preserve">
+    <value>No punches found for the period - from **{startDate}** till **{endDate}**.</value>
+  </data>
+  <data name="NoRecentTransfers" xml:space="preserve">
+    <value>No most recent transfers found.</value>
+  </data>
+  <data name="NoShiftsForToday" xml:space="preserve">
+    <value>No shifts found for today</value>
+  </data>
+  <data name="NoVacationRequests" xml:space="preserve">
+    <value>No vacation requests to show</value>
+  </data>
+  <data name="NoWorkHoursDateRange" xml:space="preserve">
+    <value>There are no reported worked hours for the period - from &lt;b&gt;{startDate}&lt;/b&gt; till &lt;b&gt;{endDate}.</value>
+  </data>
+  <data name="NoWorkHoursPeriod" xml:space="preserve">
+    <value>There are no reported worked hours for the period - &lt;b&gt;{payPeriod}&lt;/b&gt;.</value>
+  </data>
+  <data name="OrgJobTxt" xml:space="preserve">
+    <value>&lt;i&gt;Org job&lt;/i&gt; - {txt}&lt;br&gt;</value>
+  </data>
+  <data name="PreviousWeek" xml:space="preserve">
+    <value>Previous Week</value>
+  </data>
+  <data name="PrimaryJob" xml:space="preserve">
+    <value>Primary job</value>
+  </data>
+  <data name="PrimaryOrg" xml:space="preserve">
+    <value>Primary org</value>
+  </data>
+  <data name="PunchCancelled" xml:space="preserve">
+    <value>Ok, punch is canceled.</value>
+  </data>
+  <data name="PunchConfirmation" xml:space="preserve">
+    <value>You are performing punch at &lt;b&gt;{txt}&lt;/b&gt;. Is that correct?</value>
+  </data>
+  <data name="PunchDone" xml:space="preserve">
+    <value>Done! Punch accepted on time &lt;b&gt;{datetime}.&lt;/b&gt;</value>
+  </data>
+  <data name="PunchesForPeriod" xml:space="preserve">
+    <value>Here are the punches for the period - &lt;b&gt;{payPeriod}&lt;/b&gt;.</value>
+  </data>
+  <data name="PunchesForPeriodDR" xml:space="preserve">
+    <value>Here are the punches for the period - from &lt;b&gt;{startDate}&lt;/b&gt; till &lt;b&gt;{endDate}&lt;/b&gt;.</value>
+  </data>
+  <data name="PunchTime" xml:space="preserve">
+    <value>Punch Time</value>
+  </data>
+  <data name="PunchWithTransferDone" xml:space="preserve">
+    <value>Done! Punch with transfer work rule - &lt;b&gt;{workRuleName}&lt;/b&gt; accepted on time &lt;b&gt;{txt}.&lt;/b&gt;</value>
+  </data>
+  <data name="RecentTransfers" xml:space="preserve">
+    <value>Recent Transfers</value>
+  </data>
+  <data name="RequestTimeOff" xml:space="preserve">
+    <value>Request time off</value>
+  </data>
+  <data name="ScheduledShifts" xml:space="preserve">
+    <value>Scheduled Shifts</value>
+  </data>
+  <data name="Shift" xml:space="preserve">
+    <value>Shift</value>
+  </data>
+  <data name="Shifts" xml:space="preserve">
+    <value>Shifts</value>
+  </data>
+  <data name="ShowMyPunches" xml:space="preserve">
+    <value>Show me my punches</value>
+  </data>
+  <data name="ShowSchedule" xml:space="preserve">
+    <value>Show schedule</value>
+  </data>
+  <data name="ShowTimeOffRequests" xml:space="preserve">
+    <value>Show all time off requests</value>
+  </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>Sign out</value>
+  </data>
+  <data name="SubmitPunchWithoutTransfer" xml:space="preserve">
+    <value>Do you want to submit punch without transfer at &lt;b&gt;{txt}&lt;/b&gt;?</value>
+  </data>
+  <data name="SupervisorNotFoundForNotification" xml:space="preserve">
+    <value>Since supervisor was not found, approval notification will not be sent.</value>
+  </data>
+  <data name="SwapShiftRequest" xml:space="preserve">
+    <value>Create swap shift request</value>
+  </data>
+  <data name="TakeSickDay" xml:space="preserve">
+    <value>I need to take a sick day</value>
+  </data>
+  <data name="TimeOffApprovalReply" xml:space="preserve">
+    <value>You {status} {paycode} request.</value>
+  </data>
+  <data name="TimeOffRequest" xml:space="preserve">
+    <value>Create time off request</value>
+  </data>
+  <data name="TimeOffRequestOverlap" xml:space="preserve">
+    <value>The request overlaps an existing pay code edit for the same pay code.</value>
+  </data>
+  <data name="TimeOffRequstText" xml:space="preserve">
+    <value>Time off request</value>
+  </data>
+  <data name="TimePeriod" xml:space="preserve">
+    <value>Time Period</value>
+  </data>
+  <data name="TodayTxt" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="TotalHourdWorked" xml:space="preserve">
+    <value>&lt;b&gt;Total Worked - {totalWorked} hours&lt;/b&gt;</value>
+  </data>
+  <data name="TransferCanceled" xml:space="preserve">
+    <value>Ok, transfer is canceled.</value>
+  </data>
+  <data name="TransferTxt" xml:space="preserve">
+    <value>&lt;i&gt;Transfer&lt;/i&gt; - {txt}&lt;br&gt;</value>
+  </data>
+  <data name="UnableToProceed" xml:space="preserve">
+    <value>Unable to proceed. Try again</value>
+  </data>
+  <data name="UpcomingShifts" xml:space="preserve">
+    <value>My upcoming shifts</value>
+  </data>
+  <data name="VacationHours" xml:space="preserve">
+    <value>How many vacation hours do I have?</value>
+  </data>
+  <data name="WhereIsSomeone" xml:space="preserve">
+    <value>Where is someone today?</value>
+  </data>
+  <data name="WhoIsApproachingOT" xml:space="preserve">
+    <value>Who is approaching overtime?</value>
+  </data>
+  <data name="WhoIsHere" xml:space="preserve">
+    <value>Who is here?</value>
+  </data>
+  <data name="WhoIsNotHere" xml:space="preserve">
+    <value>Who is not here?</value>
+  </data>
+  <data name="WorkedShiftsText" xml:space="preserve">
+    <value>Worked Shifts - {grandTotal} hours&lt;br&gt;</value>
+  </data>
+  <data name="WorkRuleTransfer" xml:space="preserve">
+    <value>Work Rule Transfer</value>
+  </data>
+  <data name="WorkRuleTxt" xml:space="preserve">
+    <value>&lt;i&gt;Work rule&lt;/i&gt; - {txt}&lt;br&gt;</value>
+  </data>
+  <data name="YourVacationRequests" xml:space="preserve">
+    <value>Your vacation requests</value>
+  </data>
+  <data name="LoginToContinue" xml:space="preserve">
+    <value>You need to log in first to continue.</value>
+  </data>
+  <data name="ContactAdmin" xml:space="preserve">
+    <value>Please contact your administrator!!</value>
+  </data>
+  <data name="WelcomeKronosText" xml:space="preserve">
+    <value>&lt;b&gt;Hi, I'm Kronos WFC Bot and I can help you manage your shifts, time off requests, show your schedule, overtime hours.&lt;br&gt; &lt;br&gt;Here are some of the things that I can do:
+                  &lt;br&gt;&lt;ul&gt;&lt;li&gt;When am I working this week?&lt;/li&gt;&lt;li&gt;When is my next vacation?&lt;/li&gt;
+                  &lt;li&gt;what is my Vacation Balance?&lt;/li&gt;&lt;/ul&gt;
+                  &lt;br&gt;To see more available options, type help.</value>
+  </data>
+  <data name="NiceToSeeYou" xml:space="preserve">
+    <value>Nice to see you, {response.Name}! You can ask a question or type **help** and discover available actions.</value>
+  </data>
+  <data name="ApproveByEmp" xml:space="preserve">
+    <value>approve swap request by employee</value>
+  </data>
+  <data name="ApproveBySupervisor" xml:space="preserve">
+    <value>approve swap request by supervisor</value>
+  </data>
+  <data name="AssignedTo" xml:space="preserve">
+    <value>Assigned to </value>
+  </data>
+  <data name="AssignedToYou" xml:space="preserve">
+    <value>Assigned to you</value>
+  </data>
+  <data name="CancelSwapShift" xml:space="preserve">
+    <value>Ok, canceled. You can start over again or type 'help' and discover available actions</value>
+  </data>
+  <data name="NoEmpForSwap" xml:space="preserve">
+    <value>No Employees found to swap shift</value>
+  </data>
+  <data name="NoJobForSwap" xml:space="preserve">
+    <value>No Jobs found to swap</value>
+  </data>
+  <data name="RefuseByEmp" xml:space="preserve">
+    <value>refuse swap request by employee</value>
+  </data>
+  <data name="RefuseBySupervisor" xml:space="preserve">
+    <value>refuse swap request by supervisor</value>
+  </data>
+  <data name="Requested" xml:space="preserve">
+    <value>Requested</value>
+  </data>
+  <data name="RequestedShiftSwapWith" xml:space="preserve">
+    <value>requested to swap shifts with you.</value>
+  </data>
+  <data name="RequestedSwapShiftByYou" xml:space="preserve">
+    <value>You requested to swap shift with </value>
+  </data>
+  <data name="RequestSwapShiftWith" xml:space="preserve">
+    <value>requested to swap shifts with</value>
+  </data>
+  <data name="ScheduleError" xml:space="preserve">
+    <value>Error while fetching schedule</value>
+  </data>
+  <data name="SwapShiftEmpNotFoundToNotify" xml:space="preserve">
+    <value>Since employee requested to swap shift with could not be found, notification was not sent.</value>
+  </data>
+  <data name="SwapShiftSubmitSuccess" xml:space="preserve">
+    <value>You have successfully submitted swap shift request.</value>
+    <comment>You have successfully submitted swap shift request.</comment>
+  </data>
+  <data name="YouApprovedSwapShiftRequest" xml:space="preserve">
+    <value>You approved swap shift request.</value>
+  </data>
+  <data name="YouRefusedSwapShiftRequest" xml:space="preserve">
+    <value>You refused swap shift request.</value>
+  </data>
+  <data name="fdsf" xml:space="preserve">
+    <value>sfd</value>
+  </data>
+  <data name="SuperUserLoginError" xml:space="preserve">
+    <value>Super User not configured correctly. Please contant administrator</value>
+  </data>
+  <data name="ToSwapWithYou" xml:space="preserve">
+    <value>to swap shifts with you.</value>
+  </data>
+  <data name="OnLeave" xml:space="preserve">
+    <value>Employees On Leave Today</value>
+    <comment>leave card title</comment>
+  </data>
+  <data name="OnLeaveSick" xml:space="preserve">
+    <value>Employees who are sick today</value>
+    <comment>sick text</comment>
+  </data>
+  <data name="OnLeaveVacation" xml:space="preserve">
+    <value>Employees who are on vacation today</value>
+    <comment>vacation text</comment>
+  </data>
+  <data name="NoEmployeesOnLeave" xml:space="preserve">
+    <value>No employees found on leave.</value>
+  </data>
+  <data name="TeamOvertimesTitle" xml:space="preserve">
+    <value>Team Overtimes (hours)</value>
+    <comment>Title shown in the overtimes card</comment>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Approve</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Approved</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Employee" xml:space="preserve">
+    <value>Employee</value>
+  </data>
+  <data name="EnterComment" xml:space="preserve">
+    <value>Enter your comment</value>
+  </data>
+  <data name="EnterEmployeeName" xml:space="preserve">
+    <value>Enter a employee name</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="FilterBy" xml:space="preserve">
+    <value>Filter by</value>
+  </data>
+  <data name="ManagerViewTOR_InfoList" xml:space="preserve">
+    <value>Here's the list of time off requests</value>
+  </data>
+  <data name="ManagerViewTOR_Title" xml:space="preserve">
+    <value>Employee's Time Off Requests</value>
+  </data>
+  <data name="PayCode" xml:space="preserve">
+    <value>Pay Code</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Refuse" xml:space="preserve">
+    <value>Refuse</value>
+  </data>
+  <data name="Refused" xml:space="preserve">
+    <value>Refused</value>
+  </data>
+  <data name="ShowCompletedRequests" xml:space="preserve">
+    <value>Show completed requests</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Submitted" xml:space="preserve">
+    <value>Submitted</value>
+  </data>
+  <data name="NoTimeOffRequests" xml:space="preserve">
+    <value>There are no any time off requests for **{date}**.</value>
+  </data>
+  <data name="CapsNext" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="CompletedRequests" xml:space="preserve">
+    <value>Completed requests</value>
+  </data>
+  <data name="TeamOvertimeNoDataFound" xml:space="preserve">
+    <value>No overtimes found for the period - &lt;b&gt;{PayPeriod}&lt;/b&gt;</value>
+    <comment>No employees with overtimes.</comment>
+  </data>
+  <data name="SupervisorTORList" xml:space="preserve">
+    <value>Supervisor TOR list</value>
+  </data>
+  <data name="SupervisorTORListHelpButton" xml:space="preserve">
+    <value>Show time off requests of employees</value>
+  </data>
+  <data name="WorkRuleTransferPunch" xml:space="preserve">
+    <value>work rule transfer</value>
+    <comment>Performing punch with work rule transfer</comment>
+  </data>
+  <data name="FirstHalfDay" xml:space="preserve">
+    <value>First Half Day</value>
+  </data>
+  <data name="FullDay" xml:space="preserve">
+    <value>Full Day</value>
+  </data>
+  <data name="HalfDay" xml:space="preserve">
+    <value>Half Day</value>
+  </data>
+  <data name="Hours" xml:space="preserve">
+    <value>Hours</value>
+  </data>
+  <data name="TeamOvertimeDataFound" xml:space="preserve">
+    <value>Here are team overtimes for the period - &lt;b&gt;{PayPeriod}&lt;/b&gt;</value>
+  </data>
+  <data name="TeamOvertimeDataFoundDateRange" xml:space="preserve">
+    <value>Here are team overtimes for the period - from &lt;b&gt;{StartDate}&lt;/b&gt; till &lt;b&gt;{EndDate}.&lt;/b&gt;</value>
+  </data>
+  <data name="TeamOvertimeNoDataFoundDateRange" xml:space="preserve">
+    <value>No overtimes found for the period - from &lt;b&gt;{StartDate}&lt;/b&gt; till &lt;b&gt;{EndDate}.&lt;/b&gt;</value>
+  </data>
+  <data name="SelectEndDate" xml:space="preserve">
+    <value>Please select end date along with start date</value>
+  </data>
+  <data name="SelectStartDate" xml:space="preserve">
+    <value>Please select start date along with end date</value>
+  </data>
+  <data name="SwapShiftDesc" xml:space="preserve">
+    <value>Need to swap a shift with your coworker? You can ask me \"Swap Shift\" and I will guide you through process.</value>
+  </data>
+  <data name="TimeOffDesc" xml:space="preserve">
+    <value>View your time off balances and create a time off request. You can ask \"How much vacation balance do I have?\" or \"Create time off\" and I will guide you through the process step-by-step.</value>
+  </data>
+  <data name="TimeOffTour" xml:space="preserve">
+    <value>Need to request some time off?</value>
+  </data>
+  <data name="UpcomingSchedTour" xml:space="preserve">
+    <value>Need to view your upcoming schedule?</value>
+  </data>
+  <data name="UpcomingShiftsDesc" xml:space="preserve">
+    <value>View your schedule and upcoming shifts. You can ask me \"What is my schedule?\", \"View my upcoming shifts\", \"Punches\" and I will guide you through the process step-by-step.</value>
+  </data>
+  <data name="AdditionalRequest" xml:space="preserve">
+    <value>Additional request</value>
+  </data>
+  <data name="Advanced" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="ConfirmTimeoffRequest" xml:space="preserve">
+    <value>Please confirm your time off request</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End date</value>
+  </data>
+  <data name="EnterNote" xml:space="preserve">
+    <value>Enter note (optional)</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="SelectComment" xml:space="preserve">
+    <value>Select comment (optional)</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start date</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="SupervisorTimeOffPostApprovalInfoText" xml:space="preserve">
+    <value>You {Status} {PayCode_Info} request.</value>
+  </data>
+  <data name="TimeOffEmployeeNotificationInfoText" xml:space="preserve">
+    <value>{Supervisor} has {Status} your {Paycode_Info} request!</value>
+  </data>
+  <data name="TimeOffRequestSuccessInfoText" xml:space="preserve">
+    <value>You have successfully submitted your {Paycode_Info} request!</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="TypeOfTimeoff" xml:space="preserve">
+    <value>Type of time off</value>
+  </data>
+  <data name="ShowHistory" xml:space="preserve">
+    <value>Show history</value>
+  </data>
+  <data name="RegularOvertimeText" xml:space="preserve">
+    <value>Regular: {regular} &lt;br&gt; Overtime: {overtime}</value>
+    <comment>Breakdown of hours worked.</comment>
+  </data>
+  <data name="EndTime" xml:space="preserve">
+    <value>End time</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Start time</value>
+  </data>
+  <data name="CommentSelectionValidation" xml:space="preserve">
+    <value>Please select comment for the note.</value>
+  </data>
+  <data name="NextButton" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="HrsWorkedTxt" xml:space="preserve">
+    <value>hrs worked</value>
+  </data>
+  <data name="TotalhrsWorkedTxt" xml:space="preserve">
+    <value>Total hours worked</value>
+  </data>
+  <data name="TotalhrsWorkedTxtVal" xml:space="preserve">
+    <value>{allHours} hrs of {assignedHours} hrs</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>none</value>
+  </data>
+  <data name="SwapShiftConfirmTitle" xml:space="preserve">
+    <value>Shift swap request</value>
+  </data>
+  <data name="Updated" xml:space="preserve">
+    <value>Updated</value>
+  </data>
+  <data name="TeamOTCardTitle" xml:space="preserve">
+    <value>Showing {First} - {Last} of {Total} employees' for the {Payperiod}</value>
+  </data>
+  <data name="ShowAbsentEmployeesTxt" xml:space="preserve">
+    <value>Showing {first} - {last} of {totalEmp} absent employees</value>
+  </data>
+  <data name="ShowPresentEmployeesTxt" xml:space="preserve">
+    <value>Showing {first} - {last} of {totalEmp} present employees</value>
+  </data>
+  <data name="VacationBalanceCardAvailableText" xml:space="preserve">
+    <value>AVAILABLE</value>
+    <comment>Vacation balance card available text</comment>
+  </data>
+  <data name="VacationBalanceCardPendingGrantsLabel" xml:space="preserve">
+    <value>Pending Grants</value>
+    <comment>Vacation balance pending grants</comment>
+  </data>
+  <data name="VacationBalanceCardPersonalLabel" xml:space="preserve">
+    <value>Personal leave</value>
+    <comment>Vacation balance card with personal leave</comment>
+  </data>
+  <data name="VacationBalanceCardPlannedTakingsLabel" xml:space="preserve">
+    <value>Planned Takings</value>
+    <comment>Vacation balance planned takings</comment>
+  </data>
+  <data name="VacationBalanceCardProbationHoursLabel" xml:space="preserve">
+    <value>Probation Hours</value>
+    <comment>Vacation balance probation hours</comment>
+  </data>
+  <data name="VacationBalanceCardSCKLabel" xml:space="preserve">
+    <value>SCK</value>
+    <comment>Vacation balance card with sick leave</comment>
+  </data>
+  <data name="VacationBalanceCardSubtitleText" xml:space="preserve">
+    <value>Here is the summary of your available vacation balance as of</value>
+  </data>
+  <data name="VacationBalanceCardTitleText" xml:space="preserve">
+    <value>Vacation Balance</value>
+    <comment>Vacation balance card text</comment>
+  </data>
+  <data name="VacationBalanceCardVestedHoursLabel" xml:space="preserve">
+    <value>Vested Hours</value>
+    <comment>Vacation balance vested hours</comment>
+  </data>
+  <data name="VacationBalanceCodePersonal" xml:space="preserve">
+    <value>Personal</value>
+    <comment>Personal vacation balance code</comment>
+  </data>
+  <data name="VacationBalanceCodeSick" xml:space="preserve">
+    <value>Sick</value>
+    <comment>Sick vacation balance code</comment>
+  </data>
+  <data name="VacationBalanceCodeVacation" xml:space="preserve">
+    <value>Vacation</value>
+    <comment>Vacation vacation balance code</comment>
+  </data>
+  <data name="GenericHoursOfText" xml:space="preserve">
+    <value>hrs of</value>
+    <comment>Show hours of label</comment>
+  </data>
+  <data name="GenericHoursText" xml:space="preserve">
+    <value>hrs</value>
+    <comment>Show hours label</comment>
+  </data>
+  <data name="ShowPunchesCardPunchInColumnHeader" xml:space="preserve">
+    <value> Punch in</value>
+    <comment>Show punches card column header for punch in</comment>
+  </data>
+  <data name="ShowPunchesCardPunchOutColumnHeader" xml:space="preserve">
+    <value>Punch out</value>
+    <comment>Show punches card column header for punch out</comment>
+  </data>
+  <data name="ShowPunchesCardTitleText" xml:space="preserve">
+    <value>Your timecard for the current period</value>
+    <comment> Show punches card title</comment>
+  </data>
+  <data name="ShowPunchesCardTotalHoursLabel" xml:space="preserve">
+    <value>Total hours:</value>
+    <comment>Show punches card total hours label</comment>
+  </data>
+  <data name="ShowPunchesCardWorkRuleColumnHeader" xml:space="preserve">
+    <value>Rule</value>
+    <comment>Show punches card column header for work rule</comment>
+  </data>
+  <data name="NoEmployees" xml:space="preserve">
+    <value>No employees found!</value>
+  </data>
+</root>

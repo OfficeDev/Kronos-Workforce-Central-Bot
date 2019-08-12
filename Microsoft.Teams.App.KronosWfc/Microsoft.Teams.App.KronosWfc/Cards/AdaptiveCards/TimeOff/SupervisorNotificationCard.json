@@ -1,0 +1,335 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "size": "Large",
+          "weight": "Bolder",
+          "text": "{Title}"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "spacing": "Medium",
+          "columns": [
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "spacing": "Small",
+                  "text": "**{Status_txt}:**",
+                  "wrap": true
+                }
+              ],
+              "width": 2
+            },
+            {
+              "type": "Column",
+              "spacing": "Small",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "{Status}",
+                  "wrap": true
+                }
+              ],
+              "width": 5
+            }
+          ]
+        },
+        {
+          "type": "ColumnSet",
+          "spacing": "None",
+          "columns": [
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "spacing": "Small",
+                  "text": "**{Employee_txt}:** ",
+                  "wrap": true
+                }
+              ],
+              "width": 2
+            },
+            {
+              "type": "Column",
+              "spacing": "Small",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "{Employee}",
+                  "wrap": true
+                }
+              ],
+              "width": 5
+            }
+          ]
+        },
+        {
+          "type": "ColumnSet",
+          "spacing": "None",
+          "columns": [
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "spacing": "Small",
+                  "text": "**{Paycode_txt}:** ",
+                  "wrap": true
+                }
+              ],
+              "width": 2
+            },
+            {
+              "type": "Column",
+              "spacing": "Small",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "{PayCode}",
+                  "wrap": true
+                }
+              ],
+              "width": 5
+            }
+          ]
+        },
+        {
+          "type": "ColumnSet",
+          "spacing": "None",
+          "columns": [
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "spacing": "Small",
+                  "text": "**{Date_txt}:** ",
+                  "wrap": true
+                }
+              ],
+              "width": 2
+            },
+            {
+              "type": "Column",
+              "spacing": "Small",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "{StartDate} - {EndDate} ({Days})",
+                  "wrap": true
+                }
+              ],
+              "width": 5
+            }
+          ]
+        },
+        {
+          "type": "ColumnSet",
+          "spacing": "None",
+          "columns": [
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "spacing": "Small",
+                  "text": "**{TimePeriod_txt}:** ",
+                  "wrap": true
+                }
+              ],
+              "width": 2
+            },
+            {
+              "type": "Column",
+              "spacing": "Small",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "{TimePeriod}",
+                  "wrap": true
+                }
+              ],
+              "width": 5
+            }
+          ]
+        },
+        {
+          "type": "ColumnSet",
+          "spacing": "None",
+          "columns": [
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "spacing": "Small",
+                  "text": "**{Note_txt}:** ",
+                  "wrap": true
+                }
+              ],
+              "width": 2
+            },
+            {
+              "type": "Column",
+              "spacing": "Small",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "{Note}",
+                  "wrap": true
+                }
+              ],
+              "width": 5
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.ShowCard",
+      "title": "{Approve}",
+      "card": {
+        "type": "AdaptiveCard",
+        "body": [
+          {
+            "type": "TextBlock",
+            "text": "{SelectComment}",
+            "wrap": true
+          },
+          {
+            "type": "Input.ChoiceSet",
+            "spacing": "Small",
+            "id": "Comment",
+            "style": "compact",
+            "value": "{CommentValue}",
+            "choices": [
+              {CommentRows}
+            ]
+          },
+          {
+            "type": "TextBlock",
+            "spacing": "Medium",
+            "text": "{EnterNote}",
+            "wrap": true
+          },
+          {
+            "type": "Input.Text",
+            "id": "note",
+            "spacing": "Small",
+            "isMultiline": true,
+            "placeholder": "{EnterNote}"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Action.Submit",
+            "title": "{Submit}",
+            "data": {
+              "PersonNumber": "{PersonNumber}",
+              "RequestId": "{RequestId}",
+              "Employee": "{Employee}",
+              "QueryDateSpan": "{QueryDateSpan}",
+              "Date": "{StartDate} - {EndDate} ({Days})",
+              "StartDate": "{StartDate}",
+              "EndDate": "{EndDate}",
+              "PayCode": "{PayCode}",
+              "TimePeriod": "{TimePeriod}",
+              "msteams": {
+                "type": "messageBack",
+                "text": "approve time off request"
+              }
+            }
+          }
+        ],
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
+      }
+    },
+    {
+      "type": "Action.ShowCard",
+      "title": "{Refuse}",
+      "card": {
+        "type": "AdaptiveCard",
+        "body": [
+          {
+            "type": "TextBlock",
+            "text": "{SelectComment}",
+            "wrap": true
+          },
+          {
+            "type": "Input.ChoiceSet",
+            "spacing": "Small",
+            "id": "Comment",
+            "style": "compact",
+            "value": "{CommentValue}",
+            "choices": [
+              {CommentRows}
+            ]
+          },
+          {
+            "type": "TextBlock",
+            "spacing": "Medium",
+            "text": "{EnterNote}",
+            "wrap": true
+          },
+          {
+            "type": "Input.Text",
+            "id": "note",
+            "spacing": "Small",
+            "isMultiline": true,
+            "placeholder": "{EnterNote}"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Action.Submit",
+            "title": "{Submit}",
+            "data": {
+              "PersonNumber": "{PersonNumber}",
+              "RequestId": "{RequestId}",
+              "Employee": "{Employee}",
+              "QueryDateSpan": "{QueryDateSpan}",
+              "Date": "{StartDate} - {EndDate} ({Days})",
+              "StartDate": "{StartDate}",
+              "EndDate": "{EndDate}",
+              "PayCode": "{PayCode}",
+              "TimePeriod": "{TimePeriod}",
+              "msteams": {
+                "type": "messageBack",
+                "text": "refuse time off request"
+              }
+            }
+          }
+        ],
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
+      }
+    },
+    {
+      "type": "Action.ShowCard",
+      "title": "{ShowHistory}",
+      "card": {
+        "type": "AdaptiveCard",
+        "style": "emphasis",
+        "body": [
+          {rows}
+        ],
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
+      }
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}

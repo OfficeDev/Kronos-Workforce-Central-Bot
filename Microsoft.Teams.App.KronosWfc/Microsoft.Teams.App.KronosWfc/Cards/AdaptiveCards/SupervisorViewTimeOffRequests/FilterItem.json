@@ -1,0 +1,53 @@
+{
+  "type": "Container",
+  "spacing": "Small",
+  "items": [
+    {
+      "type": "ColumnSet",
+      "spacing": "Small",
+      "columns": [
+        {
+          "type": "Column",
+          "verticalContentAlignment": "Center",
+          "items": [
+            {
+              "type": "Image",
+              "selectAction": {
+                "type": "Action.Submit",
+                "title": "X",
+                "data": {
+                  "msteams": {
+                    "type": "messageBack",
+                    "text": "{Command}"
+                  }
+                }
+              },
+              "url": "{FilterRemoveIco}",
+              "width": "4px",
+              "height": "4px",
+              //"size": "Small",
+              "altText": ""
+            }
+          ],
+          "width": "auto"
+        },
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "TextBlock",
+              "isVisible": true,
+              "horizontalAlignment": "Left",
+              "verticalAlignment": "Center",
+              "spacing": "None",
+              "color": "Accent",
+              "text": "{txt_FilterItem}",
+              "wrap": true
+            }
+          ],
+          "width": 2
+        }
+      ]
+    }
+  ]
+}

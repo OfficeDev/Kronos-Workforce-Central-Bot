@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataFlowRule>
+  <Problem>
+    <![CDATA[Potential information disclosure vulnerability was found where exception information from {2} is reported to user via parameter {0} in call to {1}.]]>
+  </Problem>
+
+  <Sources>
+    <Member name="System.Exception::ToString(this)" returnTainted="true" />
+    <Member name="System.Exception::ToString(this,bool8)" returnTainted="true" />
+    <Member name="System.AggregateException::ToString)" returnTainted="true" />
+    <Member name="System.BadImageFormatException::ToString(this)" returnTainted="true" />
+    <Member name="System.Reflection.MetadataException::ToString(this)" returnTainted="true" />
+    <Member name="System.Runtime.InteropServices.ExternalException::ToString(this)" returnTainted="true" />
+    <Member name="System.Runtime.InteropServices.COMException::ToString(this)" returnTainted="true" />
+    <Member name="System.IO.FileLoadException::ToString(this)" returnTainted="true" />
+    <Member name="System.IO.FileNotFoundException::ToString(this)" returnTainted="true" />
+    <Member name="System.Security.SecurityException::ToString(this,bool8,bool8)" returnTainted="true" />
+    <Member name="System.Security.SecurityException::ToString(this)" returnTainted="true" />
+    <Member name="System.Security.HostProtectionException::ToString(this)" returnTainted="true" />
+    <Member name="System.Exception::get_StackTrace(this)" returnTainted="true" />
+    <Member name="System.Exception::get_Message(this)" returnTainted="true" />
+    <Member name="System.ArgumentException::get_Message(this)" returnTainted="true" />
+    <Member name="System.ArgumentOutOfRangeException::get_Message(this)" returnTainted="true" />
+    <Member name="System.BadImageFormatException::get_Message(this)" returnTainted="true" />
+    <Member name="System.TypeLoadException::get_Message(this)" returnTainted="true" />
+    <Member name="System.MissingMemberException::get_Message(this)" returnTainted="true" />
+    <Member name="System.MissingFieldException::get_Message(this)" returnTainted="true" />
+    <Member name="System.MissingMethodException::get_Message(this)" returnTainted="true" />
+    <Member name="System.ObjectDisposedException::get_Message(this)" returnTainted="true" />
+    <Member name="System.Globalization.CultureNotFoundException::get_Message(this)" returnTainted="true" />
+    <Member name="System.IO.FileLoadException::get_Message(this)" returnTainted="true" />
+    <Member name="System.IO.FileNotFoundException::get_Message(this)" returnTainted="true" />
+  </Sources>
+
+  <Conditionals>
+    <Member type="group" name="ReadOnlyMethods" file ="ConditionalsGroup"/>
+  </Conditionals>
+  
+  <Sanitizers>
+    <Member type="group" name="InformationDisclosure" file="CustomSanitizersGroup" optional="true"/>
+  </Sanitizers>
+
+  <Sinks>
+    <!-- System.Web.HttpResponseBase -->
+    <Member name="System.Web.HttpResponseBase::Write(this,c16)" input="0x4"/>
+    <Member name="System.Web.HttpResponseBase::Write(this,System.Object)" input="0x4"/>
+    <Member name="System.Web.HttpResponseBase::Write(this,System.String)" input="0x4"/>
+    <Member name="System.Web.HttpResponseBase::Write(this,MgdArr[c16],i32,i32)" input="0x4"/>
+
+    <Member name="System.Web.HttpResponseBase::BinaryWrite(this,MgdArr[u8])" input="0x4"/>
+
+    <Member name="System.Web.HttpResponseBase::TransmitFile(this,System.String)" input="0x4"/>
+    <Member name="System.Web.HttpResponseBase::TransmitFile(this,System.String,i64,i64)" input="0x4"/>
+    <Member name="System.Web.HttpResponseBase::TransmitFile(this,System.String)" input="0x4"/>
+
+    <Member name="System.Web.HttpResponseBase::WriteFile(this,System.String)" input="0x4"/>
+    <Member name="System.Web.HttpResponseBase::WriteFile(this,System.String,bool8)" input="0x4"/>
+    <Member name="System.Web.HttpResponseBase::WriteFile(this,System.String,i64,i64)" input="0x4"/>
+
+    <!-- System.Web.HttpResponse -->
+    <Member name="System.Web.HttpResponse::Write(this,c16)" input="0x4"/>
+    <Member name="System.Web.HttpResponse::Write(this,System.Object)" input="0x4"/>
+    <Member name="System.Web.HttpResponse::Write(this,System.String)" input="0x4"/>
+    <Member name="System.Web.HttpResponse::Write(this,MgdArr[c16],i32,i32)" input="0x4"/>
+
+    <Member name="System.Web.HttpResponse::BinaryWrite(this,MgdArr[u8])" input="0x4"/>
+
+    <Member name="System.Web.HttpResponse::TransmitFile(this,System.String)" input="0x4"/>
+    <Member name="System.Web.HttpResponse::TransmitFile(this,System.String,i64,i64)" input="0x4"/>
+    <Member name="System.Web.HttpResponse::TransmitFile(this,System.String)" input="0x4"/>
+
+    <Member name="System.Web.HttpResponse::WriteFile(this,System.String)" input="0x4"/>
+    <Member name="System.Web.HttpResponse::WriteFile(this,System.String,bool8)" input="0x4"/>
+    <Member name="System.Web.HttpResponse::WriteFile(this,System.String,i64,i64)" input="0x4"/>
+
+    <!-- System.Web.Mvc -->
+    <!-- Member name="" input="0x4" /-->
+
+    <!-- HtmlTextWriter -->
+    <Member name="System.Web.UI.HtmlTextWriter::AddAttribute" input="0x4" />
+
+    <!-- System.Web.UI -->
+    <Member name="System.Web.UI.WebControls.BaseDataList::set_Caption(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.Calendar::set_Caption(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.Table::set_Caption(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.DetailsView::set_Caption(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.FormView::set_Caption(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.GridView::set_Caption(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.RepeatInfo::set_Caption(this,System.String)" input="0x4" />
+
+    <Member name="System.Web.UI.HtmlControls.HtmlContainerControl::set_InnerHtml(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.HtmlControls.HtmlSelect::set_InnerHtml(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.HtmlControls.HtmlTable::set_InnerHtml(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.HtmlControls.HtmlTableRow::set_InnerHtml(this,System.String)" input="0x4" />
+
+    <Member name="System.Web.UI.TemplateParser::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.TemplateBuilder::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.DataBoundLiteralControl::System.Web.UI.ITextControl.set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.DesignerDataBoundLiteralControl::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.HtmlControls.HtmlTitle::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.LiteralControl::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.ResourceBasedLiteralControl::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.Label::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.BaseValidator::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.ListControl::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.BulletedList::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.Button::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.ButtonColumn::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.ButtonField::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.CheckBox::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.CheckBox::set_TextAlign(this,System.Web.UI.WebControls.TextAlign)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.CheckBoxField::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.CheckBoxList::set_TextAlign(this,System.Web.UI.WebControls.TextAlign)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.TableCell::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.ImageButton::System.Web.UI.WebControls.IButtonControl.set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.ImageButton::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.LinkButton::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.HyperLink::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.HyperLinkColumn::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.HyperLinkField::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.Literal::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.ListItem::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.Login::set_TextLayout(this,System.Web.UI.WebControls.LoginTextLayout)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.MenuItem::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.MenuItemBinding::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.MenuItemBinding::set_TextField(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.PasswordRecovery::set_TextLayout(this,System.Web.UI.WebControls.LoginTextLayout)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.RadioButtonList::set_TextAlign(this,System.Web.UI.WebControls.TextAlign)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.TextBox::set_TextMode(this,System.Web.UI.WebControls.TextBoxMode)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.TextBox::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.TreeNode::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.TreeNodeBinding::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.TreeNodeBinding::set_TextField(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartVerb::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartCatalogAddVerb::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartCatalogCloseVerb::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartCloseVerb::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartConnectionsCancelVerb::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartConnectionsCloseVerb::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartConnectionsConfigureVerb::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartConnectionsConnectVerb::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartConnectionsDisconnectVerb::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartConnectVerb::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartDeleteVerb::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartEditorApplyVerb::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartEditorCancelVerb::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartEditorOKVerb::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartEditVerb::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartExportVerb::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartHeaderCloseVerb::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartHelpVerb::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartMinimizeVerb::set_Text(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.WebParts.WebPartRestoreVerb::set_Text(this,System.String)" input="0x4" />
+  </Sinks>
+</DataFlowRule>

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataFlowRule>
+  <Problem>
+    <![CDATA[Potential user-defined redirection vulnerability was found where parameter {0} in call to {1} is tainted by user-controlled data from {2}.]]>
+  </Problem>
+
+  <Sources>
+    <Member type="group" name="WebInputs" file ="WebInputsGroup"/>
+  </Sources>
+
+  <Conditionals>
+    <Member type="group" name="ReadOnlyMethods" file ="ConditionalsGroup"/>
+  </Conditionals>
+  
+  <Sanitizers>
+    <Member type="group" name="RedirectionToUserSite" file="CustomSanitizersGroup" optional="true"/>
+
+     <!-- not applicable -->
+  </Sanitizers>
+
+  <Sinks>
+    <!-- System.Web.HttpResponseBase -->
+    <Member name="System.Web.HttpResponseBase::Redirect(this,System.String)" input="0x4"/>
+    <Member name="System.Web.HttpResponseBase::Redirect(this,System.String,bool8)" input="0x4"/>
+
+    <Member name="System.Web.HttpResponseBase::RedirectPermanent(this,System.String)" input="0x4"/>
+    <Member name="System.Web.HttpResponseBase::RedirectPermanent(this,System.String,bool8)" input="0x4"/>
+
+    <Member name="System.Web.HttpResponseBase::RedirectToRoute(this,System.String)" input="0x4"/>
+    <Member name="System.Web.HttpResponseBase::RedirectToRoute(this,System.String,System.Object)" input="0x4"/>
+
+    <Member name="System.Web.HttpResponseBase::RedirectToRoutePermanent(this,System.String)" input="0x4"/>
+    <Member name="System.Web.HttpResponseBase::RedirectToRoutePermanent(this,System.String,System.Object)" input="0x4"/>
+
+    <!-- System.Web.HttpResponse -->
+    <Member name="System.Web.HttpResponse::Redirect(this,System.String)" input="0x4"/>
+    <Member name="System.Web.HttpResponse::Redirect(this,System.String,bool8)" input="0x4"/>
+
+    <Member name="System.Web.HttpResponse::RedirectPermanent(this,System.String)" input="0x4"/>
+    <Member name="System.Web.HttpResponse::RedirectPermanent(this,System.String,bool8)" input="0x4"/>
+
+    <Member name="System.Web.HttpResponse::RedirectToRoute(this,System.String)" input="0x4"/>
+    <Member name="System.Web.HttpResponse::RedirectToRoute(this,System.String,System.Object)" input="0x4"/>
+
+    <Member name="System.Web.HttpResponse::RedirectToRoutePermanent(this,System.String)" input="0x4"/>
+    <Member name="System.Web.HttpResponse::RedirectToRoutePermanent(this,System.String,System.Object)" input="0x4"/>
+    <!-- System.Web.Mvc -->
+    <!-- Member name="" input="0x4" /-->
+  </Sinks>
+</DataFlowRule>

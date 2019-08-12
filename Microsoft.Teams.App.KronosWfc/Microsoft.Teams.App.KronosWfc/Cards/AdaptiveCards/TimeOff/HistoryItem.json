@@ -1,0 +1,9 @@
+{
+  "type": "TextBlock",
+  "spacing": "Small",
+  "separator": "{Seperator}",
+  "size": "Small",
+  "text": "**{Status}** by {Person} on {Datetime}",
+  "isSubtle": true,
+  "wrap": true
+}

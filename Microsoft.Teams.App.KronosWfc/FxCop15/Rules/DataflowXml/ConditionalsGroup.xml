@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Groups>
+  <MemberGroup name="ReadOnlyMethods">
+    <!-- common read-only methods (tranfer taint from the input to the output/return if the input is tainted) -->
+    
+    <Member name="Renamed class(Unknown) System.Collections.Generic.Dictionary`2&lt;object32-&gt;class64,object32-&gt;class64&gt;::TryGetValue(this,System.String,System.String)" output="0x8" input="0x2"/>
+    <Member name="Renamed class(Unknown) System.Collections.Generic.Dictionary`2&lt;object32-&gt;class64,object32-&gt;class64&gt;::get_Item(this,System.String)" returnTainted="true" output="0" input="0x2"/>
+  </MemberGroup>
+</Groups>

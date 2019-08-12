@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataFlowRule>
+  <Problem>
+    <![CDATA[Potential XPath injection vulnerability was found where parameter {0} in call to {1} is tainted by user-controlled data from {2}.]]>
+  </Problem>
+
+  <Sources>
+    <Member type="group" name="WebInputs" file ="WebInputsGroup"/>
+  </Sources>
+
+  <Conditionals>
+    <Member type="group" name="ReadOnlyMethods" file ="ConditionalsGroup"/>
+  </Conditionals>
+  
+  <Sanitizers>
+    <Member type="group" name="PrimitiveTypeConverters" file="SanitizersGroup"/>
+    <Member type="group" name="XPathInjection" file="CustomSanitizersGroup" optional="true"/>
+      
+    <Member name="System.IDisposable::Dispose(this)" return="0" input="0x2" />
+  </Sanitizers>
+
+  <Sinks>
+    <Member name="System.Xml.XmlNode::SelectNodes(this,System.String)" input="0x4" />
+    <Member name="System.Xml.XmlNode::SelectNodes(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.TemplateControl::XPath(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.TemplateControl::XPath(this,System.String,System.Xml.IXmlNamespaceResolver)" input="0x4" />
+    <Member name="System.Web.UI.TemplateControl::XPath(this,System.String,System.String)" input="0x4" />
+    <Member name="System.Web.UI.TemplateControl::XPath(this,System.String,System.String,System.Xml.IXmlNamespaceResolver)" input="0x4" />
+    <Member name="System.Web.UI.TemplateControl::XPathSelect(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.TemplateControl::XPathSelect(this,System.String,System.Xml.IXmlNamespaceResolver)" input="0x4" />
+    <Member name="System.Web.UI.PageTheme::XPath(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.PageTheme::XPath(this,System.String,System.Xml.IXmlNamespaceResolver)" input="0x4" />
+    <Member name="System.Web.UI.PageTheme::XPath(this,System.String,System.String)" input="0x4" />
+    <Member name="System.Web.UI.PageTheme::XPath(this,System.String,System.String,System.Xml.IXmlNamespaceResolver)" input="0x4" />
+    <Member name="System.Web.UI.PageTheme::XPathSelect(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.PageTheme::XPathSelect(this,System.String,System.Xml.IXmlNamespaceResolver)" input="0x4" />
+    <Member name="System.Web.UI.WebControls.XmlDataSource::set_XPath(this,System.String)" input="0x4" />
+    <Member name="System.Web.UI.XPathBinder::Eval(System.Object,System.String)" input="0x4" />
+    <Member name="System.Web.UI.XPathBinder::Eval(System.Object,System.String,System.Xml.IXmlNamespaceResolver)" input="0x4" />
+    <Member name="System.Web.UI.XPathBinder::Eval(System.Object,System.String,System.String)" input="0x4" />
+    <Member name="System.Web.UI.XPathBinder::Eval(System.Object,System.String,System.String,System.Xml.IXmlNamespaceResolver)" input="0x4" />
+    <Member name="System.Web.UI.XPathBinder::Select(System.Object,System.String)" input="0x4" />
+    <Member name="System.Web.UI.XPathBinder::Select(System.Object,System.String,System.Xml.IXmlNamespaceResolver)" input="0x4" />
+    <Member name="System.Xml.DocumentXPathNavigator::SelectDescendants(this,System.String,System.String,bool8)" input="0x4" />
+    <Member name="System.Xml.Schema.XmlSchemaXPath::set_XPath(this,System.String)" input="0x4" />
+    <Member name="System.Xml.XmlNode::SelectSingleNode(this,System.String)" input="0x4" />
+    <Member name="System.Xml.XmlNode::SelectSingleNode(this,System.String,System.Xml.XmlNamespaceManager)" input="0x4" />
+    <Member name="System.Xml.XPath.XPathExpression::Compile(System.String)" input="0x2" />
+    <Member name="System.Xml.XPath.XPathExpression::Compile(System.String,System.Xml.IXmlNamespaceResolver)" input="0x2" />
+    <Member name="System.Xml.XPath.XPathNavigator::Compile(this,System.String)" input="0x4" />
+    <Member name="System.Xml.XPath.XPathNavigator::CompileMatchPattern(System.String)" input="0x2" />
+    <Member name="System.Xml.XPath.XPathNavigator::Evaluate(this,System.String)" input="0x4" />
+    <Member name="System.Xml.XPath.XPathNavigator::Evaluate(this,System.String,System.Xml.IXmlNamespaceResolver)" input="0x4" />
+    <Member name="System.Xml.XPath.XPathNavigator::Matches(this,System.String)" input="0x4" />
+    <Member name="System.Xml.XPath.XPathNavigator::Select(this,System.String)" input="0x4" />
+    <Member name="System.Xml.XPath.XPathNavigator::Select(this,System.String,System.Xml.IXmlNamespaceResolver)" input="0x4" />
+    <Member name="System.Xml.XPath.XPathNavigator::SelectAncestors(this,System.String,System.String,bool8)" input="0x4" />
+    <Member name="System.Xml.XPath.XPathNavigator::SelectChildren(this,System.String,System.String)" input="0x4" />
+    <Member name="System.Xml.XPath.XPathNavigator::SelectDescendants(this,System.String,System.String,bool8)" input="0x4" />
+    <Member name="System.Xml.XPath.XPathNavigator::SelectSingleNode(this,System.String)" input="0x4" />
+    <Member name="System.Xml.XPath.XPathNavigator::SelectSingleNode(this,System.String,System.Xml.IXmlNamespaceResolver)" input="0x4" />
+  </Sinks>
+</DataFlowRule>

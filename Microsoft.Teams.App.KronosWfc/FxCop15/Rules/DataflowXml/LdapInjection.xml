@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataFlowRule>
+  <Problem>
+    <![CDATA[Potential LDAP injection vulnerability was found where parameter {0} in call to {1} is tainted by user-controlled data from {2}.]]>
+  </Problem>
+
+  <Sources>
+    <Member type="group" name="WebInputs" file ="WebInputsGroup"/>
+  </Sources>
+
+  <Conditionals>
+    <Member type="group" name="ReadOnlyMethods" file ="ConditionalsGroup"/>
+  </Conditionals>
+
+  <Sanitizers>
+    <Member type="group" name="LdapInjection" file="CustomSanitizersGroup" optional="true"/>
+
+    <Member name="Microsoft.Security.Application.Encoder::LdapFilterEncode(System.String)" input="0x02" return="0" />
+    <Member name="Microsoft.Security.Application.Encoder::LdapDistinguishedNameEncode(System.String)" input="0x02" return="0" />
+    <Member name="Microsoft.Security.Application.Encoder::LdapDistinguishedNameEncode(System.String,bool8,bool8)" input="0x02" return="0" />
+    <Member name="Microsoft.Security.Application.Encoder::LdapEncode(System.String)" input="0x02" return="0" />
+    <Member name="Microsoft.Security.Application.LdapEncoder::FilterEncode(System.String)" input="0x02" return="0" />
+    <Member name="Microsoft.Security.Application.LdapEncoder::DistinguishedNameEncode(System.String,bool8,bool8)" input="0x02" return="0" />
+    
+    <Member name="System.IDisposable::Dispose(this)" return="0" input="0x2" />
+
+  </Sanitizers>
+
+  <Sinks>
+    <Member name="System.DirectoryServices.DirectorySearcher::.ctor(this,System.DirectoryServices.DirectoryEntry,System.String)" input="0x08" />
+    <Member name="System.DirectoryServices.DirectorySearcher::.ctor(this,System.DirectoryServices.DirectoryEntry,System.String,MgdArr[object32->class112])" input="0x08" />
+    <Member name="System.DirectoryServices.DirectorySearcher::.ctor(this,System.String)" input="0x04" />
+    <Member name="System.DirectoryServices.DirectorySearcher::.ctor(this,System.String,MgdArr[object32->class112])" input="0x04" />
+    <Member name="System.DirectoryServices.DirectorySearcher::.ctor(this,System.String,MgdArr[object32->class112],System.DirectoryServices.SearchScope)" input="0x04" />
+    <Member name="System.DirectoryServices.DirectorySearcher::.ctor(this,System.DirectoryServices.DirectoryEntry,System.String,MgdArr[object32->class112],System.DirectoryServices.SearchScope)" input="0x08" />
+    <Member name="System.DirectoryServices.DirectorySearcher::set_Filter(this,System.String)" input="0x04" />
+
+    <Member name="System.DirectoryServices.ActiveDirectory.ADSearcher::.ctor(this,System.DirectoryServices.DirectoryEntry,System.String,MgdArr[object32->class112],System.DirectoryServices.SearchScope)" input="0x08" />
+    <Member name="System.DirectoryServices.ActiveDirectory.ADSearcher::.ctor(this,System.DirectoryServices.DirectoryEntry,System.String,MgdArr[object32->class112],System.DirectoryServices.SearchScope,bool8,bool8)" input="0x08" />
+    <Member name="System.DirectoryServices.ActiveDirectory.ADSearcher::set_Filter(this,System.String)" input="0x04" />
+
+    <Member name="System.DirectoryServices.DirectoryEntry::.ctor(this,System.String)" input="0x04" />
+    <Member name="System.DirectoryServices.DirectoryEntry::.ctor(this,System.String,System.String,System.String)" input="0x04" />
+    <Member name="System.DirectoryServices.DirectoryEntry::.ctor(this,System.String,System.String,System.String,System.DirectoryServices.AuthenticationTypes)" input="0x04" />
+    <Member name="System.DirectoryServices.DirectoryEntry::.ctor(this,System.Object)" input="0x04" />
+    <Member name="System.DirectoryServices.DirectoryEntry::.ctor(this,System.Object,bool8,System.String,System.String,System.DirectoryServices.AuthenticationTypes,bool8)" input="0x04" />
+    <Member name="System.DirectoryServices.DirectoryEntry::.ctor(this,System.String,bool8,System.String,System.String,System.DirectoryServices.AuthenticationTypes)" input="0x04" />
+    <Member name="System.DirectoryServices.DirectoryEntry::.ctor(this,System.Object,bool8,System.String,System.String,System.DirectoryServices.AuthenticationTypes)" input="0x04" />
+  </Sinks>
+</DataFlowRule>

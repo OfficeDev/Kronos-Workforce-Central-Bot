@@ -1,0 +1,85 @@
+"actions": [
+    {
+      "type": "Action.ShowCard",
+      "title": "{txt_Filter}",
+      "card": {
+        "type": "AdaptiveCard",
+        "body": [
+          {
+            "type": "TextBlock",
+            "text": "{txt_EmployeeName}"
+          },
+          {
+            "type": "Input.Text",
+            "id": "EmpName",
+            "spacing": "Small",
+            "placeholder": "{txt_EnterEmployeeName}",
+            "value": "{EmpName}"
+          },
+          {
+            "type": "TextBlock",
+            "text": "{txt_StartDate}"
+          },
+          {
+            "type": "Input.Date",
+            "id": "StartDate",
+            "spacing": "Small",
+            "value": "{StartDate}"
+          },
+          {
+            "type": "TextBlock",
+            "text": "{txt_EndDate}"
+          },
+          {
+            "type": "Input.Date",
+            "id": "EndDate",
+            "spacing": "Small",
+            "value": "{EndDate}"
+          },
+          {
+            "type": "Input.Toggle",
+            "id": "ShowCompletedToggle",
+            "title": "{txt_ShowCompletedRequests}",
+            "value": "{ShowCompletedRequests}",
+            "wrap": true
+          }
+        ],
+        "actions": [
+          {
+            "type": "Action.Submit",
+            "title": "{txt_Apply}",
+            "style": "positive",
+            "data": {
+              "msteams": {
+                "type": "messageBack",
+                "text": "{FilterApplyCommand}"
+              }
+            }
+          }
+        ],
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "{txt_Next}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "{NextCommand}"
+        },
+        "CurrentPage": "{CurrentPage}"
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "{txt_Previous}",
+      "data": {
+        "msteams": {
+          "type": "messageBack",
+          "text": "{PreviousCommand}"
+        },
+        "CurrentPage": "{CurrentPage}"
+      }
+    }
+  ]

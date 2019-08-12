@@ -1,0 +1,286 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "weight": "Bolder",
+          "text": "Swap Shift Request"
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "None",
+      "size": "Small",
+      "weight": "Bolder",
+      "text": "{Requestor} requested to swap shifts with you.",
+      "isSubtle": true
+    },
+    {
+      "type": "ColumnSet",
+      "spacing": "Medium",
+      "columns": [
+        {
+          "type": "Column",
+          "horizontalAlignment": "Left",
+          "spacing": "Small",
+          "items": [
+            {
+              "type": "Image",
+              "horizontalAlignment": "Left",
+              "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAABhCAIAAACRaPz+AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwgAADsIBFShKgAAAABl0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC4yMfEgaZUAAAAcSURBVDhPY/j04R0yGuWP8kf5o/xR/kjkf3gHANBtVFzJUs2VAAAAAElFTkSuQmCC"
+            }
+          ],
+          "width": "5px"
+        },
+        {
+          "type": "Column",
+          "spacing": "None",
+          "items": [
+            {
+              "type": "TextBlock",
+              "size": "Medium",
+              "weight": "Bolder",
+              "text": "{FromDate}",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "spacing": "Small",
+              "separator": true,
+              "size": "Small",
+              "text": "{TimeSpan}",
+              "isSubtle": true,
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "spacing": "None",
+              "size": "Small",
+              "text": "{Hours} hours {Min} minutes",
+              "isSubtle": true,
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "spacing": "None",
+              "size": "Small",
+              "text": "Assigned to you",
+              "isSubtle": true,
+              "wrap": true
+            }
+          ],
+          "width": 2
+        },
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "Image",
+              "backgroundColor": "#FFFF",
+              "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuMjHxIGmVAAAB20lEQVRIS+2VuU8CQRSH/RuRQ47ACoIlyJHFEhsMHVbIYYkJ53LYYI0V2HEUAh1HSTjkxqcZkmV2GFZWEgu+TLMv4X27b2Z+nK2PzEmwl38sWK1WpVLpo9FAzzs4XLBYLO69XpPRWKtWUYmEpBF1Oh2Xy2Uxm+v1OioJkLoHvV7v1u2+tlhqtRoqbUMQTCaT8Wgkcs3n82azabVawVElzQoX9Pt9h91u0OsvGUbkujKZGINBIZc7HY7hcIgabcAF0+n0tVCIx2KJeFzMSiWTyUTixmZTKhSRcHi5XKJGG6TuAfCSz+s0mmAwOJvNUImHVEGG4y5Uql3dAUmCbDarUiop3QGaAAZK+SWcnwe/PxQKwbahEgmaIJPJ3Hk8g8EAPQsAh3BXMcgCyBmO41Q/w93bgg5ZwKXTMNzHQIAyIpEQBDAZnVb7FIlAnKGSBHBBLpfTqNWQX8/RaDqVwq7VrgUXE04UpADqwmNLAK/s8/nOZTKICggALBIoC6IC3qnVaqFGPPAvaLfbLMsaGea9XIZDgkUbZX2Ox3A0UBcehD3odrtuloV0pKS8eAgC4PufxOmEKVUrFVQ6FLIAAAfEL8SkMIF/xU4BALN6KxYlXgWa4E84CfZyZMF6/QWmOjtqnzMUjwAAAABJRU5ErkJggg=="
+            }
+          ],
+          "width": "25px"
+        },
+        {
+          "type": "Column",
+          "spacing": "Small",
+          "items": [
+            {
+              "type": "Image",
+              "horizontalAlignment": "Left",
+              "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAABhCAIAAACRaPz+AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwgAADsIBFShKgAAAABl0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC4yMfEgaZUAAAAcSURBVDhPY/j04R0yGuWP8kf5o/xR/kjkf3gHANBtVFzJUs2VAAAAAElFTkSuQmCC"
+            }
+          ],
+          "width": "5px"
+        },
+        {
+          "type": "Column",
+          "spacing": "None",
+          "items": [
+            {
+              "type": "TextBlock",
+              "size": "Medium",
+              "weight": "Bolder",
+              "text": "{ToDate}",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "spacing": "Small",
+              "separator": true,
+              "size": "Small",
+              "text": "{TimeSpan}",
+              "isSubtle": true,
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "spacing": "None",
+              "size": "Small",
+              "text": "{Hours} hours {Min} minutes",
+              "isSubtle": true,
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "spacing": "None",
+              "size": "Small",
+              "text": "Assigned to {RequestedTo}",
+              "isSubtle": true,
+              "wrap": true
+            }
+          ],
+          "width": 2
+        }
+      ]
+    },
+    {
+      "type": "FactSet",
+      "spacing": "Medium",
+      "facts": [
+        {
+          "title": "Status:",
+          "value": "Requested"
+        },
+        {
+          "title": "Updated:",
+          "value": "{UpdatedOn}"
+        },
+        {
+          "title": "Comment:",
+          "value": "{Comment}"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.ShowCard",
+      "title": "Approve",
+      "card": {
+        "type": "AdaptiveCard",
+        "body": [
+          {
+            "type": "TextBlock",
+            "text": "Select comment (optional)",
+            "wrap": true
+          },
+          {
+            "type": "Input.ChoiceSet",
+            "spacing": "Small",
+            "id": "Comment",
+            "style": "compact",
+            "value": "{CommentValue}",
+            "choices": [
+              {CommentRows}
+            ]
+          },
+          {
+            "type": "TextBlock",
+            "spacing": "Medium",
+            "text": "Enter note (optional)",
+            "wrap": true
+          },
+          {
+            "type": "Input.Text",
+            "id": "note",
+            "spacing": "Small",
+            "isMultiline": true,
+            "placeholder": "Enter note"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Action.Submit",
+            "title": "Submit",
+            "data": {
+              "PersonNumber": "{PersonNumber}",
+              "RequestId": "{RequestId}",
+              "Employee": "{Employee}",
+              "QueryDateSpan": "{QueryDateSpan}",
+              "Date": "{StartDate} - {EndDate} ({Days})",
+              "PayCode": "{PayCode}",
+              "TimePeriod": "{TimePeriod}",
+              "type": "approve time off request"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Action.ShowCard",
+      "title": "Refuse",
+      "card": {
+        "type": "AdaptiveCard",
+        "body": [
+          {
+            "type": "TextBlock",
+            "text": "Select comment (optional)",
+            "wrap": true
+          },
+          {
+            "type": "Input.ChoiceSet",
+            "spacing": "Small",
+            "id": "Comment",
+            "style": "compact",
+            "value": "{CommentValue}",
+            "choices": [
+              {CommentRows}
+            ]
+          },
+          {
+            "type": "TextBlock",
+            "spacing": "Medium",
+            "text": "Enter note (optional)",
+            "wrap": true
+          },
+          {
+            "type": "Input.Text",
+            "id": "note",
+            "spacing": "Small",
+            "isMultiline": true,
+            "placeholder": "Enter note"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Action.Submit",
+            "title": "Submit",
+            "data": {
+              "PersonNumber": "{PersonNumber}",
+              "RequestId": "{RequestId}",
+              "Employee": "{Employee}",
+              "QueryDateSpan": "{QueryDateSpan}",
+              "Date": "{StartDate} - {EndDate} ({Days})",
+              "PayCode": "{PayCode}",
+              "TimePeriod": "{TimePeriod}",
+              "msteams": {
+                "type": "messageBack",
+                "text": "refuse time off request"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Action.ShowCard",
+      "title": "Show History",
+      "card": {
+        "type": "AdaptiveCard",
+        "style": "emphasis",
+        "body": [
+          //{rows}
+        ],
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
+      }
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
+}
