@@ -40,6 +40,7 @@ namespace Microsoft.Teams.App.KronosWfc.Controllers
     /// <summary>
     /// message controller class.
     /// </summary>
+    [Route("api/messages")]
     [BotAuthentication(CredentialProviderType = typeof(CredentialProvider))]
     public class MessagesController : ApiController
     {
