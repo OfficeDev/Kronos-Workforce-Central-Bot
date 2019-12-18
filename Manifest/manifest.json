@@ -1,0 +1,44 @@
+{
+    "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.3/MicrosoftTeams.schema.json",
+    "manifestVersion": "1.3",
+    "version": "1.0.0",
+    "id": "cd437bb1-e712-4751-913e-b3a5e2bdec22",
+    "packageName": "com",
+    "developer": {
+        "name": "KronosLocal",
+        "websiteUrl": "https://d2fafd9b.ngrok.io",
+        "privacyUrl": "https://d2fafd9b.ngrok.io",
+        "termsOfUseUrl": "https://d2fafd9b.ngrok.io"
+    },
+    "icons": {
+        "color": "color.png",
+        "outline": "outline.png"
+    },
+    "name": {
+        "short": "KronosLocal",
+        "full": "KronosLocal"
+    },
+    "description": {
+        "short": "KronosLocal",
+        "full": "KronosLocal"
+    },
+    "accentColor": "#FFFFFF",
+    "bots": [
+      {
+        "botId": "ac6f85e5-2ca1-49b3-aad6-4e0b48639b9e",
+        "scopes": [
+          "personal",
+          "team"
+        ],
+        "supportsFiles": false,
+        "isNotificationOnly": false
+      }
+    ],
+    "permissions": [
+        "identity",
+        "messageTeamMembers"
+    ],
+    "validDomains": [
+        "*.ngrok.io"
+    ]
+}
