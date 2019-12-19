@@ -79,7 +79,7 @@ echo Restore nuget packages step ended
 
 :: 2. Build and publish
 echo Build and Publish step started
-call :ExecuteCmd msbuild publish "%DEPLOYMENT_SOURCE%\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc.csproj" --output "%DEPLOYMENT_TEMP%" --configuration Release -property:KuduDeployment=1
+call :ExecuteCmd dotnet publish "%DEPLOYMENT_SOURCE%\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc.csproj" --output "%DEPLOYMENT_TEMP%" --configuration Release -property:KuduDeployment=1
 IF !ERRORLEVEL! NEQ 0 goto error
 echo Build and Publish step ended
 
