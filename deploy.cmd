@@ -70,7 +70,7 @@ echo Handling .NET Web Application deployment.
   IF !ERRORLEVEL! NEQ 0 goto error
 echo building project
 
-  call :ExecuteCmd "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc.csproj" /nologo /verbosity:m /t:Build /p:AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false /p:SolutionDir="%DEPLOYMENT_SOURCE%\Microsoft.Teams.App.KronosWfc\\" %SCM_BUILD_ARGS%
+  call :ExecuteCmd "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc.csproj" /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="%DEPLOYMENT_TEMP%";Configuration=Release;UseSharedCompilation=false /p:SolutionDir="%DEPLOYMENT_SOURCE%\Microsoft.Teams.App.KronosWfc\\"
   IF !ERRORLEVEL! NEQ 0 goto error
   echo done building project
 
