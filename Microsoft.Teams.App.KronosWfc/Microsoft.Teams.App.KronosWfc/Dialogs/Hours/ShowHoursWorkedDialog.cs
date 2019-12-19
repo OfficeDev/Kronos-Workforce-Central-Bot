@@ -21,6 +21,7 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.Hours
     using Microsoft.Teams.App.KronosWfc.Models;
     using Microsoft.Teams.App.KronosWfc.Models.ResponseEntities.Hours;
     using Microsoft.Teams.App.KronosWfc.Provider.Core;
+    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
     /// <summary>
@@ -113,6 +114,10 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.Hours
 
         private async Task ShowHoursWorked(IDialogContext context, IAwaitable<string> result)
         {
+
+            string resultString = await result;
+            string msg = JsonConvert.DeserializeObject<Message>(resultString).message;
+            var luisResult = JsonConvert.DeserializeObject<Message>(resultString).luisResult;
             var activity = context.Activity as Activity;
             JObject tenant = context.Activity.ChannelData as JObject;
             string tenantId = tenant["tenant"].SelectToken("id").ToString();
@@ -134,45 +139,65 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.Hours
 
             var overtimeMappingEntity = await this.azureTableStorageHelper.ExecuteQueryUsingPointQueryAsyncFiltered<OvertimeMappingEntity>(Constants.ActivityChannelId, tenantId, AppSettings.Instance.OvertimeMappingtableName);
             var filteredResults = overtimeMappingEntity.Where(x => x.PayCodeType == Constants.TeamOvertimes || x.PayCodeType == Constants.Regular).Select(x => x.PayCodeName);
-
-            switch (message)
+            if (luisResult.entities.Count == 0)
             {
-                case string command when command.Contains(Constants.PreviousPayPeriodHoursWorkedText):
-                    punchText = Constants.PreviousPayPeriodPunchesText;
-                    CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.PreviousPayPeriodPunches);
-                    break;
+                switch (message)
+                {
+                    case string command when command.Contains(Constants.PreviousPayPeriodHoursWorkedText):
+                        punchText = Constants.PreviousPayPeriodPunchesText;
+                        CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.PreviousPayPeriodPunches);
+                        break;
 
-                case string command when command.Contains(Constants.DateRangeHoursWorked):
-                    await this.dateRangeCard.ShowDateRange(context, Constants.SubmitDateRangeHoursWorked, Constants.HoursWorkedDateRangeText);
-                    return;
+                    case string command when command.Contains(Constants.DateRangeHoursWorked):
+                        await this.dateRangeCard.ShowDateRange(context, Constants.SubmitDateRangeHoursWorked, Constants.HoursWorkedDateRangeText);
+                        return;
 
-                case string command when command.Contains(Constants.SubmitDateRangeHoursWorked):
-                    dynamic value = activity.Value;
-                    DateRange dateRange;
+                    case string command when command.Contains(Constants.SubmitDateRangeHoursWorked):
+                        dynamic value = activity.Value;
+                        DateRange dateRange;
 
-                    if (value != null)
-                    {
-                        dateRange = DateRange.Parse(value);
-                        var results = new List<ValidationResult>();
-                        bool valid = Validator.TryValidateObject(dateRange, new ValidationContext(dateRange, null, null), results, true);
-
-                        if (!valid)
+                        if (value != null)
                         {
-                            var errors = string.Join("\n", results.Select(o => " - " + o.ErrorMessage));
-                            await context.PostAsync($"{Constants.DateRangeParseError}" + errors);
-                            return;
+                            dateRange = DateRange.Parse(value);
+                            var results = new List<ValidationResult>();
+                            bool valid = Validator.TryValidateObject(dateRange, new ValidationContext(dateRange, null, null), results, true);
+
+                            if (!valid)
+                            {
+                                var errors = string.Join("\n", results.Select(o => " - " + o.ErrorMessage));
+                                await context.PostAsync($"{Constants.DateRangeParseError}" + errors);
+                                return;
+                            }
+
+                            startDate = DateTime.Parse(dateRange.StartDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                            endDate = DateTime.Parse(dateRange.EndDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
                         }
 
-                        startDate = DateTime.Parse(dateRange.StartDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                        endDate = DateTime.Parse(dateRange.EndDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                    }
+                        break;
 
-                    break;
-
-                case string command when command.Contains(Constants.CurrentpayPeriodHoursWorkedText) || command.Contains(Constants.HowManyHoursWorked) || command.Contains(Constants.Hour):
-                    punchText = Constants.CurrentpayPeriodPunchesText;
-                    CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.CurrentpayPeriodPunches);
-                    break;
+                    case string command when command.Contains(Constants.CurrentpayPeriodHoursWorkedText) || command.Contains(Constants.HowManyHoursWorked) || command.Contains(Constants.Hour):
+                        punchText = Constants.CurrentpayPeriodPunchesText;
+                        CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.CurrentpayPeriodPunches);
+                        break;
+                }
+            }
+            else
+            {
+                var t = luisResult?.entities?.FirstOrDefault()?.resolution?.values?.FirstOrDefault();
+                switch (t.type)
+                {
+                    case "date":
+                        startDate = DateTime.Parse(t.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                        endDate = DateTime.Parse(t.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                        break;
+                    case "daterange":
+                        startDate = DateTime.Parse(t.start).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                        endDate = DateTime.Parse(t.end).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                        break;
+                    default:
+                        await context.PostAsync("Could not recognise command.");
+                        break;
+                }
             }
 
             showHoursWorkedResponse = await this.hoursWorkedActivity.ShowHoursWorked(tenantId, response, startDate, endDate);

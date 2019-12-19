@@ -351,6 +351,8 @@
     <Compile Include="Models\ListCard\Item.cs" />
     <Compile Include="Models\ListCard\ListCard.cs" />
     <Compile Include="Models\ListCard\Tap.cs" />
+    <Compile Include="Models\LuisResultModel.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Models\RootContextObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Provider\AuthenticationService.cs" />

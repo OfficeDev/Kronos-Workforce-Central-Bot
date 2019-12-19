@@ -137,6 +137,9 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.TeamOvertimes
         {
             var activity = context.Activity as Activity;
             var tenant = activity.ChannelData as JObject;
+            string resultString = await result;
+            string msg = JsonConvert.DeserializeObject<Message>(resultString).message;
+            var luisResult = JsonConvert.DeserializeObject<Message>(resultString).luisResult;
             var tenantId = tenant["tenant"].SelectToken("id").ToString();
             var startDate = activity.LocalTimestamp.Value.DateTime.Date.ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
             var endDate = activity.LocalTimestamp.Value.DateTime.Date.ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
@@ -150,56 +153,78 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.TeamOvertimes
 
             var message = activity.Text?.ToLowerInvariant().Trim();
             AppInsightsLogger.CustomEventTrace("TeamOvertimesDialog", new Dictionary<string, string>() { { "TenantId", tenantId }, { "User", context.Activity.From.Id }, { "methodName", "ShowOvertimeEmployeesList" }, { "Command", message } });
-
-            switch (message)
+            if (luisResult.entities.Count == 0)
             {
-                case string command when command.ToLowerInvariant().Contains(Constants.OvertimeNext.ToLowerInvariant()):
-                    await this.Next(context);
-                    break;
-                case string command when command.ToLowerInvariant().Contains(Constants.OvertimePrevious.ToLowerInvariant()):
-                    await this.Previous(context);
-                    break;
-                case string command when command.Contains(Constants.PreviousWeekTeamOvertimes):
-                    CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.PreviousPayPeriodPunches);
-                    payPeriod = Constants.PreviousPayPeriodPunchesText;
-                    await this.ShowOvertimeEmployees(context, tenantId, startDate, endDate, overtimeEmployeeList, payPeriod, response);
-                    break;
+                switch (message)
+                {
+                    case string command when command.ToLowerInvariant().Contains(Constants.OvertimeNext.ToLowerInvariant()):
+                        await this.Next(context);
+                        break;
+                    case string command when command.ToLowerInvariant().Contains(Constants.OvertimePrevious.ToLowerInvariant()):
+                        await this.Previous(context);
+                        break;
+                    case string command when command.Contains(Constants.PreviousWeekTeamOvertimes):
+                        CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.PreviousPayPeriodPunches);
+                        payPeriod = Constants.PreviousPayPeriodPunchesText;
+                        await this.ShowOvertimeEmployees(context, tenantId, startDate, endDate, overtimeEmployeeList, payPeriod, response);
+                        break;
 
-                case string command when command.Contains(Constants.DateRangeTeamOvertimes):
-                    await this.dateRangeCard.ShowDateRange(context, Constants.SubmitDateRangeTeamOvertimes, Constants.TeamOvertimesDateRangeText);
-                    break;
+                    case string command when command.Contains(Constants.DateRangeTeamOvertimes):
+                        await this.dateRangeCard.ShowDateRange(context, Constants.SubmitDateRangeTeamOvertimes, Constants.TeamOvertimesDateRangeText);
+                        break;
 
-                case string command when command.Contains(Constants.SubmitDateRangeTeamOvertimes):
-                    dynamic value = activity.Value;
-                    DateRange dateRange;
+                    case string command when command.Contains(Constants.SubmitDateRangeTeamOvertimes):
+                        dynamic value = activity.Value;
+                        DateRange dateRange;
 
-                    if (value != null)
-                    {
-                        dateRange = DateRange.Parse(value);
-                        var results = new List<ValidationResult>();
-                        bool valid = Validator.TryValidateObject(dateRange, new ValidationContext(dateRange, null, null), results, true);
-
-                        if (!valid)
+                        if (value != null)
                         {
-                            var errors = string.Join("\n", results.Select(o => " - " + o.ErrorMessage));
-                            await context.PostAsync($"{Constants.DateRangeParseError}" + errors);
-                            return;
+                            dateRange = DateRange.Parse(value);
+                            var results = new List<ValidationResult>();
+                            bool valid = Validator.TryValidateObject(dateRange, new ValidationContext(dateRange, null, null), results, true);
+
+                            if (!valid)
+                            {
+                                var errors = string.Join("\n", results.Select(o => " - " + o.ErrorMessage));
+                                await context.PostAsync($"{Constants.DateRangeParseError}" + errors);
+                                return;
+                            }
+
+                            startDate = DateTime.Parse(dateRange.StartDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                            endDate = DateTime.Parse(dateRange.EndDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
                         }
 
-                        startDate = DateTime.Parse(dateRange.StartDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                        endDate = DateTime.Parse(dateRange.EndDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                    }
+                        await this.ShowOvertimeEmployees(context, tenantId, startDate, endDate, overtimeEmployeeList, payPeriod, response);
+                        break;
 
-                    await this.ShowOvertimeEmployees(context, tenantId, startDate, endDate, overtimeEmployeeList, payPeriod, response);
-                    break;
-
-                case string command when command.Contains(Constants.CurrentWeekTeamOvertimes) || command.Contains(Constants.TeamOvertimes.ToLowerInvariant()):
-                    CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.CurrentpayPeriodPunches);
-                    payPeriod = Constants.CurrentpayPeriodPunchesText;
-                    await this.ShowOvertimeEmployees(context, tenantId, startDate, endDate, overtimeEmployeeList, payPeriod, response);
-                    break;
+                    case string command when command.Contains(Constants.CurrentWeekTeamOvertimes) || command.Contains(Constants.TeamOvertimes.ToLowerInvariant()):
+                        CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.CurrentpayPeriodPunches);
+                        payPeriod = Constants.CurrentpayPeriodPunchesText;
+                        await this.ShowOvertimeEmployees(context, tenantId, startDate, endDate, overtimeEmployeeList, payPeriod, response);
+                        break;
+                }
             }
+            else
+            {
+                var t = luisResult?.entities?.FirstOrDefault()?.resolution?.values?.FirstOrDefault();
+                switch (t.type)
+                {
+                    case "date":
+                        startDate = DateTime.Parse(t.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                        endDate = DateTime.Parse(t.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                        await this.ShowOvertimeEmployees(context, tenantId, startDate, endDate, overtimeEmployeeList, payPeriod, response);
+                        break;
+                    case "daterange":
+                        startDate = DateTime.Parse(t.start).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                        endDate = DateTime.Parse(t.end).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                        await this.ShowOvertimeEmployees(context, tenantId, startDate, endDate, overtimeEmployeeList, payPeriod, response);
+                        break;
+                    default:
+                        await context.PostAsync("Could not recognise command.");
+                        break;
+                }
 
+            }
             context.Done(string.Empty);
         }
 

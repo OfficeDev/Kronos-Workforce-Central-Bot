@@ -6,6 +6,8 @@
 namespace Microsoft.Teams.App.KronosWfc.Dialogs
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.Bot.Builder.Dialogs;
@@ -31,6 +33,7 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs
     using Microsoft.Teams.App.KronosWfc.Filters;
     using Microsoft.Teams.App.KronosWfc.Models;
     using Microsoft.Teams.App.KronosWfc.Resources;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// This class is the main entry point in the Dialog cycle.
@@ -86,14 +89,19 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs
         /// <param name="context">Dialog context.</param>
         /// <param name="result">Luis result.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        [LuisIntent(Constants.EmployeeTimeOffRequestList)]
+        [LuisIntent("EmployeeTimeOffRequestList")]
         [ScorableGroup(1)]
         public async Task SupervisorViewTimeOffRequests(IDialogContext context, LuisResult result)
         {
+
             var response = await this.authenticateUser.GetUserInfo(context);
+            var serialized = JsonConvert.SerializeObject(result);
+            var luisResult = JsonConvert.DeserializeObject<LuisResultModel>(serialized);
+            string message = ((Activity)context.Activity).Text?.ToLowerInvariant().Trim();
             if (!string.IsNullOrWhiteSpace(response?.JsessionID) && !string.IsNullOrWhiteSpace(response?.PersonNumber))
             {
-                await context.Forward(this.dialogFactory.CreateLogonResponseDialog<SupervisorViewTimeoff.SupervisorViewTimeOffDialog>(response), this.Complete, response.JsessionID, default(CancellationToken));
+                var luisMessage = JsonConvert.SerializeObject(new Message { message = response.JsessionID, luisResult = luisResult });
+                await context.Forward(this.dialogFactory.CreateLogonResponseDialog<SupervisorViewTimeoff.SupervisorViewTimeOffDialog>(response), this.Complete, luisMessage, default(CancellationToken));
             }
         }
 
@@ -200,6 +208,7 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs
         [RegexPattern("(?i)" + Constants.VacationBalance)]
         [RegexPattern("(?i)" + Constants.Vacation)]
         [RegexPattern("(?i)" + Constants.Accrual)]
+        [LuisIntent("VacationBalance")]
         [ScorableGroup(0)]
         public async Task Vacation(IDialogContext context, IActivity activity)
         {
@@ -226,12 +235,21 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs
         [RegexPattern("(?i)" + Constants.TodayPunches)]
         [RegexPattern("(?i)" + Constants.SubmitDateRangePunches)]
         [ScorableGroup(0)]
-        public async Task Punch(IDialogContext context, IActivity activity)
+        [LuisIntent("ShowPunches")]
+        public async Task Punch(IDialogContext context, LuisResult result)
         {
             var response = await this.authenticateUser.GetUserInfo(context);
+
+            var serialized = JsonConvert.SerializeObject(result);
+            var luisResult = JsonConvert.DeserializeObject<LuisResultModel>(serialized);
+            string message = ((Activity)context.Activity).Text?.ToLowerInvariant().Trim();
             if (!string.IsNullOrWhiteSpace(response?.JsessionID) && !string.IsNullOrWhiteSpace(response?.PersonNumber))
             {
-                await context.Forward(this.dialogFactory.CreateLogonResponseDialog<ShowPunchesDialog>(response), this.Complete, response.JsessionID, default(CancellationToken));
+
+
+                var luisMessage = JsonConvert.SerializeObject(new Message { message = message, luisResult = luisResult });
+                await context.Forward(this.dialogFactory.CreateLogonResponseDialog<ShowPunchesDialog>(response), this.Complete, luisMessage, default(CancellationToken));
+                // await context.Forward(this.dialogFactory.CreateLogonResponseDialog<ShowPunchesDialog>(response), this.Complete, response.JsessionID, default(CancellationToken));
             }
         }
 
@@ -275,16 +293,21 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs
         /// <param name="context">dialog context.</param>
         /// <param name="result">luis result.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        [LuisIntent(Constants.Schedule)]
+        [LuisIntent("Schedule")]
         [ScorableGroup(1)]
         public async Task Schedule(IDialogContext context, LuisResult result)
         {
             var response = await this.authenticateUser.GetUserInfo(context);
+            //// Start
+            var serialized = JsonConvert.SerializeObject(result);
+            var luisResult = JsonConvert.DeserializeObject<LuisResultModel>(serialized);
 
+            //// End
             string message = ((Activity)context.Activity).Text?.ToLowerInvariant().Trim();
             if (!string.IsNullOrWhiteSpace(response?.JsessionID) && !string.IsNullOrWhiteSpace(response?.PersonNumber))
             {
-                await context.Forward(this.dialogFactory.CreateLogonResponseDialog<ScheduleDialog>(response), this.Complete, message, default(CancellationToken));
+                var luisMessage = JsonConvert.SerializeObject(new Message { message = message, luisResult = luisResult });
+                await context.Forward(this.dialogFactory.CreateLogonResponseDialog<ScheduleDialog>(response), this.Complete, luisMessage, default(CancellationToken));
             }
         }
 
@@ -317,12 +340,19 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs
         [RegexPattern("(?i)" + Constants.CurrentpayPeriodHoursWorkedText)]
         [RegexPattern("(?i)" + Constants.HowManyHoursWorked)]
         [ScorableGroup(0)]
-        public async Task HoursWorked(IDialogContext context, IActivity activity)
+        [LuisIntent("HoursWorked")]
+        public async Task HoursWorked(IDialogContext context, LuisResult result)
         {
+
             var response = await this.authenticateUser.GetUserInfo(context);
+            var serialized = JsonConvert.SerializeObject(result);
+            var luisResult = JsonConvert.DeserializeObject<LuisResultModel>(serialized);
+            string message = ((Activity)context.Activity).Text?.ToLowerInvariant().Trim();
+
             if (!string.IsNullOrWhiteSpace(response?.JsessionID) && !string.IsNullOrWhiteSpace(response?.PersonNumber))
             {
-                await context.Forward(this.dialogFactory.CreateLogonResponseDialog<ShowHoursWorkedDialog>(response), this.Complete, ((Activity)activity).Name, default(CancellationToken));
+                var luisMessage = JsonConvert.SerializeObject(new Message { message = message, luisResult = luisResult });
+                await context.Forward(this.dialogFactory.CreateLogonResponseDialog<ShowHoursWorkedDialog>(response), this.Complete, luisMessage, default(CancellationToken));
             }
         }
 
@@ -334,12 +364,16 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [LuisIntent("TimeOffRequest")]
         [ScorableGroup(1)]
-        public async Task TimeOff(IDialogContext context, IActivity activity)
+        public async Task TimeOff(IDialogContext context, LuisResult result)
         {
             var response = await this.authenticateUser.GetUserInfo(context);
+            var serialized = JsonConvert.SerializeObject(result);
+            string message = ((Activity)context.Activity).Text?.ToLowerInvariant().Trim();
+            var luisResult = JsonConvert.DeserializeObject<LuisResultModel>(serialized);
             if (!string.IsNullOrWhiteSpace(response.JsessionID) && !string.IsNullOrWhiteSpace(response.PersonNumber))
             {
-                await context.Forward(this.dialogFactory.CreateLogonResponseDialog<TimeOffDialog>(response), this.Complete, response.JsessionID, default(CancellationToken));
+                var luisMessage = JsonConvert.SerializeObject(new Message { message = message, luisResult = luisResult });
+                await context.Forward(this.dialogFactory.CreateLogonResponseDialog<TimeOffDialog>(response), this.Complete, luisMessage, default(CancellationToken));
             }
         }
 
@@ -354,17 +388,23 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs
         [RegexPattern("(?i)" + Constants.SubmitDateRangeShift)]
         [RegexPattern("(?i)" + Constants.CurrentWeekShift)]
         [RegexPattern("(?i)" + Constants.NextWeekShift)]
+        [LuisIntent("UpcomingShifts")]
         [ScorableGroup(0)]
-        public async Task UpcomingShifts(IDialogContext context, IActivity activity)
+        public async Task UpcomingShifts(IDialogContext context, LuisResult result)
         {
             var response = await this.authenticateUser.GetUserInfo(context);
+
+            var serialized = JsonConvert.SerializeObject(result);
+            var luisResult = JsonConvert.DeserializeObject<LuisResultModel>(serialized);
 
             string message = ((Activity)context.Activity).Text?.ToLowerInvariant().Trim();
             if (!string.IsNullOrWhiteSpace(response?.JsessionID) && !string.IsNullOrWhiteSpace(response?.PersonNumber))
             {
-                await context.Forward(this.dialogFactory.CreateLogonResponseDialog<UpcomingShiftsDialog>(response), this.Complete, message, default(CancellationToken));
+                var luisMessage = JsonConvert.SerializeObject(new Message { message = message, luisResult = luisResult });
+                await context.Forward(this.dialogFactory.CreateLogonResponseDialog<UpcomingShiftsDialog>(response), this.Complete, luisMessage, default(CancellationToken));
             }
         }
+
 
         /// <summary>
         /// Validates incoming activity and forwards it to ViewTimeOffRequestsDialog.
@@ -372,7 +412,7 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs
         /// <param name="context">Dialog context.</param>
         /// <param name="activity">Activty object.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        [LuisIntent("TimeOffRequestList")]
+        [LuisIntent("MyTimeOffRequestList")]
         [ScorableGroup(1)]
         public async Task NextVacation(IDialogContext context, IActivity activity)
         {
@@ -431,9 +471,12 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs
         [RegexPattern("(?i)" + Constants.absentEmpNextpage)]
         [RegexPattern("(?i)" + Constants.absentEmpPrevpage)]
         [ScorableGroup(0)]
-        public async Task EmployeeAttendance(IDialogContext context, IActivity activity)
+        [LuisIntent("EmployeeAttendance")]
+        public async Task EmployeeAttendance(IDialogContext context, LuisResult result)
         {
             var message = ((Activity)context.Activity).Text.ToLowerInvariant();
+            var serialized = JsonConvert.SerializeObject(result);
+            var luisResult = JsonConvert.DeserializeObject<LuisResultModel>(serialized);
             if (message.Contains(Constants.NotHereClockIn) || message.Contains(Constants.NotHereAddInPunches)
                  || message.Contains(Constants.NotHereAddInPunchesToday) || message.Contains(Constants.NotHereFromMyTeam)
                   || message.Contains(Constants.AbsentEmployees) || message.Contains(Constants.AbsenceList))
@@ -450,7 +493,8 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs
             var response = await this.authenticateUser.GetUserInfo(context);
             if (!string.IsNullOrWhiteSpace(response?.JsessionID) && !string.IsNullOrWhiteSpace(response?.PersonNumber))
             {
-                await context.Forward(this.dialogFactory.CreateLogonResponseDialog<PresentEmployeesDialog>(response), this.Complete, ((Activity)activity).Name, default(CancellationToken));
+                var luisMessage = JsonConvert.SerializeObject(new Message { message = message, luisResult = luisResult });
+                await context.Forward(this.dialogFactory.CreateLogonResponseDialog<PresentEmployeesDialog>(response), this.Complete, luisMessage, default(CancellationToken));
             }
         }
 
@@ -461,6 +505,7 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [RegexPattern("(?i)" + Constants.SwapShift)]
         [ScorableGroup(0)]
+        [LuisIntent("SwapShift")]
         public async Task SwapShift(IDialogContext context)
         {
             var response = await this.authenticateUser.GetUserInfo(context);
@@ -508,7 +553,8 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs
         [RegexPattern("(?i)" + Constants.EmployeeLocation)]
         [RegexPattern("(?i)" + Constants.WhereIsSomeone)]
         [ScorableGroup(0)]
-        public async Task EmployeeLocation(IDialogContext context, IActivity activity)
+        [LuisIntent("EmployeeLocation")]
+        public async Task EmployeeLocation(IDialogContext context, LuisResult result)
         {
             var response = await this.authenticateUser.GetUserInfo(context);
 
@@ -517,8 +563,14 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs
                 string isManager = await this.authenticateUser.IsUserManager(context);
                 if (isManager.Equals(Constants.Yes))
                 {
-                    await context.PostAsync(KronosResourceText.EnterEmpName);
-                    context.Wait(this.ShowEmployeeDetails);
+                    string message = ((Activity)context.Activity).Text?.ToLowerInvariant().Trim();
+                    var serialized = JsonConvert.SerializeObject(result);
+                    var luisResult = JsonConvert.DeserializeObject<LuisResultModel>(serialized);
+                    if (luisResult?.entities?.FirstOrDefault()?.type == "name" || luisResult?.entities?.FirstOrDefault()?.type == "builtin.datetimeV2.date")
+                    {
+                        var luisMessage = JsonConvert.SerializeObject(new Message { message = message, luisResult = luisResult });
+                        await context.Forward(this.dialogFactory.CreateLogonResponseDialog<EmployeeLocationDialog>(response), this.Complete, luisMessage, default(CancellationToken));
+                    }
                 }
                 else if (isManager.Equals(Constants.No))
                 {
@@ -535,12 +587,17 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs
         /// <returns>A task.</returns>
         [RegexPattern("(?i)" + Constants.TeamOvertimes)]
         [ScorableGroup(0)]
-        public async Task TeamOverTimes(IDialogContext context, IActivity activity)
+        [LuisIntent("TeamOverTimes")]
+        public async Task TeamOverTimes(IDialogContext context, LuisResult result)
         {
             var response = await this.authenticateUser.GetUserInfo(context);
+            var serialized = JsonConvert.SerializeObject(result);
+            var luisResult = JsonConvert.DeserializeObject<LuisResultModel>(serialized);
+            string message = ((Activity)context.Activity).Text?.ToLowerInvariant().Trim();
             if (!string.IsNullOrWhiteSpace(response?.JsessionID) && !string.IsNullOrWhiteSpace(response?.PersonNumber))
             {
-                await context.Forward(this.dialogFactory.CreateLogonResponseDialog<TeamOvertimesDialog>(response), this.Complete, ((Activity)activity).Name, default(CancellationToken));
+                var luisMessage = JsonConvert.SerializeObject(new Message { message = message, luisResult = luisResult });
+                await context.Forward(this.dialogFactory.CreateLogonResponseDialog<TeamOvertimesDialog>(response), this.Complete, luisMessage, default(CancellationToken));
             }
         }
 
@@ -615,22 +672,23 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs
             context.Done(string.Empty);
         }
 
-        private async Task ShowEmployeeDetails(IDialogContext context, IAwaitable<IActivity> result)
-        {
-            string message = ((Activity)context.Activity).Text.Trim().ToLowerInvariant();
-            if (CommandValidCheck.IsValidCommand(message))
-            {
-                // valid command
-                await base.ActivityReceivedAsync(context, result);
-                context.Done(default(object));
-            }
-            else
-            {
-                var response = await this.authenticateUser.GetUserInfo(context);
+        //private async Task ShowEmployeeDetails(IDialogContext context, IAwaitable<LuisResult> luisResult)
+        //{
+        //    string message = ((Activity)context.Activity).Text.Trim().ToLowerInvariant();
 
-                // if not valid command
-                await context.Forward(this.dialogFactory.CreateLogonResponseDialog<EmployeeLocationDialog>(response), this.Complete, message, default(CancellationToken));
-            }
-        }
+        //    if (CommandValidCheck.IsValidCommand(message))
+        //    {
+        //        // valid command
+        //        await base.ActivityReceivedAsync(context, result);
+        //        context.Done(default(object));
+        //    }
+        //    else
+        //    {
+        //        var response = await this.authenticateUser.GetUserInfo(context);
+
+        //        // if not valid command
+        //        await context.Forward(this.dialogFactory.CreateLogonResponseDialog<EmployeeLocationDialog>(response), this.Complete, message, default(CancellationToken));
+        //    }
+        //}
     }
 }

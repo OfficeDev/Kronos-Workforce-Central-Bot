@@ -11,7 +11,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta name="" content="" />
-    <title>Book a meeting</title>
+    <title>Book a meeting</title> 
+    <script>
+        localStorage.setItem("TenantId", @TempData["TenantId"]);
+        localStorage.setItem("ClientId", @TempData["ClientId"]);
+        localStorage.setItem("TokenEndpoint", @TempData["TokenEnpoint"]);
+    </script>
 </head>
 <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -29,7 +34,7 @@
 
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-    <script src="~/dist/bundle.js?v=1.8"></script>
+    -->    
+    <script src="~/dist/bundle.js?v=1.9"></script>
 </body>
 </html>

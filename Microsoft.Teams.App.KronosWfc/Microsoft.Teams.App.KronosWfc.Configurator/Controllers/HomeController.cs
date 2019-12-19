@@ -17,7 +17,11 @@ namespace Microsoft.Teams.App.KronosWfc.Configurator.Controllers
             this.configuration = configuration;
         }
         public IActionResult Index()
-        {            
+        {
+            TempData["ClientId"] = this.configuration["ClientId"];
+            TempData["TenantId"] = this.configuration["TenantId"];
+            TempData["TokenEnpoint"] = this.configuration["TokenEnpoint"];
+
             return View();
         }
 

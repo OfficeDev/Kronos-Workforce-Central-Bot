@@ -1,10 +1,9 @@
 import { AuthenticationContext, adalFetch, withAdalLogin, AdalConfig } from 'react-adal';
-
-export const adalConfig: AdalConfig = {    
-    tenant: '',
-    clientId: '',
+export const adalConfig: AdalConfig = {
+    tenant: localStorage.getItem("TenantId")!,
+    clientId: localStorage.getItem("ClientId")!,
     endpoints: {
-        api: 'https://login.microsoftonline.com/organizations/oauth2/v2.0/token',
+        api: localStorage.getItem("TokenEndpoint")!,
     },
     postLogoutRedirectUri: window.location.origin,
     cacheLocation: 'localStorage'
