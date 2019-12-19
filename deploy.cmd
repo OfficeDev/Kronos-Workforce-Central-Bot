@@ -73,7 +73,7 @@ echo Handling ASP.NET Core Web Application deployment.
 
 :: 1. Restore nuget packages
 echo Restore nuget packages step started
-call :ExecuteCmd msbuild restore "%DEPLOYMENT_SOURCE%\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc.sln"
+call :ExecuteCmd dotnet restore "%DEPLOYMENT_SOURCE%\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc.sln"
 IF !ERRORLEVEL! NEQ 0 goto error
 echo Restore nuget packages step ended
 
