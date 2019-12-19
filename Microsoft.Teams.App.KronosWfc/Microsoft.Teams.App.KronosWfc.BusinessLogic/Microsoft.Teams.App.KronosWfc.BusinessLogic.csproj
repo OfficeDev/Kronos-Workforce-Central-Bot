@@ -22,8 +22,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\FxCop15\KronosCodeAnalysis.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisPath>C:\Program Files (x86)\Microsoft\FxCop 15.0 for SDL</CodeAnalysisPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
