@@ -22,11 +22,6 @@ setlocal enabledelayedexpansion
 
 SET ARTIFACTS=%~dp0%..\artifacts
 
-:: ensure that artifacts exists
-IF NOT EXIST "%ARTIFACTS%" (
-  mkdir "%ARTIFACTS%"
-)
-
 IF NOT DEFINED DEPLOYMENT_SOURCE (
   SET DEPLOYMENT_SOURCE=%~dp0%.
 )
@@ -72,22 +67,16 @@ SET MSBUILD_PATH=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
 echo Handling ASP.NET Core Web Application deployment.
 
 :: 1. Restore nuget packages
-echo Restore nuget packages step started
 call :ExecuteCmd dotnet restore "%DEPLOYMENT_SOURCE%\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc.sln"
 IF !ERRORLEVEL! NEQ 0 goto error
-echo Restore nuget packages step ended
 
 :: 2. Build and publish
-echo Build and Publish step started
-call :ExecuteCmd dotnet publish "%DEPLOYMENT_SOURCE%\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc.csproj" --output "%DEPLOYMENT_TEMP%" --configuration Release -property:KuduDeployment=1
+call :ExecuteCmd dotnet publish "%DEPLOYMENT_SOURCE%\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc.csproj" --output "%DEPLOYMENT_TEMP%" --configuration Release
 IF !ERRORLEVEL! NEQ 0 goto error
-echo Build and Publish step ended
 
 :: 3. KuduSync
-echo KuduSync step started
 call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_TEMP%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
 IF !ERRORLEVEL! NEQ 0 goto error
-echo KuduSync step ended
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 goto end
