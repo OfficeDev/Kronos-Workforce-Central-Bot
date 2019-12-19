@@ -25,6 +25,11 @@
     </NuGetPackageImportStamp>
     <ApplicationInsightsResourceId>/subscriptions/59045825-a4cf-4fea-8af9-a13951bebab7/resourcegroups/msteams-kronos-test/providers/microsoft.insights/components/KronosDemoInsights</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/59045825-a4cf-4fea-8af9-a13951bebab7/resourcegroups/msteams-kronos-test/providers/microsoft.insights/components/KronosDemoInsights</ApplicationInsightsAnnotationResourceId>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>15.0</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -430,12 +435,6 @@
     <Content Include="Static\Script\jquery\.bower.json" />
     <Content Include="Static\Script\jquery\dist\jquery.min.map" />
     <Content Include="Views\Login\Close.cshtml" />
-    <None Include="Properties\PublishProfiles\Kronos-testapp - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\Kronos-testapp - FTP1.pubxml" />
-    <None Include="Properties\PublishProfiles\Kronos-testapp - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\Kronos-testapp - Web Deploy1.pubxml" />
-    <None Include="Properties\PublishProfiles\Kronosdemoapp - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\Kronosdemoapp - Web Deploy.pubxml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -525,6 +524,7 @@
   <Import Project="..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.9.0\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.9.0\build\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.targets')" />
   <Import Project="..\packages\Microsoft.ApplicationInsights.WindowsServer.2.9.0\build\Microsoft.ApplicationInsights.WindowsServer.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.WindowsServer.2.9.0\build\Microsoft.ApplicationInsights.WindowsServer.targets')" />
   <Import Project="..\packages\Microsoft.ApplicationInsights.Web.2.9.0\build\Microsoft.ApplicationInsights.Web.targets" Condition="Exists('..\packages\Microsoft.ApplicationInsights.Web.2.9.0\build\Microsoft.ApplicationInsights.Web.targets')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v15.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
