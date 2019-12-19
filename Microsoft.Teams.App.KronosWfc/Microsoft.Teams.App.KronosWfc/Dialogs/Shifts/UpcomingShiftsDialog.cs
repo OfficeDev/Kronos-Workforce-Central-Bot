@@ -20,6 +20,7 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.Schedule
     using Microsoft.Teams.App.KronosWfc.Models.ResponseEntities.Shifts.UpcomingShifts;
     using Microsoft.Teams.App.KronosWfc.Provider.Core;
     using Microsoft.Teams.App.KronosWfc.Resources;
+    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
     /// <summary>
@@ -51,8 +52,8 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.Schedule
         /// <inheritdoc/>
         public Task StartAsync(IDialogContext context)
         {
-           context.Wait<string>(this.ShowSchedule);
-           return Task.CompletedTask;
+            context.Wait<string>(this.ShowSchedule);
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -63,7 +64,9 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.Schedule
         /// <returns>show shifts for date or date ranges.</returns>
         private async Task ShowSchedule(IDialogContext context, IAwaitable<string> result)
         {
-            string message = await result;
+            string resultString = await result;
+            string message = JsonConvert.DeserializeObject<Message>(resultString).message;
+            var luisResult = JsonConvert.DeserializeObject<Message>(resultString).luisResult;
             string jSession = string.Empty;
 
             JObject tenant = context.Activity.ChannelData as JObject;
@@ -82,56 +85,87 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.Schedule
             }
 
             AppInsightsLogger.CustomEventTrace("UpcomingShiftsDialog", new Dictionary<string, string>() { { "TenantId", tenantId }, { "User", context.Activity.From.Id }, { "methodName", "ShowSchedule" }, { "Command", message } });
-
-            if (message.Contains(KronosResourceText.Current))
+            if (luisResult.entities.Count == 0)
             {
-                // current week
-                DateTime start = context.Activity.LocalTimestamp.Value.DateTime.StartWeekDate(DayOfWeek.Sunday);
-                startDate = start.ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                endDate = start.EndOfWeek().ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-            }
-            else if (message.Contains(KronosResourceText.Next))
-            {
-                // next week
-                DateTime start = context.Activity.LocalTimestamp.Value.DateTime.StartWeekDate(DayOfWeek.Sunday).AddDays(6);
-                startDate = start.ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                endDate = start.EndOfWeek().ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-            }
-            else if (message.Equals(Constants.DateRangeShift, StringComparison.CurrentCultureIgnoreCase))
-            {
-                // send date range card
-                await this.carouselUpcomingShifts.ShowDateRange(context, Constants.SubmitDateRangeShift);
-                context.Done(default(string));
-                return;
-            }
-            else if (message.Equals(Constants.SubmitDateRangeShift, StringComparison.CurrentCultureIgnoreCase))
-            {
-                // date range submitted
-                dynamic value = ((Activity)context.Activity).Value;
-                DateRange dateRange;
-                if (value != null)
+                if (message.Contains(KronosResourceText.Current))
                 {
-                    dateRange = DateRange.Parse(value);
-                    var results = new List<ValidationResult>();
-                    bool valid = Validator.TryValidateObject(dateRange, new ValidationContext(dateRange, null, null), results, true);
-                    if (!valid)
+                    // current week
+                    DateTime start = context.Activity.LocalTimestamp.Value.DateTime.StartWeekDate(DayOfWeek.Sunday);
+                    startDate = start.ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                    endDate = start.EndOfWeek().ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                }
+                else if (message.Contains(KronosResourceText.Next))
+                {
+                    // next week
+                    DateTime start = context.Activity.LocalTimestamp.Value.DateTime.StartWeekDate(DayOfWeek.Sunday).AddDays(6);
+                    startDate = start.ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                    endDate = start.EndOfWeek().ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                }
+                else if (message.Equals(Constants.DateRangeShift, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    // send date range card
+                    await this.carouselUpcomingShifts.ShowDateRange(context, Constants.SubmitDateRangeShift);
+                    context.Done(default(string));
+                    return;
+                }
+                else if (message.Equals(Constants.SubmitDateRangeShift, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    // date range submitted
+                    dynamic value = ((Activity)context.Activity).Value;
+                    DateRange dateRange;
+                    if (value != null)
                     {
-                        var errors = string.Join("\n", results.Select(o => " - " + o.ErrorMessage));
-                        await context.PostAsync($"{Constants.DateRangeParseError}" + errors);
-                        return;
-                    }
+                        dateRange = DateRange.Parse(value);
+                        var results = new List<ValidationResult>();
+                        bool valid = Validator.TryValidateObject(dateRange, new ValidationContext(dateRange, null, null), results, true);
+                        if (!valid)
+                        {
+                            var errors = string.Join("\n", results.Select(o => " - " + o.ErrorMessage));
+                            await context.PostAsync($"{Constants.DateRangeParseError}" + errors);
+                            return;
+                        }
 
-                    startDate = DateTime.Parse(dateRange.StartDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                    endDate = DateTime.Parse(dateRange.EndDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                        startDate = DateTime.Parse(dateRange.StartDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                        endDate = DateTime.Parse(dateRange.EndDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                    }
+                }
+                else
+                {
+                    // default shifts for today
+                    startDate = context.Activity.LocalTimestamp.Value.DateTime.Date.ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                    endDate = context.Activity.LocalTimestamp.Value.DateTime.Date.ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
                 }
             }
             else
             {
-                // default shifts for today
-                startDate = context.Activity.LocalTimestamp.Value.DateTime.Date.ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                endDate = context.Activity.LocalTimestamp.Value.DateTime.Date.ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-            }
+                if ((luisResult?.entities?.FirstOrDefault()?.resolution?.values?.FirstOrDefault()) != null)
+                {
+                    var t = luisResult?.entities?.FirstOrDefault()?.resolution?.values?.FirstOrDefault();
+                    switch (t.type)
+                    {
+                        case "date":
+                            startDate = DateTime.Parse(t.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                            endDate = DateTime.Parse(t.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                            //await context.PostAsync("Displaying schedule for **" + t.value + "**");
+                            break;
+                        case "daterange":
+                            startDate = DateTime.Parse(t.start).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                            endDate = DateTime.Parse(t.end).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                            // await context.PostAsync("Displaying schedule from **" + t.start + "** to **" + t.end + "**");
+                            break;
+                        default:
+                            await context.PostAsync("Could not recognise command.");
+                            break;
+                    }
+                }
+                else
+                {
+                    // default shifts for today
+                    startDate = context.Activity.LocalTimestamp.Value.DateTime.Date.ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                    endDate = context.Activity.LocalTimestamp.Value.DateTime.Date.ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                }
 
+            }
             context.UserData.TryGetValue(context.Activity.From.Id + Constants.SuperUser, out string superSession);
 
             Response scheduleResponse = await this.upcomingShiftsActivity.ShowUpcomingShifts(tenantId, superSession, startDate, endDate, personNumber);
@@ -151,22 +185,29 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.Schedule
             }
             else
             {
-                // send shift card
-                if (message.Contains(KronosResourceText.Current))
-                {
-                    await context.PostAsync(KronosResourceText.DefaultShiftsText + " **" + Constants.CurrentWeek + "**");
-                }
-                else if (message.Contains(KronosResourceText.Next))
-                {
-                    await context.PostAsync(KronosResourceText.DefaultShiftsText + " **" + Constants.NextWeek + "**");
-                }
-                else if (message.Equals(Constants.SubmitDateRangeShift, StringComparison.CurrentCultureIgnoreCase))
+                if ((luisResult?.entities?.FirstOrDefault()?.resolution?.values?.FirstOrDefault()) != null)
                 {
                     await context.PostAsync(KronosResourceText.DefaultShiftsText + KronosResourceText.From + " **" + DateTime.Parse(startDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString("MMM d, yyyy", CultureInfo.InvariantCulture) + "** " + KronosResourceText.Till + " **" + DateTime.Parse(endDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString("MMM d, yyyy", CultureInfo.InvariantCulture) + "**");
                 }
                 else
                 {
-                    await context.PostAsync(KronosResourceText.DefaultShiftsText + " " + KronosResourceText.Today);
+                    // send shift card
+                    if (message.Contains(KronosResourceText.Current))
+                    {
+                        await context.PostAsync(KronosResourceText.DefaultShiftsText + " **" + Constants.CurrentWeek + "**");
+                    }
+                    else if (message.Contains(KronosResourceText.Next))
+                    {
+                        await context.PostAsync(KronosResourceText.DefaultShiftsText + " **" + Constants.NextWeek + "**");
+                    }
+                    else if (message.Equals(Constants.SubmitDateRangeShift, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        await context.PostAsync(KronosResourceText.DefaultShiftsText + KronosResourceText.From + " **" + DateTime.Parse(startDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString("MMM d, yyyy", CultureInfo.InvariantCulture) + "** " + KronosResourceText.Till + " **" + DateTime.Parse(endDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString("MMM d, yyyy", CultureInfo.InvariantCulture) + "**");
+                    }
+                    else
+                    {
+                        await context.PostAsync(KronosResourceText.DefaultShiftsText + " " + KronosResourceText.Today);
+                    }
                 }
 
                 await this.carouselUpcomingShifts.ShowUpcomingShiftsCard(context, scheduleResponse, message);

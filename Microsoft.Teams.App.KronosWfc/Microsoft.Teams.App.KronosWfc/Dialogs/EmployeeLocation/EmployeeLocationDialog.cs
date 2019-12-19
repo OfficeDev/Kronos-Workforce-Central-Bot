@@ -26,6 +26,8 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.EmployeeLocation
     using JobAssignmentAlias = Microsoft.Teams.App.KronosWfc.Models.ResponseEntities.JobAssignment;
     using ShowPunchesAlias = Microsoft.Teams.App.KronosWfc.Models.ResponseEntities.Punch.ShowPunches;
     using UpcomingShiftAlias = Microsoft.Teams.App.KronosWfc.Models.ResponseEntities.Shifts.UpcomingShifts;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// employee location dialog.
@@ -88,13 +90,16 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.EmployeeLocation
         /// <returns>employee details.</returns>
         private async Task ShowEmployeeDetails(IDialogContext context, IAwaitable<string> result)
         {
-            string message = await result;
+            string resultString = await result;
             string jSession = string.Empty;
             string personNumber = string.Empty;
             string startDate = default(string);
             string endDate = default(string);
             JObject tenant = context.Activity.ChannelData as JObject;
             string tenantId = tenant["tenant"].SelectToken("id").ToString();
+            string message = JsonConvert.DeserializeObject<Message>(resultString).message;
+            var luisResult = JsonConvert.DeserializeObject<Message>(resultString).luisResult;
+
             if (context.UserData.TryGetValue(context.Activity.From.Id, out this.response))
             {
                 personNumber = this.response.PersonNumber;
@@ -118,7 +123,8 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.EmployeeLocation
             }
             else
             {
-                var employee = hyperFindResponse.HyperFindResult.Where(x => x.FullName.ToLowerInvariant().Contains(message)).FirstOrDefault();
+                var employeeName = luisResult?.entities?.FirstOrDefault()?.entity;
+                var employee = hyperFindResponse.HyperFindResult.Where(x => x.FullName.ToLowerInvariant().Contains(employeeName)).FirstOrDefault();
                 if (employee == null)
                 {
                     await context.PostAsync(Resources.KronosResourceText.NoEmpFoundByName.Replace("{txt}", message));

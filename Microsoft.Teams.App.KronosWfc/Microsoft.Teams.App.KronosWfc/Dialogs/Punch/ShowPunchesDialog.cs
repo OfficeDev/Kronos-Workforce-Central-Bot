@@ -21,6 +21,7 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.Punch
     using Microsoft.Teams.App.KronosWfc.Models;
     using Microsoft.Teams.App.KronosWfc.Models.ResponseEntities.Punch.ShowPunches;
     using Microsoft.Teams.App.KronosWfc.Provider.Core;
+    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using UpcomingShiftsAlias = Microsoft.Teams.App.KronosWfc.Models.ResponseEntities.Shifts.UpcomingShifts;
 
@@ -116,6 +117,11 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.Punch
 
         private async Task ShowPunches(IDialogContext context, IAwaitable<string> result)
         {
+
+            string resultString = await result;
+            string msg = JsonConvert.DeserializeObject<Message>(resultString).message;
+            var luisResult = JsonConvert.DeserializeObject<Message>(resultString).luisResult;
+
             var activity = context.Activity as Activity;
             JObject tenant = context.Activity.ChannelData as JObject;
             string tenantId = tenant["tenant"].SelectToken("id").ToString();
@@ -143,46 +149,78 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.Punch
             Response showPunchesResponse = default(Response);
             var punchText = string.Empty;
             AppInsightsLogger.CustomEventTrace("ShowPunchesDialog", new Dictionary<string, string>() { { "TenantId", tenantId }, { "User", context.Activity.From.Id }, { "methodName", "ShowPunches" }, { "Command", message } });
-
-            switch (message)
+            if (luisResult.entities.Count == 0)
             {
-                case string command when command == Constants.PreviousPayPeriodPunches:
-                    punchText = Constants.PreviousPayPeriodPunchesText;
-                    CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.PreviousPayPeriodPunches);
-                    break;
+                switch (message)
+                {
+                    case string command when command == Constants.PreviousPayPeriodPunches:
+                        punchText = Constants.PreviousPayPeriodPunchesText;
+                        CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.PreviousPayPeriodPunches);
+                        break;
 
-                case string command when command == Constants.CurrentpayPeriodPunches || command == Constants.Punches || command == Constants.ShowMeMyPunches:
-                    punchText = Constants.CurrentpayPeriodPunchesText;
-                    CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.CurrentpayPeriodPunches);
-                    break;
+                    case string command when command == Constants.CurrentpayPeriodPunches || command == Constants.Punches || command == Constants.ShowMeMyPunches:
+                        punchText = Constants.CurrentpayPeriodPunchesText;
+                        CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.CurrentpayPeriodPunches);
+                        break;
 
-                case string command when command.Contains(Constants.DateRangePunches):
-                    await this.dateRangeCard.ShowDateRange(context, Constants.SubmitDateRangePunches, Constants.PunchesDateRangeText);
-                    return;
+                    case string command when command.Contains(Constants.DateRangePunches):
+                        await this.dateRangeCard.ShowDateRange(context, Constants.SubmitDateRangePunches, Constants.PunchesDateRangeText);
+                        return;
 
-                case string command when command.Contains(Constants.SubmitDateRangePunches):
-                    dynamic value = activity.Value;
-                    DateRange dateRange;
+                    case string command when command.Contains(Constants.SubmitDateRangePunches):
+                        dynamic value = activity.Value;
+                        DateRange dateRange;
 
-                    if (value != null)
-                    {
-                        dateRange = DateRange.Parse(value);
-                        var results = new List<ValidationResult>();
-                        bool valid = Validator.TryValidateObject(dateRange, new ValidationContext(dateRange, null, null), results, true);
-                        if (!valid)
+                        if (value != null)
                         {
-                            var errors = string.Join("\n", results.Select(o => " - " + o.ErrorMessage));
-                            await context.PostAsync($"{Constants.DateRangeParseError}" + errors);
-                            return;
+                            dateRange = DateRange.Parse(value);
+                            var results = new List<ValidationResult>();
+                            bool valid = Validator.TryValidateObject(dateRange, new ValidationContext(dateRange, null, null), results, true);
+                            if (!valid)
+                            {
+                                var errors = string.Join("\n", results.Select(o => " - " + o.ErrorMessage));
+                                await context.PostAsync($"{Constants.DateRangeParseError}" + errors);
+                                return;
+                            }
+
+                            startDate = DateTime.Parse(dateRange.StartDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                            endDate = DateTime.Parse(dateRange.EndDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
                         }
 
-                        startDate = DateTime.Parse(dateRange.StartDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                        endDate = DateTime.Parse(dateRange.EndDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                    }
-
-                    break;
+                        break;
+                    default:
+                        punchText = Constants.CurrentpayPeriodPunchesText;
+                        CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.CurrentpayPeriodPunches);
+                        break;
+                }
             }
-
+            else
+            {
+                if ((luisResult?.entities?.FirstOrDefault()?.resolution?.values?.FirstOrDefault()) != null)
+                {
+                    var t = luisResult?.entities?.FirstOrDefault()?.resolution?.values?.FirstOrDefault();
+                    switch (t.type)
+                    {
+                        case "date":
+                            startDate = DateTime.Parse(t.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                            endDate = DateTime.Parse(t.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                            break;
+                        case "daterange":
+                            startDate = DateTime.Parse(t.start).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                            endDate = DateTime.Parse(t.end).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                            break;
+                        default:
+                            await context.PostAsync("Could not recognise command.");
+                            break;
+                    }
+                }
+                else
+                {
+                    // default shifts for today
+                    startDate = context.Activity.LocalTimestamp.Value.DateTime.Date.ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                    endDate = context.Activity.LocalTimestamp.Value.DateTime.Date.ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                }
+            }
             showPunchesResponse = await this.showPunchesActivity.ShowPunches(tenantId, jSession, personNumber, startDate, endDate);
 
             if (showPunchesResponse?.Status == ApiConstants.Success)
