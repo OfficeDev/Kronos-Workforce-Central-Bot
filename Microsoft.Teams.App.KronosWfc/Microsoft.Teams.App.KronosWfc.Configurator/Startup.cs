@@ -36,10 +36,12 @@ namespace Microsoft.Teams.App.KronosWfc.Configurator
             })
             .AddJwtBearer(options =>
             {
-                var authSettings = Configuration.GetSection("AzureAd").Get<AzureAdOptions>();
-
-                options.Audience = authSettings.ClientId;
-                options.Authority = authSettings.Authority;
+                var ClientId =  Configuration["ClientId"];
+                var Tenant = Configuration["Tenant"];
+                var Instance = Configuration["Instance"];
+                var Authority = Instance + Tenant;
+                options.Audience = ClientId;
+                options.Authority = Authority;
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options =>

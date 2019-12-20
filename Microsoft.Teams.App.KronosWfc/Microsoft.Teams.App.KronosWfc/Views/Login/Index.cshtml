@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 @model Microsoft.Teams.App.KronosWfc.Models.User
@@ -13,7 +12,7 @@
     <title>Workforce Central</title>
 </head>
 <body>
-    <script src="https://unpkg.com/@("@microsoft/teams-js@1.4.3")/dist/MicrosoftTeams.min.js"></script>
+    <script src="https://unpkg.com/@(" @microsoft/teams-js@1.4.3")/dist/MicrosoftTeams.min.js"></script>
     <script src="~/Static/Script/jquery/dist/jquery.min.js"></script>
     <script src="~/Static/Script/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/Static/Script/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
@@ -29,36 +28,36 @@
 
                     @if (!ViewData.ModelState.IsValid)
                     {
-                        <div id="messageBox" class="show">
-                            <div class="message-wrapper">
-                                <span class="error">@ViewData.ModelState["Invalid"].Errors.FirstOrDefault().ErrorMessage</span>
-                            </div>
+                    <div id="messageBox" class="show">
+                        <div class="message-wrapper">
+                            <span class="error">@ViewData.ModelState["Invalid"].Errors.FirstOrDefault().ErrorMessage</span>
                         </div>
+                    </div>
                     }
                     <div class="form">
                         @using (Html.BeginForm("LoginAction", "Login", FormMethod.Post, new { id = "signinform" }))
                         {
-                            @Html.AntiForgeryToken()
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
                             <div class="form-group">
-                                <div class="form-group">
 
-                                    @Html.LabelFor(model => model.UserName)
-                                    @Html.EditorFor(model => model.UserName)
-                                    @Html.ValidationMessageFor(model => model.UserName, "", new { @style = "display: none" })
-                                </div>
-                                <div class="form-group">
-
-                                    @Html.LabelFor(model => model.Password)
-                                    @Html.EditorFor(model => model.Password)
-                                    @Html.ValidationMessageFor(model => model.Password, "", new { @style = "display: none" })
-                                </div>
-                                <div class="form-group">
-                                    @Html.HiddenFor(model => model.TenantId, new { Value = ViewBag.Tid })
-
-
-                                    <input type="submit" value="Submit" />
-                                </div>
+                                @Html.LabelFor(model => model.UserName)
+                                @Html.EditorFor(model => model.UserName)
+                                @Html.ValidationMessageFor(model => model.UserName, "", new { @style = "display: none" })
                             </div>
+                            <div class="form-group">
+
+                                @Html.LabelFor(model => model.Password)
+                                @Html.EditorFor(model => model.Password)
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @style = "display: none" })
+                            </div>
+                            <div class="form-group">
+                                @Html.HiddenFor(model => model.TenantId, new { Value = ViewBag.Tid })
+
+
+                                <input type="submit" value="Submit" />
+                            </div>
+                        </div>
                         }
                     </div>
                     <div class="help">

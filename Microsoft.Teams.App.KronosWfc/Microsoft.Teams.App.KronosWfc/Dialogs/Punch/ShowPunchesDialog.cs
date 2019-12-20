@@ -234,16 +234,16 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.Punch
                     foreach (var scheduleShift in scheduleShifts)
                     {
                         var shiftSegment = scheduleShift.ShiftSegments.FirstOrDefault();
+                        var lastShiftSeg = scheduleShift.ShiftSegments.LastOrDefault();
                         stDateTime = DateTime.Parse($"{shiftSegment.StartDate} {shiftSegment.StartTime}", CultureInfo.InvariantCulture, DateTimeStyles.None);
-                        eDateTime = DateTime.Parse($"{shiftSegment.EndDate} {shiftSegment.EndTime}", CultureInfo.InvariantCulture, DateTimeStyles.None);
-
+                        eDateTime = DateTime.Parse($"{lastShiftSeg?.EndDate} {lastShiftSeg?.EndTime}", CultureInfo.InvariantCulture, DateTimeStyles.None);
                         assignedHours = assignedHours + Math.Abs(Math.Round((stDateTime - eDateTime).TotalHours, 2));
                     }
                 }
 
                 // Getting the list of recorded punches
                 var showPunchesDataOrderedList = showPunchesResponse?.Timesheet?.TotaledSpans?.TotaledSpan?
-                    .Where(x => x.InPunch.Punch.EnteredOnDate != null).ToList();
+                                    .Where(x => x.InPunch.Punch.EnteredOnDate != null).ToList();
 
                 // Getting all hours worked time
                 var showHoursWorkedOrderedList = showPunchesResponse?.Timesheet?.PeriodTotalData?.PeriodTotals?.Totals?.Total?.FindAll(x => x.PayCodeName == Constants.AllHours).Select(x => new { x.PayCodeName, x.AmountInTime }).FirstOrDefault();
