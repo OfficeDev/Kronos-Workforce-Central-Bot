@@ -65,16 +65,21 @@ SET MSBUILD_PATH=%MSBUILD_15_DIR%\MSBuild.exe
 
 echo Handling .NET Web Application deployment.
 
-:: 1. Restore NuGet packages
+
   call :ExecuteCmd nuget restore "%DEPLOYMENT_SOURCE%\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc.sln" -MSBuildPath "%MSBUILD_15_DIR%"
   IF !ERRORLEVEL! NEQ 0 goto error
+echo building project
 
-:: 2. Build to the temporary path
-  call :ExecuteCmd "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc.csproj" /nologo /verbosity:m /t:Build /p:AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false /p:SolutionDir="%DEPLOYMENT_SOURCE%\Source\\" %SCM_BUILD_ARGS%
+  call :ExecuteCmd "%MSBUILD_PATH%" "%DEPLOYMENT_SOURCE%\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc.csproj" /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="%DEPLOYMENT_TEMP%";Configuration=Release;UseSharedCompilation=false /p:SolutionDir="%DEPLOYMENT_SOURCE%\Microsoft.Teams.App.KronosWfc\\"
   IF !ERRORLEVEL! NEQ 0 goto error
+  echo done building project
 
-:: 3. KuduSync
+echo starting publish
+echo Temp %DEPLOYMENT_TEMP%
+echo Target %DEPLOYMENT_TARGET%
+echo manifest path %NEXT_MANIFEST_PATH%
   call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_TEMP%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
+  echo done publish
   IF !ERRORLEVEL! NEQ 0 goto error
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
