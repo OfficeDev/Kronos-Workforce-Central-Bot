@@ -12,7 +12,7 @@ import { createBrowserHistory } from "history";
 import { getToken, authContext } from '../adalConfig';
 
 const browserHistory = createBrowserHistory({ basename: '' });
-const headers = { Authorization: '' };
+
 interface IProps { }
 var reactPlugin = new ReactPlugin();
 
@@ -35,6 +35,7 @@ interface IState {
 class main extends React.Component<IProps, IState> {
     state: IState;
     token: any = null;
+    bearer:string = "";
     /** Instrumentation key*/
     telemetry: any = undefined;
     appInsights: ApplicationInsights;
@@ -91,7 +92,7 @@ class main extends React.Component<IProps, IState> {
             }
         });
         //this.appInsights.loadAppInsights();
-        headers.Authorization = `Bearer ${getToken()}`;
+        this.bearer = `Bearer ${getToken()}`;
     }
 
     async componentDidMount() {
@@ -104,7 +105,9 @@ class main extends React.Component<IProps, IState> {
     async getSuperuserConfig() {
         this.setState({ superuserConfigLoading: true });
         let request = new Request("/api/TenantConfig/GetSuperuserConfig", {
-            headers: new Headers(headers)
+            headers: new Headers({
+                "Authorization": this.bearer
+            })
         });
 
         const res = await fetch(request);
@@ -134,7 +137,9 @@ class main extends React.Component<IProps, IState> {
     async getPaycodes() {
         this.setState({ tenantPaycodesLoading: true });
         let request = new Request("/api/TenantConfig/GetPaycodeMapping", {
-            headers: new Headers(headers)
+            headers: new Headers({
+                "Authorization": this.bearer
+            })
         });
 
         const res = await fetch(request);
@@ -164,7 +169,9 @@ class main extends React.Component<IProps, IState> {
     async getTenantInfo() {
         this.setState({ tenantInfoLoading: true });
         let request = new Request("/api/TenantConfig/GetTenantInfo", {
-            headers: new Headers(headers)
+            headers: new Headers({
+                "Authorization": this.bearer
+            })
         });
 
         const res = await fetch(request);
@@ -193,10 +200,15 @@ class main extends React.Component<IProps, IState> {
     /** Save tenant info */
     setTenantInfo = async () => {
         this.setState({ tenantInfoLoading: true });
+        let tenantInfo = this.state.tenantInfo;
+        tenantInfo.PartitionKey = "msteams";
         const res = await fetch("/api/TenantConfig/SetTenantInfo", {
             method: "POST",
-            headers: headers,
-            body: JSON.stringify(this.state.tenantInfo)
+            headers: new Headers({
+                "Authorization": this.bearer,
+                "Content-Type": "application/json",
+            }),
+            body: JSON.stringify(tenantInfo)
         });
         this.setState({ tenantInfoLoading: false });
         let response = res;
@@ -219,7 +231,10 @@ class main extends React.Component<IProps, IState> {
         this.setState({ tenantPaycodesLoading: true });
         const res = await fetch( "/api/TenantConfig/SetPaycodeMapping", {
             method: "POST",
-            headers: headers,
+            headers: new Headers({
+                "Authorization": this.bearer,
+                "Content-Type": "application/json",
+            }),
             body: JSON.stringify(this.state.tenantPaycodes)
         });
         this.setState({ tenantPaycodesLoading: false });
@@ -243,7 +258,10 @@ class main extends React.Component<IProps, IState> {
         this.setState({ superuserConfigLoading: true });
         const res = await fetch("/api/TenantConfig/SetSuperuserConfig", {
             method: "POST",
-            headers: headers,
+            headers: new Headers({
+                "Authorization": this.bearer,
+                "Content-Type": "application/json",
+            }),
             body: JSON.stringify(this.state.tenantSuperuserInfo)
         });
         this.setState({ superuserConfigLoading: false });
