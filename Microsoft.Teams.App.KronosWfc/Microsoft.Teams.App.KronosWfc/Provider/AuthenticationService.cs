@@ -87,11 +87,10 @@ namespace Microsoft.Teams.App.KronosWfc.Provider
                     {
                         new Attachment()
                         {
-                            ContentType = HeroCard.ContentType,
-                            Content = new HeroCard()
+                            ContentType = SigninCard.ContentType,
+                            Content = new SigninCard()
                             {
-                                Title = KronosResourceText.SignInLabel,
-                                Subtitle = KronosResourceText.LoginToContinue,
+                                Text = "Sign In - Required.",
                                 Buttons = new CardAction[]
                                 {
                                     new CardAction() { Title = buttonLabel, Value = loginUrl, Type = ActionTypes.Signin },
