@@ -2,6 +2,36 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+	"LUISRegion": {
+        "type": "string",
+		"defaultValue": "westus",
+        "allowedValues": [
+            "brazilsouth",
+            "centralindia",
+            "eastasia",
+            "japaneast",
+            "japanwest",
+            "koreacentral",
+            "souteastasia",
+            "canadacentral",
+            "centralus",
+            "eastus",
+            "eastus2",
+            "northcentralus",
+            "southcentralus",
+            "westcentralus",
+            "westus",
+            "westus2",
+            "australiaeast",
+            "francecentral",
+            "northeurope",
+            "westeurope",
+            "uksouth"
+        ],
+        "metadata": {
+            "description": "The region where the LUIS resource will be deployed."
+        }
+    },
     "baseResourceName": {
       "type": "string",
       "minLength": 1,
@@ -49,63 +79,23 @@
         "description": "The ID of the tenant to which the app will be deployed."
       }
     },
-    "keyVaultObjectId": {
+	"UPN": {
       "type": "string",
+      "defaultValue": "",
       "minLength": 1,
-      "metadata": {
-        "description": "Specifies the object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Get it by using Get-AzADUser or Get-AzADServicePrincipal cmdlets."
-      }
+      "maxLength": 100
     },
-	"keyVaultEnabledForDeployment": {
-      "type": "bool",
-      "defaultValue": false,
-      "allowedValues": [
-        true,
-        false
-      ],
-      "metadata": {
-        "description": "Specifies whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault."
-      }
+	"KronosWfcSuperUserName": {
+      "type": "string",
+      "defaultValue": "",
+      "minLength": 1,
+      "maxLength": 100
     },
-    "keyVaultEnabledForDiskEncryption": {
-      "type": "bool",
-      "defaultValue": false,
-      "allowedValues": [
-        true,
-        false
-      ],
-      "metadata": {
-        "description": "Specifies whether Azure Disk Encryption is permitted to retrieve secrets from the vault and unwrap keys."
-      }
-    },
-    "keyVaultEnabledForTemplateDeployment": {
-      "type": "bool",
-      "defaultValue": false,
-      "allowedValues": [
-        true,
-        false
-      ],
-      "metadata": {
-        "description": "Specifies whether Azure Resource Manager is permitted to retrieve secrets from the key vault."
-      }
-    },
-	"keyVaultKeysPermissions": {
-      "type": "array",
-      "defaultValue": [
-        "list"
-      ],
-      "metadata": {
-        "description": "Specifies the permissions to keys in the vault. Valid values are: all, encrypt, decrypt, wrapKey, unwrapKey, sign, verify, get, list, create, update, import, delete, backup, restore, recover, and purge."
-      }
-    },
-	"keyVaultSecretsPermissions": {
-      "type": "array",
-      "defaultValue": [
-        "list"
-      ],
-      "metadata": {
-        "description": "Specifies the permissions to secrets in the vault. Valid values are: all, get, list, set, delete, backup, restore, recover, and purge."
-      }
+	"KronosWfcSuperUserPwd": {
+      "type": "string",
+      "defaultValue": "",
+      "minLength": 1,
+      "maxLength": 100
     },
 	"keyVaultSkuName": {
       "type": "string",
@@ -118,66 +108,6 @@
         "description": "Specifies whether the key vault is a standard vault or a premium vault."
       }
     },
-	"keyVaultSecretName1": {
-      "type": "string",
-      "metadata": {
-        "description": "Specifies the name of the secret that you want to create."
-      }
-    },
-    "keyVaultSecretValue1": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Specifies the value of the secret that you want to create."
-      }
-    },
-	"keyVaultSecretName2": {
-      "type": "string",
-      "metadata": {
-        "description": "Specifies the name of the secret that you want to create."
-      }
-    },
-    "keyVaultSecretValue2": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Specifies the value of the secret that you want to create."
-      }
-    },
-	"keyVaultSecretName3": {
-      "type": "string",
-      "metadata": {
-        "description": "Specifies the name of the secret that you want to create."
-      }
-    },
-    "keyVaultSecretValue3": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Specifies the value of the secret that you want to create."
-      }
-    },
-	"keyVaultSecretName4": {
-      "type": "string",
-      "metadata": {
-        "description": "Specifies the name of the secret that you want to create."
-      }
-    },
-    "keyVaultSecretValue4": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Specifies the value of the secret that you want to create."
-      }
-    },
-	"keyVaultSecretName5": {
-      "type": "string",
-      "metadata": {
-        "description": "Specifies the name of the secret that you want to create."
-      }
-    },
-    "keyVaultSecretValue5": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Specifies the value of the secret that you want to create."
-      }
-    },	
     "appIconUrl": {
       "type": "string",
       "minLength": 1,
@@ -216,32 +146,24 @@
       "metadata": {
         "description": "Location for all resources."
       }
-    },
-    "gitRepoUrl": {
-      "type": "string",
-      "metadata": {
-        "description": "The URL to the GitHub repository to deploy."
-      },
-      "defaultValue": "<<To Do>>"
-    },
-    "gitBranch": {
-      "type": "string",
-      "metadata": {
-        "description": "The branch of the GitHub repository to deploy."
-      },
-      "defaultValue": "master"
     }
   },
   "variables": {
     "uniqueString": "[uniquestring(subscription().id, resourceGroup().id, parameters('baseResourceName'))]",
-    "botName": "[concat('KE', parameters('baseResourceName'))]",
-    "botAppName": "[concat('KE',parameters('baseResourceName'))]",
-    "keyVaultName": "[concat('KE',concat(variables('botAppName'), 'vault'))]",
-    "botAppDomain": "[concat('KE',concat(variables('botAppName'), '.azurewebsites.net'))]",
+    "botName": "[parameters('baseResourceName')]",
+    "botAppName": "[parameters('baseResourceName')]",
+    "keyVaultName": "[concat(variables('botAppName'), 'vault')]",
+    "botAppDomain": "[concat(variables('botAppName'), '.azurewebsites.net')]",
     "botAppUrl": "[concat('https://', variables('botAppDomain'))]",
-    "hostingPlanName": "[concat('KE',parameters('baseResourceName'))]",
-    "storageAccountName": "[concat('ke',variables('uniqueString'))]",
-    "botAppInsightsName": "[concat('KE',parameters('baseResourceName'))]",
+    "hostingPlanName": "[parameters('baseResourceName')]",
+    "storageAccountName": "[variables('uniqueString')]",
+    "botAppInsightsName": "[parameters('baseResourceName')]",
+	"configAppName": "[concat(parameters('baseResourceName'), '-config')]",
+    "configAppUrl": "[concat('https://', variables('configAppName'), '.azurewebsites.net')]",
+    "botAppLUISName":"[concat(variables('botAppName'),'LUIS')]",
+	"gitRepoUrl": "https://github.com/OfficeDev/Kronos-Workforce-Central-Bot",
+	"gitBranch": "kronosext",
+	"luisAppId" : "dd6c54de-540b-415c-b086-4e75e3d5bae6",
     "sharedSkus": [
       "Free",
       "Shared"
@@ -250,6 +172,19 @@
     "skuFamily": "[if(equals(parameters('sku'), 'Shared'), 'D', take(parameters('sku'), 1))]"
   },
   "resources": [
+	{
+        "type": "Microsoft.CognitiveServices/accounts",
+        "sku": {
+            "name": "S0"
+        },
+        "kind": "LUIS",
+        "name": "[concat(variables('botName'), '-luis')]",
+        "apiVersion": "2016-02-01-preview",
+        "location": "[parameters('LUISRegion')]",
+        "scale": null,
+        "properties": {},
+        "dependsOn": []
+    },
     {
       "apiVersion": "2018-02-01",
       "kind": "Storage",
@@ -283,7 +218,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
-        "[resourceId('Microsoft.Insights/components/', variables('botAppInsightsName'))]"
+        "[resourceId('Microsoft.Insights/components', variables('botAppInsightsName'))]"
       ],
       "kind": "app",
       "location": "[parameters('location')]",
@@ -308,15 +243,35 @@
             },
             {
               "name": "MicrosoftAppIdUrl",
-              "value": "[parameters('botClientId')]"
+              "value": "[concat('https://',variables('botAppName'), 'vault.vault.azure.net/secrets/MicrosoftAppIdUrl')]"
             },
             {
               "name": "MicrosoftAppPwdUrl",
-              "value": "[parameters('botClientSecret')]"
+              "value": "[concat('https://',variables('botAppName'), 'vault.vault.azure.net/secrets/MicrosoftAppPwdUrl')]"
             },
             {
               "name": "AzureTableStorageConnectionString",
-              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')),'2015-05-01-preview').key1)]"
+              "value": "[concat('https://',variables('botAppName'), 'vault.vault.azure.net/secrets/AzureTableStorageConnectionString')]"
+            },
+			{
+              "name": "EncryptionKey",
+              "value": "[concat('https://',variables('botAppName'), 'vault.vault.azure.net/secrets/EncryptionKey')]"
+            },
+			{
+              "name": "EncryptionIV",
+              "value": "[concat('https://',variables('botAppName'), 'vault.vault.azure.net/secrets/EncryptionIV')]"
+            },
+			{
+              "name": "TenantMappingTable",
+              "value": "TenantMappingTable"
+            },
+			{
+              "name": "KronosUserDetails",
+              "value": "KronosUserDetails"
+            },
+			{
+              "name": "PaycodeMappingTable",
+              "value": "KronosOvertimeMapping"
             },
             {
               "name": "BaseUri",
@@ -340,11 +295,19 @@
             },
             {
               "name": "LuisModelId",
-              "value": ""
+              "value": "dd6c54de-540b-415c-b086-4e75e3d5bae6"
             },
             {
               "name": "LuisSubscriptionKey",
-              "value": ""
+              "value": "dbf3675e243c40c9b4f0b34d236fa7e8"
+            },
+			{
+              "name": "SuperuserUsernameUri",
+              "value": "[concat('https://',variables('botAppName'), 'vault.vault.azure.net/secrets/KronosWfcSuperUserName')]"
+            },
+			{
+              "name": "SuperuserPasswordUri",
+              "value": "[concat('https://',variables('botAppName'), 'vault.vault.azure.net/secrets/KronosWfcSuperUserPwd')]"
             }
           ]
         }
@@ -354,13 +317,13 @@
           "apiVersion": "2016-08-01",
           "name": "web",
           "type": "sourcecontrols",
-          "condition": "[not(empty(parameters('gitRepoUrl')))]",
+          "condition": "[not(empty(variables('gitRepoUrl')))]",
           "dependsOn": [
             "[resourceId('Microsoft.Web/sites', variables('botAppName'))]"
           ],
           "properties": {
-            "RepoUrl": "[parameters('gitRepoUrl')]",
-            "branch": "[parameters('gitBranch')]",
+            "RepoUrl": "[variables('gitRepoUrl')]",
+            "branch": "[variables('gitBranch')]",
             "IsManualIntegration": true
           }
         }
@@ -394,7 +357,9 @@
         "iconUrl": "[parameters('appIconUrl')]",
         "msaAppId": "[parameters('botClientId')]",
         "endpoint": "[concat(variables('botAppUrl'), '/api/messages')]",
-        "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', variables('botAppInsightsName')), '2015-05-01').InstrumentationKey]"
+        "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', variables('botAppInsightsName')), '2015-05-01').InstrumentationKey]",
+		"luisAppIds":["[variables('luisAppId')]"],
+		"luisKey": "[listKeys(concat(variables('botName'), '-luis'), '2016-02-01-preview').key1]"
       },
       "resources": [
         {
@@ -422,7 +387,92 @@
       },
       "type": "Microsoft.BotService/botServices"
     },
- {
+	{
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2016-08-01",
+      "name": "[variables('configAppName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+      ],
+      "kind": "app",
+      "properties": {
+        "name": "[variables('configAppName')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+        "enabled": true,
+        "reserved": false,
+        "scmSiteAlsoStopped": false,
+        "clientAffinityEnabled": true,
+        "clientCertEnabled": false,
+        "hostNamesDisabled": false,
+        "containerSize": 0,
+        "dailyMemoryTimeQuota": 0,
+        "httpsOnly": true,
+        "siteConfig": {
+          "alwaysOn": false,
+          "appSettings": [
+            {
+              "name": "SITE_ROLE",
+              "value": "configuration"
+            },
+            {
+              "name": "Tenant",
+              "value": "[parameters('tenantId')]"
+            },
+			{
+              "name": "Instance",
+              "value": "https://login.microsoftonline.com/"
+            },
+			{
+              "name": "ClientId",
+              "value": "[parameters('botClientId')]"
+            },
+			{
+              "name": "UPN",
+              "value": "[parameters('UPN')]"
+            },
+			{
+              "name": "TokenEnpoint",
+              "value": "[concat('https://login.microsoftonline.com/', parameters('tenantId'), '/oauth2/v2.0/token')]"
+            },
+			{
+              "name": "AllowedHosts",
+              "value": "*"
+            },
+			{
+              "name": "StorageConnectionString",
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')),'2015-05-01-preview').key1, ';EndpointSuffix=core.windows.net')]"
+            },
+			{
+              "name": "KeyVaultBaseURL",
+              "value": "[concat('https://', variables('keyVaultName'), '.vault.azure.net/')]"
+            },
+			{
+              "name": "WEBSITE_NODE_DEFAULT_VERSION",
+              "value": "6.9.5"
+            }
+          ]
+        }
+      },
+	  "resources": [
+        {
+          "apiVersion": "2016-08-01",
+          "name": "web",
+          "type": "sourcecontrols",
+          "condition": "[not(empty(variables('gitRepoUrl')))]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', variables('configAppName'))]"
+          ],
+          "properties": {
+            "RepoUrl": "[variables('gitRepoUrl')]",
+            "branch": "[variables('gitBranch')]",
+            "IsManualIntegration": true
+          }
+        }
+      ]
+	},
+	{
       "type": "Microsoft.KeyVault/vaults",
       "name": "[variables('keyVaultName')]",
       "location": "[parameters('location')]",
@@ -431,20 +481,11 @@
         "displayName": "KeyVault"
       },
       "properties": {
-        "enabledForDeployment": "[parameters('keyVaultEnabledForDeployment')]",
-        "enabledForTemplateDeployment": "[parameters('keyVaultEnabledForTemplateDeployment')]",
-        "enabledForDiskEncryption": "[parameters('keyVaultEnabledForDiskEncryption')]",
+        "enabledForDeployment": "true",
+        "enabledForTemplateDeployment": "true",
+        "enabledForDiskEncryption": "true",
         "tenantId": "[parameters('tenantId')]",
-        "accessPolicies": [
-          {
-            "objectId": "[parameters('keyVaultObjectId')]",
-            "tenantId": "[parameters('tenantId')]",
-            "permissions": {
-              "keys": "[parameters('keyVaultKeysPermissions')]",
-              "secrets": "[parameters('keyVaultSecretsPermissions')]"      
-            }
-          }
-        ],
+		"accessPolicies": [],
         "sku": {
           "name": "[parameters('keyVaultSkuName')]",
           "family": "A"
@@ -457,64 +498,91 @@
         }
       }
     },
-{
+	{
       "type": "Microsoft.KeyVault/vaults/secrets",
-      "name": "[concat(variables('keyVaultName'), '/', parameters('keyVaultSecretName1'))]",
+      "name": "[concat(variables('keyVaultName'), '/MicrosoftAppIdUrl')]",
       "apiVersion": "2018-02-14",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
       ],
       "properties": {
-        "value": "[parameters('keyVaultSecretValue1')]"
+        "value": "[parameters('botClientId')]"
       }
     },
 	{
       "type": "Microsoft.KeyVault/vaults/secrets",
-      "name": "[concat(variables('keyVaultName'), '/', parameters('keyVaultSecretName2'))]",
+      "name": "[concat(variables('keyVaultName'), '/MicrosoftAppPwdUrl')]",
       "apiVersion": "2018-02-14",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
       ],
       "properties": {
-        "value": "[parameters('keyVaultSecretValue2')]"
+        "value": "[parameters('botClientSecret')]"
       }
     },
 	{
       "type": "Microsoft.KeyVault/vaults/secrets",
-      "name": "[concat(variables('keyVaultName'), '/', parameters('keyVaultSecretName3'))]",
+      "name": "[concat(variables('keyVaultName'), '/EncryptionKey')]",
       "apiVersion": "2018-02-14",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
       ],
       "properties": {
-        "value": "[parameters('keyVaultSecretValue3')]"
+        "value": "SDBikUjzq/00iK57fW2wnAqhma15OSl="
       }
     },
 	{
       "type": "Microsoft.KeyVault/vaults/secrets",
-      "name": "[concat(variables('keyVaultName'), '/', parameters('keyVaultSecretName4'))]",
+      "name": "[concat(variables('keyVaultName'), '/EncryptionIV')]",
       "apiVersion": "2018-02-14",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
       ],
       "properties": {
-        "value": "[parameters('keyVaultSecretValue4')]"
+        "value": "bki0U8Q1iQ2FPk=="
       }
     },
 	{
       "type": "Microsoft.KeyVault/vaults/secrets",
-      "name": "[concat(variables('keyVaultName'), '/', parameters('keyVaultSecretName5'))]",
+      "name": "[concat(variables('keyVaultName'), '/AzureTableStorageConnectionString')]",
       "apiVersion": "2018-02-14",
       "location": "[parameters('location')]",
       "dependsOn": [
+		"[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
         "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
       ],
       "properties": {
-        "value": "[parameters('keyVaultSecretValue5')]"
+        "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')),'2015-05-01-preview').key1, ';EndpointSuffix=core.windows.net')]"
+      }
+    },
+	{
+      "type": "Microsoft.KeyVault/vaults/secrets",
+      "name": "[concat(variables('keyVaultName'), '/KronosWfcSuperUserName')]",
+      "apiVersion": "2018-02-14",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+		"[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
+        "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
+      ],
+      "properties": {
+        "value": "[parameters('KronosWfcSuperUserName')]"
+      }
+    },
+	{
+      "type": "Microsoft.KeyVault/vaults/secrets",
+      "name": "[concat(variables('keyVaultName'), '/KronosWfcSuperUserPwd')]",
+      "apiVersion": "2018-02-14",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+		"[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
+        "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
+      ],
+      "properties": {
+        "value": "[parameters('KronosWfcSuperUserPwd')]"
       }
     }
   ],
