@@ -87,10 +87,11 @@ namespace Microsoft.Teams.App.KronosWfc.Provider
                     {
                         new Attachment()
                         {
-                            ContentType = SigninCard.ContentType,
-                            Content = new SigninCard()
+                            ContentType = HeroCard.ContentType,
+                            Content = new HeroCard()
                             {
-                                Text = "Sign In - Required.",
+                                Title = KronosResourceText.SignInLabel,
+                                Subtitle = KronosResourceText.LoginToContinue,
                                 Buttons = new CardAction[]
                                 {
                                     new CardAction() { Title = buttonLabel, Value = loginUrl, Type = ActionTypes.Signin },
@@ -98,7 +99,6 @@ namespace Microsoft.Teams.App.KronosWfc.Provider
                             },
                         },
                     };
-
             // Create the ConnectorClientFactory
             IConnectorClientFactory factory = new ConnectorClientFactory(Address.FromActivity(reply), new MicrosoftAppCredentials(AppSettings.Instance.MicrosoftAppId, AppSettings.Instance.MicrosoftAppPassword));
             var msgToUpdate = await factory.MakeConnectorClient().Conversations.SendToConversationAsync(reply.Conversation.Id, reply);
