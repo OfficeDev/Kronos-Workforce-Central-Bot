@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="ILogonActivity.cs" company="Microsoft">
 //     Copyright (c) Microsoft. All rights reserved.
 // </copyright>
@@ -99,6 +99,7 @@ namespace Microsoft.Teams.App.KronosWfc.Provider
                             },
                         },
                     };
+
             // Create the ConnectorClientFactory
             IConnectorClientFactory factory = new ConnectorClientFactory(Address.FromActivity(reply), new MicrosoftAppCredentials(AppSettings.Instance.MicrosoftAppId, AppSettings.Instance.MicrosoftAppPassword));
             var msgToUpdate = await factory.MakeConnectorClient().Conversations.SendToConversationAsync(reply.Conversation.Id, reply);
