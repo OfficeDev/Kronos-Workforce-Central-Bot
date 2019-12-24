@@ -17,7 +17,7 @@ To begin, you will need:
 
   
 
-* An Azure subscription where you can create the following kinds of resources:
+* An Azure subscription where you can create the following kinds of resources
 
   
 
@@ -77,8 +77,9 @@ To begin, you will need:
   
 
   
-* Azure Keyvault
-* This is for one to one (end-user) to install personally
+* Azure KeyVault
+
+* This is for one to one user (end-user) need to install personally, in order to run this app.
 
 
   
@@ -173,7 +174,7 @@ Register two Azure AD applications in your tenant's directory: one for the bot, 
 
   
 
-5. When the app is registered, you'll be taken to the app's "Overview" page. Copy the **Application (client) ID**; we will need it later. Verify that the "Supported account types" is set to **Multiple organizations**.
+5. When the app is registered, you'll be taken to the app's "Overview" page. Copy the **Application (client) ID**; we will need it later. Verify that the "Supported account types" is set to **My organizations only**.
 
   
 
@@ -328,7 +329,6 @@ We recommend that you copy these values into a text file, using an application l
   
 
 1. Click on the "Deploy to Azure" button below.
-*TODO : this path is need to update
 
 
   
@@ -337,7 +337,7 @@ We recommend that you copy these values into a text file, using an application l
 
   
 
-[![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FOfficeDev%2Fmicrosoft-teams-faqplusplus-app%2Fmaster%2FDeployment%2Fazuredeploy.json)
+[![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FOfficeDev%2FKronos-Workforce-Central-Bot%2Fkronosext%2FDeployment%2Fazuredeploy.json)
 
   
 
@@ -425,7 +425,7 @@ We recommend that you copy these values into a text file, using an application l
 
   
 
-* The app service name `[Base Resource Name]`, `[Base Resource Name]-config`, and `[Base Resource Name]-luis` must be available. For example, if you select `kronos` as the base name, the names `kronos`, `kronos-config`, and `kronos-luis-qnamaker` must be available (not taken); otherwise, the deployment will fail with a Conflict error.
+* The app service name `[Base Resource Name]`, `[Base Resource Name]-config`, and `[Base Resource Name]-luis` must be available. For example, if you select `kronos` as the base name, the names `kronos`, `kronos-config`, and `kronos-luis` must be available (not taken); otherwise, the deployment will fail with a Conflict error.
 
   
 
@@ -595,7 +595,19 @@ Make sure that the values are copied as-is, with no extra spaces. The template c
 
   
 
-# Step 3: Set up authentication for the configuration app
+# Step 3: Configure Key Vault access policies
+
+ 1. Go to App Service, for example you choose "KronosAppService"
+ 2. Go to settings then click on Identity 
+ 3.  click on 'On' to the status and wait till object ID will not get generated, as soon as the object ID get generated copy that ID.
+ 4. Go to KeyVault, for example you choose "Kronoscheckvault".
+ 5. Go to settings then click on Access policies and then add policy there.
+ 6. In add policy, select 'secret management' from the configuration from template.
+ 7. click on select principal paste the object ID which you have copied from App Service and select it.
+ 8. Last step is just to click on Add. 
+ 
+
+# Step 4:Set up authentication for the configuration app
 
   
 
@@ -681,37 +693,27 @@ Make sure that the values are copied as-is, with no extra spaces. The template c
 
   
 
-# Step 4 : Create the QnA Maker knowledge base
+# Step 5 : Configure LUIS app
 
-*TODO : we need to do it for LUIS instead of QnA Maker
+* you jsut need to import json from --- TODO : location(folder path)
 
-  
+* make sure you update the Application ID, Primary key/Subscription key in  app service configuration and  Application ID in ARM template.
 
-  
+* if you want to create a luis public app with your microsoft ID, following the instructions in the [Sign in to LUIS portal](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-how-to-start-new-app#sign-in-to-luis-portal) (https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-how-to-start-new-app#create-new-app-in-luis).
 
-  
 
-  
 
-Create a knowledge base, following the instructions in the [LUIS documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/).
 
-  
 
-  
 
-  
 
-Tip: If you don't have the complete knowledge base ready, here is a [Teams FAQ URL](https://support.office.com/en-us/article/faq-f4644010-d5fa-4055-b42a-6a5317316e18) that works well with QnA Maker.
 
-  
 
-  
 
-  
 
-  
 
-Skip the first step, "Create a QnA service in Microsoft Azure", because the ARM template that you deployed in Step 2 already created the QnA service. Proceed directly to the next step, "Connect your QnA service to your KB".
+
+
 
   
 
@@ -721,81 +723,7 @@ Skip the first step, "Create a QnA service in Microsoft Azure", because the ARM 
 
   
 
-Use the following values when connecting to the QnA service:
-
-  
-
-  
-
-  
-
-* **Microsoft Azure Directory ID**: The tenant associated with the Azure subscription selected in Step 2.1.
-
-  
-
-  
-
-  
-
-* **Azure subscription name**: The Azure subscription to which the ARM template was deployed.
-
-  
-
-  
-
-  
-
-* **Azure QnA service**: The QnA service created during the deployment. This is the same as the "Base resource name"; for example, if you chose "contosofaqplus" as the base name, the QnA Maker service will be named `contosofaqplus`.
-
-  
-
-  
-
-  
-
-  
-
-![Screenshot of settings](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/media/qnamaker-tutorial-create-publish-query-in-portal/create-kb-step-2.png)
-
-  
-
-  
-
-  
-
-  
-
-After [publishing the knowledge base](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/tutorials/create-publish-query-in-portal#publish-to-get-knowledge-base-endpoints), note the knowledge base ID (see screenshot).
-
-  
-
-  
-
-  
-
-  
-
-![kb-publishing](/wiki/images/kb-publishing.png)
-
-  
-
-  
-
-  
-
-  
-
-Remember the knowledge base ID: we will need it in the next step.
-
-  
-
-  
-
-  
-
-  
-
-# Step 5: Finish configuring the Kronos app
+# Step 6: Finish configuring the Kronos app
 
   
 
@@ -815,33 +743,17 @@ Remember the knowledge base ID: we will need it in the next step.
 
   
 
-2. You will be prompted to login with your credentials. Make sure that you log in with an account that is in the list of users allowed to access the configuration app.
-
-  
-
-  
-
-  
-
+2. You will be prompted to login with your credentials. Make sure that you log in with an account that is in the list of users allowed to access the configuration app. 
 	*TODO : Need Screenshot for configurator app![config-web-app-login](/wiki/images/config-web-app-login.png)
 
-  
+3. There you need to fill the Tenant configuration : Tenant Id(you will get it from azure portal), Kronos endpoint URL(provided by kronos)
+4. you need to do Superuser configuration for this you need to pass the credentials of superuser.
+5. last step is for Paycode configuration, Select paycode type from dropdown and Paycode name then add them.
+6.  click on submit to proceed. 
 
   
 
-  
-
-  
-*I guess we do not want these 'teams' steps as we are heaving single tenant. 
-3. Get the link to the team with your experts from the Teams client. To do so, open Microsoft Teams, and navigate to the team. Click on the "..." next to the team name, then select "Get link to team".
-
-  
-
-  
-
-  
-
-	![get-link-to-Team](/wiki/images/get-link-to-Team.png)
+# Step 7: Create the Teams app packages
 
   
 
@@ -851,92 +763,7 @@ Remember the knowledge base ID: we will need it in the next step.
 
   
 
-	Cick on "Copy" to copy the link to the clipboard.
-
-  
-
-  
-
-  
-
-	![link-to-team](/wiki/images/link-to-team.png)
-
-  
-
-  
-
-  
-
-  
-
-4. Paste the copied link into the "Team Id" field, then press "OK".
-
-  
-
-  
-
-  
-
-	![fill-in-team-link](/wiki/images/fill-in-team-link.png)
-
-  
-
-  
-
-  
-
-  
-
-5. Enter the QnA Maker knowledge base ID into the "Knowledge base ID" field, then press "OK".
-
-  
-
-  
-
-  
-
-  
-
-6. Customize the "Welcome message" that's sent to your end-users when they install the app. This message supports basic markdown, such as bold, italics, bulleted lists, numbered lists, and hyperlinks. See [here](https://docs.microsoft.com/en-us/adaptive-cards/authoring-cards/text-features#markdown) for complete details on what Markdown features are supported.
-7. Customize the "Help tab text", which is displayed in the app's "Help" tab. This message also supports basic markdown, such as bold, italics, bulleted lists, numbered lists, and hyperlinks. See [here](https://docs.microsoft.com/en-us/adaptive-cards/authoring-cards/text-features#markdown) for complete details on what Markdown features are supported.
-
-  
-
-  
-
-  
-
-  
-
-### Notes
-
-  
-
-  
-
-  
-
-Remember to click on "OK" after changing a setting. To edit the setting later, click on "Edit" to make the text box editable.
-
-  
-
-  
-
-  
-
-  
-
-# Step 6: Create the Teams app packages
-
-  
-
-  
-
-  
-
-  
-
-Create two Teams app packages: one for end-users to install personally, and one to be installed to the experts team.
+Create Teams app package for end-users to install personally.
 
   
 
@@ -1082,7 +909,7 @@ Repeat the steps above but with the file `Manifest\manifest_sme.json`. Name the 
 
   
 
-# Step 7: Run the apps in Microsoft Teams
+# Step 8: Run the apps in Microsoft Teams
 
   
 
