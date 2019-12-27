@@ -284,7 +284,7 @@
             },
             {
               "name": "WEBSITE_NODE_DEFAULT_VERSION",
-              "value": "10.14.1"
+              "value": "6.9.5"
             },
             {
               "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
