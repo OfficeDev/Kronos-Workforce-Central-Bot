@@ -160,7 +160,7 @@ namespace Microsoft.Teams.App.KronosWfc.Configurator.Controllers
             }
             try
             {
-                var superuserConfigDetails = new SuperuserConfig { SuperUsername = this.keyVaultHelper.GetSecret("SuperUserName"), SuperUserPassword = this.keyVaultHelper.GetSecret("SuperUserPwd") };
+                var superuserConfigDetails = new SuperuserConfig { SuperUsername = this.keyVaultHelper.GetSecret("KronosWfcSuperUserName"), SuperUserPassword = this.keyVaultHelper.GetSecret("KronosWfcSuperUserPwd") };
                 return this.Ok(superuserConfigDetails);
             }
             catch (Exception ex)
@@ -183,8 +183,8 @@ namespace Microsoft.Teams.App.KronosWfc.Configurator.Controllers
             }
             try
             {
-                this.keyVaultHelper.SetSecretAsync("SuperUserName", superuserConfig.SuperUsername);
-                this.keyVaultHelper.SetSecretAsync("SuperUserPwd", superuserConfig.SuperUserPassword);
+                this.keyVaultHelper.SetSecretAsync("KronosWfcSuperUserName", superuserConfig.SuperUsername);
+                this.keyVaultHelper.SetSecretAsync("KronosWfcSuperUserPwd", superuserConfig.SuperUserPassword);
                 return this.Ok();
             }
             catch (Exception ex)
