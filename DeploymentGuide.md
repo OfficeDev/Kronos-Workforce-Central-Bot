@@ -154,7 +154,7 @@ Register two Azure AD applications in your tenant's directory: one for the bot, 
 
   
 
-	![singletenant-app-creation](\wiki\images\singletenant-app-creation.png)
+	![singletenant-app-creation](https://github.com/OfficeDev/Kronos-Workforce-Central-Bot/wiki/Images/singletenant-app-creation.png)
 
   
 
@@ -184,7 +184,7 @@ Register two Azure AD applications in your tenant's directory: one for the bot, 
 
   
 
-	![singletenant overview](\wiki\images\singletenant overview.png)
+	![singletenant overview](https://github.com/OfficeDev/Kronos-Workforce-Central-Bot/wiki/Images/singletenant overview.png)
 
   
 
@@ -204,7 +204,7 @@ Register two Azure AD applications in your tenant's directory: one for the bot, 
 
   
 
-	![singletenant-app-secret](/wiki/images/singletenant-app-secret.png)
+	![singletenant-app-secret](https://github.com/OfficeDev/Kronos-Workforce-Central-Bot/wiki/Images/singletenant-app-secret.png)
 
   
 
@@ -310,7 +310,7 @@ We recommend that you copy these values into a text file, using an application l
 
   
 
-![azure-config-app](/wiki/images/azure-config-app.png)
+![azure-config-app](https://github.com/OfficeDev/Kronos-Workforce-Central-Bot/wiki/Images/azure-config-app.png)
 
   
 
@@ -689,7 +689,7 @@ Make sure that the values are copied as-is, with no extra spaces. The template c
 
   
 
-	![azure-config-app-step](/wiki/images/azure-config-app-step.png)
+	![azure-config-app-step](https://github.com/OfficeDev/Kronos-Workforce-Central-Bot/wiki/Images/azure-config-app-step.png)
 
   
 
@@ -744,7 +744,7 @@ Make sure that the values are copied as-is, with no extra spaces. The template c
   
 
 2. You will be prompted to login with your credentials. Make sure that you log in with an account that is in the list of users allowed to access the configuration app. 
-	*TODO : Need Screenshot for configurator app![config-web-app-login](/wiki/images/config-web-app-login.png)
+	*TODO : Need Screenshot for configurator app![config-web-app-login](https://github.com/OfficeDev/Kronos-Workforce-Central-Bot/wiki/Images/config-web-app-login.png)
 
 3. There you need to fill the Tenant configuration : Tenant Id(you will get it from azure portal), Kronos endpoint URL(provided by kronos)
 4. you need to do Superuser configuration for this you need to pass the credentials of superuser.
@@ -879,7 +879,7 @@ Create Teams app package for end-users to install personally.
 
   
 
-	![file-explorer](/wiki/images/file-explorer.png)
+	![file-explorer](https://github.com/OfficeDev/Kronos-Workforce-Central-Bot/wiki/Images/file-explorer.png)
 
   
 
