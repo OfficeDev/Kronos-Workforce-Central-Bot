@@ -5,7 +5,7 @@
 */
 
 import * as React from "react";
-import { Menu, Container, Dropdown, Image, Card, Button, GridRow, Grid, GridColumn, Table, Header, Form, Icon, Segment, Dimmer, Loader, Label } from "semantic-ui-react";
+import { Menu, Container, Dropdown, Image, Card, Button, GridRow, Grid, GridColumn, Table, Header, Form, Icon, Segment, Dimmer, Loader, Label, Modal } from "semantic-ui-react";
 import { ApplicationInsights, Trace, SeverityLevel } from '@microsoft/applicationinsights-web';
 import { ReactPlugin, withAITracking } from '@microsoft/applicationinsights-react-js';
 import { createBrowserHistory } from "history";
@@ -28,7 +28,9 @@ interface IState {
     paycodeMapping: { PaycodeType: any, PaycodeName: any },
     tenantInfoLoading: boolean,
     superuserConfigLoading: boolean,
-    tenantPaycodesLoading: boolean
+    tenantPaycodesLoading: boolean,
+    modalStateOpen: boolean,
+    editViewBtnState: boolean
 };
 
 /** AddFavourites component. */
@@ -80,7 +82,9 @@ class main extends React.Component<IProps, IState> {
             paycodeMapping: { PaycodeName: "", PaycodeType: undefined },
             tenantInfoLoading: false,
             superuserConfigLoading: false,
-            tenantPaycodesLoading:false
+            tenantPaycodesLoading: false,
+            modalStateOpen: false,
+            editViewBtnState: false
         };
         this.appInsights = new ApplicationInsights({
             config: {
@@ -299,7 +303,6 @@ class main extends React.Component<IProps, IState> {
         var tenantPaycodes = this.state.tenantPaycodes;
         var existingPaycode = tenantPaycodes.filter(function (tenantPaycode) { return tenantPaycode.PayCodeType == paycode.PaycodeType });
         if (existingPaycode.length > 0) {
-
         }
         else {
             if (this.state.paycodeMapping.PaycodeName !== undefined && this.state.paycodeMapping.PaycodeName !== "") {
@@ -312,71 +315,79 @@ class main extends React.Component<IProps, IState> {
         }        
     }
 
+    close = () => this.setState({ modalStateOpen: false })
+
+    toggleViewMode = () => {
+        this.setState({ editViewBtnState: this.state.editViewBtnState == true ? false : true });
+    }
+    
     render()
     {
         const renderDetails = () => {
             return (
-                <Container style = {{ marginTop: '7em' }}>
-                    <Grid>
+                <Container>
+                    <Container textAlign='right'>
+                        <Button secondary style={{ marginTop: '6em'}} type='button'
+                            onClick={() => {
+                                this.toggleViewMode();
+                            }}>
+                            {this.state.editViewBtnState == true ? 'Edit' : 'View'} Mode
+                        </Button>
+                    </Container>
+                    <Grid style={{ marginTop: '2em', border: '1px solid lightgrey', borderRadius: '5px' }}>
                         <GridRow columns={2}>
                             <GridColumn>
-                                <Card fluid>
+                                <Card style={{ border: 'none', boxShadow: 'none'  }} fluid>
                                     <Dimmer active={this.state.tenantInfoLoading}>
                                         <Loader content='Loading' />
                                     </Dimmer>
-                                    <Card.Content>
+                                    <Card.Content style={{ border: 'none' }}>
                                         <Card.Header>Tenant configuration</Card.Header>
                                         <Card.Description style={{ marginTop: '2em' }}>
                                             <Form>
                                                 <Form.Field>
                                                     <label>Tenant Id</label>
-                                                    <input placeholder='Enter valid tenant id' value={this.state.tenantInfo.RowKey} onChange={(e) => { this.setState({ tenantInfo: { ...this.state.tenantInfo, RowKey: e.target.value } }) }}/>
+                                                    <input disabled={!this.state.editViewBtnState} placeholder='Enter valid tenant id' value={this.state.tenantInfo.RowKey} onChange={(e) => { this.setState({ tenantInfo: { ...this.state.tenantInfo, RowKey: e.target.value } }) }} />
                                                 </Form.Field>
                                                 <Form.Field>
                                                     <label>Kronos endpoint URL</label>
-                                                    <input placeholder='Enter kronos endpoint url' value={this.state.tenantInfo.EndpointUrl} onChange={(e) => { this.setState({ tenantInfo: { ...this.state.tenantInfo, EndpointUrl: e.target.value } }) }}/>
+                                                    <input disabled={!this.state.editViewBtnState} placeholder='Enter kronos endpoint url' value={this.state.tenantInfo.EndpointUrl} onChange={(e) => { this.setState({ tenantInfo: { ...this.state.tenantInfo, EndpointUrl: e.target.value } }) }}/>
                                                 </Form.Field>
                                             </Form>
                                         </Card.Description>
                                     </Card.Content>
-                                    <Card.Content extra>
-                                        <Button floated="right" secondary type='submit' onClick={() => this.setTenantInfo()}>Submit</Button>
-                                    </Card.Content>
                                 </Card>
                             </GridColumn>
                             <GridColumn>
-                                <Card fluid>
+                                <Card style={{ border: 'none',boxShadow:'none' }} fluid>
                                     <Dimmer active={this.state.superuserConfigLoading}>
                                         <Loader content='Loading' />
                                     </Dimmer>
-                                    <Card.Content>
+                                    <Card.Content style={{ border: 'none' }}>
                                         <Card.Header>Superuser configuration</Card.Header>
                                         <Card.Description style={{ marginTop: '2em' }}>
                                             <Form>
                                                 <Form.Field>
                                                     <label>Username</label>
-                                                    <input placeholder='Enter superuser username' value={this.state.tenantSuperuserInfo.SuperUsername} onChange={(e) => { this.setState({ tenantSuperuserInfo: { ...this.state.tenantSuperuserInfo, SuperUsername: e.target.value } }) }}/>
+                                                    <input disabled={!this.state.editViewBtnState} placeholder='Enter superuser username' value={this.state.tenantSuperuserInfo.SuperUsername} onChange={(e) => { this.setState({ tenantSuperuserInfo: { ...this.state.tenantSuperuserInfo, SuperUsername: e.target.value } }) }}/>
                                                 </Form.Field>
                                                 <Form.Field>
                                                     <label>Password</label>
-                                                    <input type="password" placeholder='Enter superuser password' value={this.state.tenantSuperuserInfo.SuperUserPassword} onChange={(e) => { this.setState({ tenantSuperuserInfo: { ...this.state.tenantSuperuserInfo, SuperUserPassword: e.target.value } }) }}/>
+                                                    <input disabled={!this.state.editViewBtnState} type="password" placeholder='Enter superuser password' value={this.state.tenantSuperuserInfo.SuperUserPassword} onChange={(e) => { this.setState({ tenantSuperuserInfo: { ...this.state.tenantSuperuserInfo, SuperUserPassword: e.target.value } }) }}/>
                                                 </Form.Field>
                                             </Form>
                                         </Card.Description>
-                                    </Card.Content>
-                                    <Card.Content extra>
-                                        <Button floated="right" secondary type='submit' onClick={() => this.setSuperuserConfig()}>Submit</Button>
                                     </Card.Content>
                                 </Card>
                             </GridColumn>
                         </GridRow>
                         <GridRow>
                             <GridColumn>
-                                <Card fluid>
+                                <Card style={{ border: 'none', boxShadow: 'none'  }} fluid>
                                     <Dimmer active={this.state.tenantPaycodesLoading}>
                                         <Loader content='Loading' />
                                     </Dimmer>
-                                    <Card.Content>
+                                    <Card.Content style={{ border: 'none' }}>
                                         <Card.Header>Paycode configuration</Card.Header>
                                         <Card.Description style={{ marginTop: '2em' }}>
                                             <Grid>
@@ -386,6 +397,7 @@ class main extends React.Component<IProps, IState> {
                                                             <Form.Field>
                                                                 <label>Select paycode type</label>
                                                                 <Dropdown
+                                                                    disabled={!this.state.editViewBtnState}
                                                                     placeholder='Select paycode type'
                                                                     fluid
                                                                     selection
@@ -396,12 +408,12 @@ class main extends React.Component<IProps, IState> {
                                                             </Form.Field>
                                                             <Form.Field>
                                                                 <label>Paycode name</label>
-                                                                <input placeholder='Enter paycode name' value={this.state.paycodeMapping.PaycodeName} onChange={(e) => { this.setState({ paycodeMapping: { ...this.state.paycodeMapping, PaycodeName: e.target.value } }) }} />
+                                                                <input disabled={!this.state.editViewBtnState} placeholder='Enter paycode name' value={this.state.paycodeMapping.PaycodeName} onChange={(e) => { this.setState({ paycodeMapping: { ...this.state.paycodeMapping, PaycodeName: e.target.value } }) }} />
                                                             </Form.Field>
                                                         </Form>
                                                     </GridColumn>
                                                     <GridColumn width={3}>
-                                                        <Button style={{marginTop:'4em'}} secondary type='submit' onClick={() => this.addPaycodeMapping()}>Add</Button>
+                                                        <Button disabled={!this.state.editViewBtnState} style={{marginTop:'4em'}} secondary type='submit' onClick={() => this.addPaycodeMapping()}>Add</Button>
                                                     </GridColumn>
                                                     <GridColumn width={6}>
                                                         <div style={{ maxHeight: '20em', overflowY: 'scroll' }}>
@@ -424,7 +436,7 @@ class main extends React.Component<IProps, IState> {
                                                                                         <Table.Cell>{i + 1}</Table.Cell>
                                                                                         <Table.Cell>{item.PayCodeType}</Table.Cell>
                                                                                         <Table.Cell>{item.PayCodeName}</Table.Cell>
-                                                                                        <Table.Cell><Button size='mini' key={'delete' + i.toString()} type='submit' onClick={() => this.deletePaycodeMapping(i)}>Delete</Button> </Table.Cell>
+                                                                                        <Table.Cell><Button disabled={!this.state.editViewBtnState} size='mini' key={'delete' + i.toString()} type='submit' onClick={() => this.deletePaycodeMapping(i)}>Delete</Button> </Table.Cell>
                                                                                     </Table.Row>
                                                                                 )
                                                                             }
@@ -439,7 +451,29 @@ class main extends React.Component<IProps, IState> {
                                         </Card.Description>
                                     </Card.Content>
                                     <Card.Content extra>
-                                        <Button floated="right" secondary type='submit' onClick={() => this.setPaycodes()}>Submit</Button>
+                                        <Button disabled={!this.state.editViewBtnState} floated="right" secondary type='submit'
+                                            onClick={() => this.setState({ modalStateOpen: true })}>
+                                            Submit
+                                        </Button>
+                                        <Modal size="mini" open={this.state.modalStateOpen}>
+                                            <Modal.Header>Save Changes</Modal.Header>
+                                            <Modal.Content>
+                                                <p>Are you sure you want to save your changes</p>
+                                            </Modal.Content>
+                                            <Modal.Actions>
+                                                <Button onClick={this.close} secondary>No</Button>
+                                                <Button
+                                                    secondary
+                                                    onClick={() => {
+                                                        this.setTenantInfo();
+                                                        this.setSuperuserConfig()
+                                                        this.setPaycodes();
+                                                        this.toggleViewMode();
+                                                        this.close();
+                                                    }}
+                                                >Yes</Button>
+                                            </Modal.Actions>
+                                        </Modal>
                                     </Card.Content>
                                 </Card>
                             </GridColumn>
