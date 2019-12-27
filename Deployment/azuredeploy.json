@@ -108,13 +108,6 @@
                 "description": "Specifies whether the key vault is a standard vault or a premium vault."
             }
         },
-        "keyVaultObjectId": {
-            "type": "string",
-            "minLength": 1,
-            "metadata": {
-                "description": "Specifies the object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Get it by using Get-AzADUser or Get-AzADServicePrincipal cmdlets."
-            }
-        },
         "appIconUrl": {
             "type": "string",
             "minLength": 1,
@@ -308,7 +301,7 @@
                         },
                         {
                             "name": "LuisSubscriptionKey",
-                            "value": "listKeys(variables('luisCognitiveServices'))"
+                            "value": "[listKeys(variables('luisCognitiveServices'))]"
                         },
                         {
                             "name": "SuperuserUsernameUri",
@@ -496,15 +489,7 @@
                 "enabledForTemplateDeployment": "true",
                 "enabledForDiskEncryption": "true",
                 "tenantId": "[parameters('tenantId')]",
-                "accessPolicies": [
-                    {
-                        "objectId": "[parameters('keyVaultObjectId')]",
-                        "tenantId": "[parameters('tenantId')]",
-                        "permissions": {
-                            "secrets": ["all"]
-                        }
-                    }
-                ],
+                "accessPolicies": [],
                 "sku": {
                     "name": "[parameters('keyVaultSkuName')]",
                     "family": "A"
