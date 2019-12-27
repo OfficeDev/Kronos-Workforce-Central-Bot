@@ -331,7 +331,7 @@ class main extends React.Component<IProps, IState> {
                             onClick={() => {
                                 this.toggleViewMode();
                             }}>
-                            {this.state.editViewBtnState == true ? 'Edit' : 'View'} Mode
+                            {this.state.editViewBtnState == true ? 'View' : 'Edit'}
                         </Button>
                     </Container>
                     <Grid style={{ marginTop: '2em', border: '1px solid lightgrey', borderRadius: '5px' }}>
