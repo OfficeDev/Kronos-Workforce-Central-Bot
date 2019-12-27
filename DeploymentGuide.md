@@ -41,7 +41,11 @@ We recommend that you copy these values into a text file, using an application l
 
 # Step 2: Deploy to your Azure subscription
 1. Click on the "Deploy to Azure" button below.
-[![Deploy to Azure](https://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FOfficeDev%2FKronos-Workforce-Central-Bot%2Fkronosext%2FDeployment%2Fazuredeploy.json)
+
+[
+![Deploy to Azure](https://azuredeploy.net/deploybutton.png)
+](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FOfficeDev%2FKronos-Workforce-Central-Bot%2Fkronosext%2FDeployment%2Fazuredeploy.json)
+
 2. When prompted, log in to your Azure subscription.
 3. Azure will create a "Custom deployment" based on the ARM template and ask you to fill in the template parameters.
 
