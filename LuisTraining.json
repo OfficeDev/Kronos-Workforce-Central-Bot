@@ -1,0 +1,1469 @@
+{
+  "luis_schema_version": "4.0.0",
+  "versionId": "0.1",
+  "name": "testDemo",
+  "desc": "for testing",
+  "culture": "en-us",
+  "tokenizerVersion": "1.0.0",
+  "intents": [
+    {
+      "name": "EmployeeAttendance"
+    },
+    {
+      "name": "EmployeeLocation"
+    },
+    {
+      "name": "EmployeeTimeOffRequestList"
+    },
+    {
+      "name": "HoursWorked"
+    },
+    {
+      "name": "MyTimeOffRequestList"
+    },
+    {
+      "name": "None"
+    },
+    {
+      "name": "Punch"
+    },
+    {
+      "name": "schedule"
+    },
+    {
+      "name": "showPunches"
+    },
+    {
+      "name": "SignIn"
+    },
+    {
+      "name": "SignOut"
+    },
+    {
+      "name": "SwapShift"
+    },
+    {
+      "name": "TeamOverTimes"
+    },
+    {
+      "name": "TimeOffRequest"
+    },
+    {
+      "name": "UpcomingShifts"
+    },
+    {
+      "name": "VacationBalance"
+    }
+  ],
+  "entities": [
+    {
+      "name": "name",
+      "roles": []
+    }
+  ],
+  "composites": [],
+  "closedLists": [],
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "prebuiltEntities": [
+    {
+      "name": "datetimeV2",
+      "roles": []
+    }
+  ],
+  "model_features": [],
+  "regex_features": [],
+  "patterns": [
+    {
+      "pattern": "where is roger {datetimeV2}",
+      "intent": "EmployeeLocation"
+    }
+  ],
+  "utterances": [
+    {
+      "text": "2 hours meeting with ladawn padilla at 5 on tuesday",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "8 hours sick leave",
+      "intent": "TimeOffRequest",
+      "entities": []
+    },
+    {
+      "text": "absence list",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "absent employees",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "accrual balance",
+      "intent": "VacationBalance",
+      "entities": []
+    },
+    {
+      "text": "add choir practice on saturday at 7 pm to my personal calendar",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "add choreography to my family calendar",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "add church to personal calendar on sundays at 9",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "add coffee on august 12th at 2 pm with herman for one hour",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "add dinner to personal calendar",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "add dinner with mom to personal",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "add haircut to my google calendar tomorrow at 2 30",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "add punch",
+      "intent": "Punch",
+      "entities": []
+    },
+    {
+      "text": "add punch with transfer",
+      "intent": "Punch",
+      "entities": []
+    },
+    {
+      "text": "add the lunch with my colleague naomi from 12 to 2 in my personal calendar",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "add ultimate frisbee on sunday at 2 pm for 2 hours",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "add work to calendar friday from 8 for an hour",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "albert location",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 0,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "appending group meeting next monday at 11am for an hour",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "at 10 am do i have a 30 minutes meeting",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "at what place, i find sara?",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 22,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "bring forward my 4 o'clock appointment 2 hours",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "can i have a sick day off for tomorrow?",
+      "intent": "TimeOffRequest",
+      "entities": []
+    },
+    {
+      "text": "can i meet sara?",
+      "intent": "EmployeeLocation",
+      "entities": []
+    },
+    {
+      "text": "can you show punches created this monday?",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "can you tell me leave request of my employee's",
+      "intent": "EmployeeTimeOffRequestList",
+      "entities": []
+    },
+    {
+      "text": "change 10 am meeting to start 20 minutes later",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "change 12am meeting to start 10 minutes earlier",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "change 5pm appointment 1 hour earlier",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "change dentist appt to an hour later",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "change recital to start half an hour earlier",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "check my family calendar",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "clock in with transfer",
+      "intent": "Punch",
+      "entities": []
+    },
+    {
+      "text": "coming monday schedule",
+      "intent": "schedule",
+      "entities": []
+    },
+    {
+      "text": "create a calendar appointment at 3:30 tomorrow for half an hour",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "create a event with eden roth at 4pm today for 30 mins",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "create advanced time off request",
+      "intent": "TimeOffRequest",
+      "entities": []
+    },
+    {
+      "text": "create appointment for 30 minutes",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "create swap shift request for next monday",
+      "intent": "SwapShift",
+      "entities": []
+    },
+    {
+      "text": "create vacation request for tomorrow",
+      "intent": "TimeOffRequest",
+      "entities": []
+    },
+    {
+      "text": "day before yesterday's employee overtimes",
+      "intent": "TeamOverTimes",
+      "entities": []
+    },
+    {
+      "text": "delay the meeting event by 1 hours",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "delay the next meeting by 30 minutes",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "eliza adams location",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 0,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "eliza adams location with punches",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 0,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "eliza adams time off requests",
+      "intent": "EmployeeTimeOffRequestList",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 0,
+          "endPos": 4
+        },
+        {
+          "entity": "name",
+          "startPos": 6,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "eliza location",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 0,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "employee's leave requests for today",
+      "intent": "EmployeeTimeOffRequestList",
+      "entities": []
+    },
+    {
+      "text": "enlist me the vacation request of my employees",
+      "intent": "EmployeeTimeOffRequestList",
+      "entities": []
+    },
+    {
+      "text": "enlist my time off requests",
+      "intent": "MyTimeOffRequestList",
+      "entities": []
+    },
+    {
+      "text": "give me a list of punches for today",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "give me my hours worked today",
+      "intent": "HoursWorked",
+      "entities": []
+    },
+    {
+      "text": "give me my overtime hours",
+      "intent": "TeamOverTimes",
+      "entities": []
+    },
+    {
+      "text": "give me my punch list for today",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "give me my vacation balance",
+      "intent": "VacationBalance",
+      "entities": []
+    },
+    {
+      "text": "give me sick leave for next monday",
+      "intent": "TimeOffRequest",
+      "entities": []
+    },
+    {
+      "text": "give me the team's overtimes from sept 4 2020 to oct 10 2020",
+      "intent": "TeamOverTimes",
+      "entities": []
+    },
+    {
+      "text": "give me the team's overtimes from september 4 to october 10",
+      "intent": "TeamOverTimes",
+      "entities": []
+    },
+    {
+      "text": "has my leave been approved?",
+      "intent": "MyTimeOffRequestList",
+      "entities": []
+    },
+    {
+      "text": "has my paid time off been approved?",
+      "intent": "MyTimeOffRequestList",
+      "entities": []
+    },
+    {
+      "text": "has my pto been approved?",
+      "intent": "MyTimeOffRequestList",
+      "entities": []
+    },
+    {
+      "text": "has my time off been approved?",
+      "intent": "MyTimeOffRequestList",
+      "entities": []
+    },
+    {
+      "text": "how many hours did i work this month?",
+      "intent": "HoursWorked",
+      "entities": []
+    },
+    {
+      "text": "how many hours i worked last week",
+      "intent": "HoursWorked",
+      "entities": []
+    },
+    {
+      "text": "how many punches i have last week",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "how many punches i have this month?",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "how many vacation hours do i have?",
+      "intent": "VacationBalance",
+      "entities": []
+    },
+    {
+      "text": "how many vacation hours have i left with?",
+      "intent": "VacationBalance",
+      "entities": []
+    },
+    {
+      "text": "how much vacation balance have i left with?",
+      "intent": "VacationBalance",
+      "entities": []
+    },
+    {
+      "text": "i need 8 hours sick leave on the 3rd of november",
+      "intent": "TimeOffRequest",
+      "entities": []
+    },
+    {
+      "text": "i need to get punches for yesterday",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "i need to punch for today",
+      "intent": "Punch",
+      "entities": []
+    },
+    {
+      "text": "i need to take sick leave",
+      "intent": "TimeOffRequest",
+      "entities": []
+    },
+    {
+      "text": "i need to take time off for next monday",
+      "intent": "TimeOffRequest",
+      "entities": []
+    },
+    {
+      "text": "i want 4 hours sick day off",
+      "intent": "TimeOffRequest",
+      "entities": []
+    },
+    {
+      "text": "i want 5 hours sick leave on 5th of nov",
+      "intent": "TimeOffRequest",
+      "entities": []
+    },
+    {
+      "text": "i want leave on 5th of nov for 4 hours",
+      "intent": "TimeOffRequest",
+      "entities": []
+    },
+    {
+      "text": "i want to add punch",
+      "intent": "Punch",
+      "entities": []
+    },
+    {
+      "text": "i want to have a sick day off",
+      "intent": "TimeOffRequest",
+      "entities": []
+    },
+    {
+      "text": "i want to log in",
+      "intent": "SignIn",
+      "entities": []
+    },
+    {
+      "text": "i want to meet sara?",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 15,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "i want to quit",
+      "intent": "SignOut",
+      "entities": []
+    },
+    {
+      "text": "i want to see punches from the 1st of september till today",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "i want to see sara's location.",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 14,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "i want to sign in",
+      "intent": "SignIn",
+      "entities": []
+    },
+    {
+      "text": "i want to sign out",
+      "intent": "SignOut",
+      "entities": []
+    },
+    {
+      "text": "i want to swap a shift",
+      "intent": "SwapShift",
+      "entities": []
+    },
+    {
+      "text": "i would like to take 4 hours sick day off for today",
+      "intent": "TimeOffRequest",
+      "entities": []
+    },
+    {
+      "text": "is here clocked in",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "is here from my team",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "is here punched in",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "is sara available?",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 3,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "last friday punch",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "log in",
+      "intent": "SignIn",
+      "entities": []
+    },
+    {
+      "text": "log out",
+      "intent": "SignOut",
+      "entities": []
+    },
+    {
+      "text": "logging in",
+      "intent": "SignIn",
+      "entities": []
+    },
+    {
+      "text": "logging out",
+      "intent": "SignOut",
+      "entities": []
+    },
+    {
+      "text": "logout",
+      "intent": "SignOut",
+      "entities": []
+    },
+    {
+      "text": "make appointment on personal calendar",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "make next meeting to start 1 hour later",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "make the meeting to start 1 hour later",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "make the meeting to start 40 minutes earlier",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "missing in punches for the team",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "move my 1 pm appointment up 30 minutes",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "move my meeting back by an hour",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "move my meeting up by half an hour",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "move my next meeting out by 30 minutes",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "move my next meeting out thirty minutes",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "move my next meeting up by 10 minutes",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "move my next meeting up by 30 minutes",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "move my twelve p . m . meeting forward two hours",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "move my twelve p. m. thirty minutes up",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "my available vacation hours",
+      "intent": "VacationBalance",
+      "entities": []
+    },
+    {
+      "text": "my employee's vacation requests next month",
+      "intent": "EmployeeTimeOffRequestList",
+      "entities": []
+    },
+    {
+      "text": "my overtime worked hours till now",
+      "intent": "TeamOverTimes",
+      "entities": []
+    },
+    {
+      "text": "my punch list",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "my punches till now",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "my schedule on 23/12/20",
+      "intent": "schedule",
+      "entities": []
+    },
+    {
+      "text": "my shift from january 1st 2020 to january 10th 2020",
+      "intent": "UpcomingShifts",
+      "entities": []
+    },
+    {
+      "text": "my shifts for tomorrow",
+      "intent": "UpcomingShifts",
+      "entities": []
+    },
+    {
+      "text": "my time off requests",
+      "intent": "MyTimeOffRequestList",
+      "entities": []
+    },
+    {
+      "text": "my vacation balance report",
+      "intent": "VacationBalance",
+      "entities": []
+    },
+    {
+      "text": "my worked hours from 1st of nov to 5th nov",
+      "intent": "HoursWorked",
+      "entities": []
+    },
+    {
+      "text": "need to swap a shift",
+      "intent": "SwapShift",
+      "entities": []
+    },
+    {
+      "text": "next sunday schedule",
+      "intent": "schedule",
+      "entities": []
+    },
+    {
+      "text": "not here add in punches",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "not here add in punches today",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "not here clock in",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "not here from my team",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "number of hours i worked from monday till friday",
+      "intent": "HoursWorked",
+      "entities": []
+    },
+    {
+      "text": "number of overtime hours for the team from last monday to this tuesday",
+      "intent": "TeamOverTimes",
+      "entities": []
+    },
+    {
+      "text": "number of overtime hours for the team last month",
+      "intent": "TeamOverTimes",
+      "entities": []
+    },
+    {
+      "text": "number of overtime hours for the team on friday",
+      "intent": "TeamOverTimes",
+      "entities": []
+    },
+    {
+      "text": "number of punches from last monday till this friday",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "overtime hours for this monday",
+      "intent": "TeamOverTimes",
+      "entities": []
+    },
+    {
+      "text": "overtime worked hours",
+      "intent": "TeamOverTimes",
+      "entities": []
+    },
+    {
+      "text": "overtimes of this week",
+      "intent": "TeamOverTimes",
+      "entities": []
+    },
+    {
+      "text": "personal calendar 5/1/2013 meet mom for yard sale",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "please schedule an all hands meeting for 2 hours",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "presence list",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "present employees",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "presenties",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "punch",
+      "intent": "Punch",
+      "entities": []
+    },
+    {
+      "text": "punch for the period of the 2nd of january to the 6th of january",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "punch in with transfer",
+      "intent": "Punch",
+      "entities": []
+    },
+    {
+      "text": "punch list",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "punch please",
+      "intent": "Punch",
+      "entities": []
+    },
+    {
+      "text": "push my trip july 16th out 5 days",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "quit",
+      "intent": "SignOut",
+      "entities": []
+    },
+    {
+      "text": "request for swap shift",
+      "intent": "SwapShift",
+      "entities": []
+    },
+    {
+      "text": "roger location",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 0,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "sara location",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 0,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "sara's time off requests",
+      "intent": "EmployeeTimeOffRequestList",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 0,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "schedule appointment yearly check up friday march one 10 am one hour",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "schedule lunch with pura at noon on wednesday may 20 minutes",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "set up an appointment with my sister in my main calendar.",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "shift for today",
+      "intent": "UpcomingShifts",
+      "entities": []
+    },
+    {
+      "text": "shift for tomorrow",
+      "intent": "UpcomingShifts",
+      "entities": []
+    },
+    {
+      "text": "shifts next friday",
+      "intent": "UpcomingShifts",
+      "entities": []
+    },
+    {
+      "text": "show all time off requests",
+      "intent": "MyTimeOffRequestList",
+      "entities": []
+    },
+    {
+      "text": "show me hours i worked this week",
+      "intent": "HoursWorked",
+      "entities": []
+    },
+    {
+      "text": "show me last week’s punch",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "show me my google calendar",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "show me my last week's schedule",
+      "intent": "schedule",
+      "entities": []
+    },
+    {
+      "text": "show me my punch list",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "show me my shifts for the 1st of february",
+      "intent": "UpcomingShifts",
+      "entities": []
+    },
+    {
+      "text": "show me my time off requests",
+      "intent": "MyTimeOffRequestList",
+      "entities": []
+    },
+    {
+      "text": "show me my vacation balance",
+      "intent": "VacationBalance",
+      "entities": []
+    },
+    {
+      "text": "show me punch list for this week",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "show me sara's location",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 8,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "show me the list of time off requests",
+      "intent": "EmployeeTimeOffRequestList",
+      "entities": []
+    },
+    {
+      "text": "show me the number of overtime hours for current pay period",
+      "intent": "TeamOverTimes",
+      "entities": []
+    },
+    {
+      "text": "show me the number of overtime hours for this week period",
+      "intent": "TeamOverTimes",
+      "entities": []
+    },
+    {
+      "text": "show me where is eliza",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 17,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "show my accruals",
+      "intent": "VacationBalance",
+      "entities": []
+    },
+    {
+      "text": "show my schedule for today",
+      "intent": "schedule",
+      "entities": []
+    },
+    {
+      "text": "show my upcoming shifts",
+      "intent": "UpcomingShifts",
+      "entities": []
+    },
+    {
+      "text": "show punch on 1/1/2018",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "show punches for period from 1/1/2018 to 1/8/2018",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "show schedule for period from 11/11/19 to 25/11/19",
+      "intent": "schedule",
+      "entities": []
+    },
+    {
+      "text": "show shifts for tuesday",
+      "intent": "UpcomingShifts",
+      "entities": []
+    },
+    {
+      "text": "show the summary of my vacations",
+      "intent": "VacationBalance",
+      "entities": []
+    },
+    {
+      "text": "sign in",
+      "intent": "SignIn",
+      "entities": []
+    },
+    {
+      "text": "sign out",
+      "intent": "SignOut",
+      "entities": []
+    },
+    {
+      "text": "signin",
+      "intent": "SignIn",
+      "entities": []
+    },
+    {
+      "text": "signning in",
+      "intent": "SignIn",
+      "entities": []
+    },
+    {
+      "text": "signout",
+      "intent": "SignOut",
+      "entities": []
+    },
+    {
+      "text": "submit time off request",
+      "intent": "TimeOffRequest",
+      "entities": []
+    },
+    {
+      "text": "swap shift",
+      "intent": "SwapShift",
+      "entities": []
+    },
+    {
+      "text": "swap shift for tomorrow",
+      "intent": "SwapShift",
+      "entities": []
+    },
+    {
+      "text": "take vacation for the 1st, october, 2018",
+      "intent": "TimeOffRequest",
+      "entities": []
+    },
+    {
+      "text": "team's last month overtime",
+      "intent": "TeamOverTimes",
+      "entities": []
+    },
+    {
+      "text": "tell me about my vacation balance",
+      "intent": "VacationBalance",
+      "entities": []
+    },
+    {
+      "text": "tell me my accruals balance",
+      "intent": "VacationBalance",
+      "entities": []
+    },
+    {
+      "text": "tell me my job for today?",
+      "intent": "schedule",
+      "entities": []
+    },
+    {
+      "text": "tell me my schedule for 2nd of november to 3rd of december",
+      "intent": "schedule",
+      "entities": []
+    },
+    {
+      "text": "tell me my schedule for next week",
+      "intent": "schedule",
+      "entities": []
+    },
+    {
+      "text": "tell me my shift from 1st of nov to 15th of nov",
+      "intent": "UpcomingShifts",
+      "entities": []
+    },
+    {
+      "text": "tell me my vacation hours",
+      "intent": "VacationBalance",
+      "entities": []
+    },
+    {
+      "text": "tell me my worked hours on last friday",
+      "intent": "HoursWorked",
+      "entities": []
+    },
+    {
+      "text": "tell me total hours i have worked this month?",
+      "intent": "HoursWorked",
+      "entities": []
+    },
+    {
+      "text": "tell me total punches i have this month?",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "tell me where is sara?",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 17,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "time off request of albert",
+      "intent": "EmployeeTimeOffRequestList",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 20,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "time off requests of employees",
+      "intent": "EmployeeTimeOffRequestList",
+      "entities": []
+    },
+    {
+      "text": "time to sign out",
+      "intent": "SignOut",
+      "entities": []
+    },
+    {
+      "text": "today's employee overtimes",
+      "intent": "TeamOverTimes",
+      "entities": []
+    },
+    {
+      "text": "today's list of punches",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "vacation balance",
+      "intent": "VacationBalance",
+      "entities": []
+    },
+    {
+      "text": "what am i supposed to do today?",
+      "intent": "schedule",
+      "entities": []
+    },
+    {
+      "text": "what are my shifts for tuesday?",
+      "intent": "UpcomingShifts",
+      "entities": []
+    },
+    {
+      "text": "what are my transfers for tuesday?",
+      "intent": "UpcomingShifts",
+      "entities": []
+    },
+    {
+      "text": "what are the total no. of hours i have worked yesterday?",
+      "intent": "HoursWorked",
+      "entities": []
+    },
+    {
+      "text": "what are the total number of punches i had yesterday?",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "what i have to do on friday?",
+      "intent": "schedule",
+      "entities": []
+    },
+    {
+      "text": "what is my schedule for tomorrow",
+      "intent": "schedule",
+      "entities": []
+    },
+    {
+      "text": "what is my to do list for today?",
+      "intent": "schedule",
+      "entities": []
+    },
+    {
+      "text": "what tasks i have to perform on monday?",
+      "intent": "schedule",
+      "entities": []
+    },
+    {
+      "text": "what’s my vacation balance?",
+      "intent": "VacationBalance",
+      "entities": []
+    },
+    {
+      "text": "when is my next shift?",
+      "intent": "UpcomingShifts",
+      "entities": []
+    },
+    {
+      "text": "when was i punch last month?",
+      "intent": "showPunches",
+      "entities": []
+    },
+    {
+      "text": "when was i working last month",
+      "intent": "schedule",
+      "entities": []
+    },
+    {
+      "text": "where is albert",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 9,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "where is eliza",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 9,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "where is eliza adams today?",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 9,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "where is roger",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 9,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "where is roger today",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 9,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "where is sara",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 9,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "where is sara today",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 9,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "where is somone today",
+      "intent": "EmployeeLocation",
+      "entities": []
+    },
+    {
+      "text": "where will i find sara?",
+      "intent": "EmployeeLocation",
+      "entities": [
+        {
+          "entity": "name",
+          "startPos": 18,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "who all are absent today",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "who all are present yesterday",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "who clocked in today?",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "who didn't add in punches?",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "who didn't clock in today?",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "who didn't punch in today yet?",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "who is approaching overtime this week?",
+      "intent": "TeamOverTimes",
+      "entities": []
+    },
+    {
+      "text": "who is here",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "who is here from my team?",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "who is not here",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "who is not here from my team?",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "who is not here?",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "who punched in today?",
+      "intent": "EmployeeAttendance",
+      "entities": []
+    },
+    {
+      "text": "worked hours",
+      "intent": "HoursWorked",
+      "entities": []
+    },
+    {
+      "text": "worked hours for this monday",
+      "intent": "HoursWorked",
+      "entities": []
+    },
+    {
+      "text": "yesterday's employee overtimes",
+      "intent": "TeamOverTimes",
+      "entities": []
+    }
+  ],
+  "settings": []
+}
