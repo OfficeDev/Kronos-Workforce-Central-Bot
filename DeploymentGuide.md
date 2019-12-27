@@ -184,7 +184,7 @@ Register two Azure AD applications in your tenant's directory: one for the bot, 
 
   
 
-	![singletenant overview](https://github.com/OfficeDev/Kronos-Workforce-Central-Bot/wiki/Images/singletenant overview.png)
+	![singletenant overview](https://raw.githubusercontent.com/wiki/OfficeDev/Kronos-Workforce-Central-Bot/Images/singletenant%20overview.png)
 
   
 
