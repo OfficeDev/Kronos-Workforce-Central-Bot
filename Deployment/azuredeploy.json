@@ -218,7 +218,8 @@
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
-        "[resourceId('Microsoft.Insights/components', variables('botAppInsightsName'))]"
+        "[resourceId('Microsoft.Insights/components', variables('botAppInsightsName'))]",
+		"[resourceId('Microsoft.CognitiveServices/accounts', [concat(variables('botName'), '-luis')])]"
       ],
       "kind": "app",
       "location": "[parameters('location')]",
@@ -299,7 +300,7 @@
             },
             {
               "name": "LuisSubscriptionKey",
-              "value": "dbf3675e243c40c9b4f0b34d236fa7e8"
+              "value": "listKeys(concat(variables('botName'), '-luis')"
             },
 			{
               "name": "SuperuserUsernameUri",
