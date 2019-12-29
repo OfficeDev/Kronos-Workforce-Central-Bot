@@ -364,7 +364,7 @@ class main extends React.Component<IProps, IState> {
                                         <Loader content='Loading' />
                                     </Dimmer>
                                     <Card.Content style={{ border: 'none' }}>
-                                        <Card.Header>Superuser configuration</Card.Header>
+                                        <Card.Header>Kronos Superuser configuration</Card.Header>
                                         <Card.Description style={{ marginTop: '2em' }}>
                                             <Form>
                                                 <Form.Field>
