@@ -81,116 +81,115 @@
 			}
 		},
 		"sku": {
-		"type": "string",
-		"allowedValues": [
-		"Basic",
-		"Standard",
-		"Premium"
-		],
-		"defaultValue": "Standard",
-		"metadata": {
-		"description": "The pricing tier for the hosting plan."
-		}
+			"type": "string",
+			"allowedValues": [
+				"Basic",
+				"Standard",
+				"Premium"
+			],
+			"defaultValue": "Standard",
+			"metadata": {
+				"description": "The pricing tier for the hosting plan."
+			}
 		},
 		"planSize": {
-		"type": "string",
-		"allowedValues": [
-		"1",
-		"2",
-		"3"
-		],
-		"defaultValue": "1",
-		"metadata": {
-		"description": "The size of the hosting plan (small, medium, or large)."
-		}
+			"type": "string",
+			"allowedValues": [
+				"1",
+				"2",
+				"3"
+			],
+			"defaultValue": "1",
+			"metadata": {
+				"description": "The size of the hosting plan (small, medium, or large)."
+			}
 		},
 		"location": {
-		"type": "string",
-		"defaultValue": "[resourceGroup().location]",
-		"metadata": {
-		"description": "Location for all resources."
+			"type": "string",
+			"defaultValue": "[resourceGroup().location]",
+			"metadata": {
+				"description": "Location for all resources."
+			}
 		}
-		}
-},
-    "variables": {
-        "tenantId": "[subscription().tenantId]",
+	},
+	"variables": {
+		"tenantId": "[subscription().tenantId]",
 		"botName": "[parameters('baseResourceName')]",
-        "botAppDomain": "[concat(variables('botName'), '.azurewebsites.net')]",
-        "botAppUrl": "[concat('https://', variables('botAppDomain'))]",
+		"botAppDomain": "[concat(variables('botName'), '.azurewebsites.net')]",
+		"botAppUrl": "[concat('https://', variables('botAppDomain'))]",
 		"botAppLUISName": "[concat(variables('botName'),'LUIS')]",
 		"luisAppId": "dd6c54de-540b-415c-b086-4e75e3d5bae6",
 		"luisCognitiveServicesName": "[concat(variables('botName'), '-luis')]",
 		"keyVaultName": "[concat(variables('botName'), 'vault')]",
 		"keyVaultUrl": "[concat('https://',variables('keyVaultName'), '.vault.azure.net/secrets/')]",
-        "storageAccountName": "[uniquestring(subscription().id, resourceGroup().id, variables('botName'))]",
-        "configAppName": "[concat(variables('botName'), '-config')]",
-        "gitRepoUrl": "https://github.com/OfficeDev/Kronos-Workforce-Central-Bot",
-        "gitBranch": "kronosext",
-        "sharedSkus": [
-            "Free",
-            "Shared"
-        ],
-        "isSharedPlan": "[contains(variables('sharedSkus'), parameters('sku'))]",
-        "skuFamily": "[if(equals(parameters('sku'), 'Shared'), 'D', take(parameters('sku'), 1))]"
-    },
-    "resources": [
-
+		"storageAccountName": "[uniquestring(subscription().id, resourceGroup().id, variables('botName'))]",
+		"configAppName": "[concat(variables('botName'), '-config')]",
+		"gitRepoUrl": "https://github.com/OfficeDev/Kronos-Workforce-Central-Bot",
+		"gitBranch": "kronosext",
+		"sharedSkus": [
+			"Free",
+			"Shared"
+		],
+		"isSharedPlan": "[contains(variables('sharedSkus'), parameters('sku'))]",
+		"skuFamily": "[if(equals(parameters('sku'), 'Shared'), 'D', take(parameters('sku'), 1))]"
+	},
+	"resources": [
 		{
-            "type": "Microsoft.Web/serverfarms",
+			"type": "Microsoft.Web/serverfarms",
 			"name": "[variables('botName')]",
 			"apiVersion": "2016-09-01",
-            "location": "[parameters('location')]",
-            "properties": {
-                "name": "[variables('botName')]",
-                "hostingEnvironment": "",
-                "numberOfWorkers": 1
-            },
-            "sku": {
-                "name": "[if(variables('isSharedPlan'), concat(variables('skuFamily'),'1'), concat(variables('skuFamily'),parameters('planSize')))]",
-                "tier": "[parameters('sku')]",
-                "size": "[concat(variables('skuFamily'), parameters('planSize'))]",
-                "family": "[variables('skuFamily')]",
-                "capacity": 0
-            }
-        },
+			"location": "[parameters('location')]",
+			"properties": {
+				"name": "[variables('botName')]",
+				"hostingEnvironment": "",
+				"numberOfWorkers": 1
+			},
+			"sku": {
+				"name": "[if(variables('isSharedPlan'), concat(variables('skuFamily'),'1'), concat(variables('skuFamily'),parameters('planSize')))]",
+				"tier": "[parameters('sku')]",
+				"size": "[concat(variables('skuFamily'), parameters('planSize'))]",
+				"family": "[variables('skuFamily')]",
+				"capacity": 0
+			}
+		},
 		{
-            "type": "Microsoft.Insights/components",
+			"type": "Microsoft.Insights/components",
 			"name": "[variables('botName')]",
 			"apiVersion": "2015-05-01",
-            "location": "[parameters('location')]",
-            "tags": {
-                "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', variables('botName'))]": "Resource"
-            },
-            "properties": {
-                "Application_Type": "web",
-                "Request_Source": "rest"
-            }
-        },
+			"location": "[parameters('location')]",
+			"tags": {
+				"[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', variables('botName'))]": "Resource"
+			},
+			"properties": {
+				"Application_Type": "web",
+				"Request_Source": "rest"
+			}
+		},
 		{
-            "type": "Microsoft.CognitiveServices/accounts",
-            "name": "[concat(variables('botName'), '-luis')]",
-            "apiVersion": "2016-02-01-preview",
-            "location": "[parameters('LUISRegion')]",
+			"type": "Microsoft.CognitiveServices/accounts",
+			"name": "[concat(variables('botName'), '-luis')]",
+			"apiVersion": "2016-02-01-preview",
+			"location": "[parameters('LUISRegion')]",
 			"kind": "LUIS",
 			"dependsOn": [],
-            "scale": null,
-            "properties": {},
+			"scale": null,
+			"properties": {},
 			"sku": {
-                "name": "S0"
-            }
-        },
+				"name": "S0"
+			}
+		},
 		{
 			"type": "Microsoft.Storage/storageAccounts",
 			"name": "[variables('storageAccountName')]",
-            "apiVersion": "2018-02-01",
-            "location": "[parameters('location')]",
-            "kind": "Storage",
-            "sku": {
-                "name": "Standard_LRS"
-            }
-        },
+			"apiVersion": "2018-02-01",
+			"location": "[parameters('location')]",
+			"kind": "Storage",
+			"sku": {
+				"name": "Standard_LRS"
+			}
+		},
 		{
-            "type": "Microsoft.Web/sites",
+			"type": "Microsoft.Web/sites",
 			"name": "[variables('botName')]",
 			"apiVersion": "2016-08-01",
 			"location": "[parameters('location')]",
@@ -198,266 +197,266 @@
 			"identity": {
 				"type": "SystemAssigned"
 			},
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', variables('botName'))]",
+			"dependsOn": [
+				"[resourceId('Microsoft.Web/serverfarms', variables('botName'))]",
 				"[resourceId('Microsoft.Insights/components', variables('botName'))]",
 				"[resourceId('Microsoft.CognitiveServices/accounts', variables('luisCognitiveServicesName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
-            ],
-            "properties": {
-                "name": "[variables('botName')]",
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('botName'))]",
-                "enabled": true,
-                "reserved": false,
-                "clientAffinityEnabled": true,
-                "clientCertEnabled": false,
-                "hostNamesDisabled": false,
-                "containerSize": 0,
-                "dailyMemoryTimeQuota": 0,
-                "httpsOnly": true,
-                "siteConfig": {
-                    "alwaysOn": true,
-                    "appSettings": [
-                        {
-                            "name": "SITE_ROLE",
-                            "value": "bot"
-                        },
-                        {
-                            "name": "TenantMappingTable",
-                            "value": "TenantMappingTable"
-                        },
-                        {
-                            "name": "KronosUserDetails",
-                            "value": "KronosUserDetails"
-                        },
-                        {
-                            "name": "PaycodeMappingTable",
-                            "value": "KronosOvertimeMapping"
-                        },
-                        {
-                            "name": "BaseUri",
-                            "value": "[variables('botAppUrl')]"
-                        },
-                        {
-                            "name": "TenantId",
-                            "value": "[variables('tenantId')]"
-                        },
-                        {
-                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                            "value": "[reference(resourceId('Microsoft.Insights/components/', variables('botName')), '2015-05-01').InstrumentationKey]"
-                        },
-                        {
-                            "name": "LogInsightsFlag",
-                            "value": "1"
-                        },
-                        {
-                            "name": "LuisModelId",
-                            "value": "[variables('luisAppId')]"
-                        },
-                        {
-                            "name": "LuisSubscriptionKey",
-                            "value": "[listKeys(variables('luisCognitiveServicesName'), '2016-02-01-preview').key1]"
-                        },
+				"[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+			],
+			"properties": {
+				"name": "[variables('botName')]",
+				"serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('botName'))]",
+				"enabled": true,
+				"reserved": false,
+				"clientAffinityEnabled": true,
+				"clientCertEnabled": false,
+				"hostNamesDisabled": false,
+				"containerSize": 0,
+				"dailyMemoryTimeQuota": 0,
+				"httpsOnly": true,
+				"siteConfig": {
+					"alwaysOn": true,
+					"appSettings": [
 						{
-                            "name": "MicrosoftAppIdUrl",
-                            "value": "[concat(variables('keyVaultUrl'), 'MicrosoftAppIdUrl')]"
-                        },
-                        {
-                            "name": "MicrosoftAppPwdUrl",
-                            "value": "[concat(variables('keyVaultUrl'), 'MicrosoftAppPwdUrl')]"
-                        },
-                        {
-                            "name": "AzureTableStorageConnectionString",
-                            "value": "[concat(variables('keyVaultUrl'), 'AzureTableStorageConnectionString')]"
-                        },
-                        {
-                            "name": "EncryptionKey",
-                            "value": "[concat(variables('keyVaultUrl'), 'EncryptionKey')]"
-                        },
-                        {
-                            "name": "EncryptionIV",
-                            "value": "[concat(variables('keyVaultUrl'), 'EncryptionIV')]"
-                        },
-                        {
-                            "name": "SuperuserUsernameUri",
-                            "value": "[concat(variables('keyVaultUrl'), 'KronosWfcSuperUserName')]"
-                        },
-                        {
-                            "name": "SuperuserPasswordUri",
-                            "value": "[concat(variables('keyVaultUrl'), 'KronosWfcSuperUserPwd')]"
-                        }
-                    ]
-                }
-            },
-            "resources": [
-                {
-                    "apiVersion": "2016-08-01",
-                    "name": "web",
-                    "type": "sourcecontrols",
-                    "condition": "[not(empty(variables('gitRepoUrl')))]",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/sites', variables('botName'))]"
-                    ],
-                    "properties": {
-                        "RepoUrl": "[variables('gitRepoUrl')]",
-                        "branch": "[variables('gitBranch')]",
-                        "IsManualIntegration": true
-                    }
-                }
-            ]
-        },
+							"name": "SITE_ROLE",
+							"value": "bot"
+						},
+						{
+							"name": "TenantMappingTable",
+							"value": "TenantMappingTable"
+						},
+						{
+							"name": "KronosUserDetails",
+							"value": "KronosUserDetails"
+						},
+						{
+							"name": "PaycodeMappingTable",
+							"value": "KronosOvertimeMapping"
+						},
+						{
+							"name": "BaseUri",
+							"value": "[variables('botAppUrl')]"
+						},
+						{
+							"name": "TenantId",
+							"value": "[variables('tenantId')]"
+						},
+						{
+							"name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+							"value": "[reference(resourceId('Microsoft.Insights/components/', variables('botName')), '2015-05-01').InstrumentationKey]"
+						},
+						{
+							"name": "LogInsightsFlag",
+							"value": "1"
+						},
+						{
+							"name": "LuisModelId",
+							"value": "[variables('luisAppId')]"
+						},
+						{
+							"name": "LuisSubscriptionKey",
+							"value": "[listKeys(variables('luisCognitiveServicesName'), '2016-02-01-preview').key1]"
+						},
+						{
+							"name": "MicrosoftAppIdUrl",
+							"value": "[concat(variables('keyVaultUrl'), 'MicrosoftAppIdUrl')]"
+						},
+						{
+							"name": "MicrosoftAppPwdUrl",
+							"value": "[concat(variables('keyVaultUrl'), 'MicrosoftAppPwdUrl')]"
+						},
+						{
+							"name": "AzureTableStorageConnectionString",
+							"value": "[concat(variables('keyVaultUrl'), 'AzureTableStorageConnectionString')]"
+						},
+						{
+							"name": "EncryptionKey",
+							"value": "[concat(variables('keyVaultUrl'), 'EncryptionKey')]"
+						},
+						{
+							"name": "EncryptionIV",
+							"value": "[concat(variables('keyVaultUrl'), 'EncryptionIV')]"
+						},
+						{
+							"name": "SuperuserUsernameUri",
+							"value": "[concat(variables('keyVaultUrl'), 'KronosWfcSuperUserName')]"
+						},
+						{
+							"name": "SuperuserPasswordUri",
+							"value": "[concat(variables('keyVaultUrl'), 'KronosWfcSuperUserPwd')]"
+						}
+					]
+				}
+			},
+			"resources": [
+				{
+					"apiVersion": "2016-08-01",
+					"name": "web",
+					"type": "sourcecontrols",
+					"condition": "[not(empty(variables('gitRepoUrl')))]",
+					"dependsOn": [
+						"[resourceId('Microsoft.Web/sites', variables('botName'))]"
+					],
+					"properties": {
+						"RepoUrl": "[variables('gitRepoUrl')]",
+						"branch": "[variables('gitBranch')]",
+						"IsManualIntegration": true
+					}
+				}
+			]
+		},
 		{
-            "type": "Microsoft.BotService/botServices",
+			"type": "Microsoft.BotService/botServices",
 			"name": "[variables('botName')]",
 			"apiVersion": "2018-07-12",
-            "location": "global",
-            "kind": "sdk",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', variables('botName'))]"
-            ],
-            "properties": {
-                "displayName": "[parameters('appDisplayName')]",
-                "description": "[parameters('appDescription')]",
-                "msaAppId": "[parameters('botClientId')]",
-                "endpoint": "[concat(variables('botAppUrl'), '/api/messages')]",
-                "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', variables('botName')), '2015-05-01').InstrumentationKey]",
-                "luisAppIds": [
-                    "[variables('luisAppId')]"
-                ],
-                "luisKey": "[listKeys(variables('luisCognitiveServicesName'), '2016-02-01-preview').key1]"
-            },
-            "resources": [
-                {
-                    "name": "[concat(variables('botName'), '/MsTeamsChannel')]",
-                    "type": "Microsoft.BotService/botServices/channels",
-                    "apiVersion": "2018-07-12",
-                    "location": "global",
-                    "sku": {
-                        "name": "F0"
-                    },
-                    "properties": {
-                        "channelName": "MsTeamsChannel",
-                        "location": "global",
-                        "properties": {
-                            "isEnabled": true
-                        }
-                    },
-                    "dependsOn": [
-                        "[concat('Microsoft.BotService/botServices/', variables('botName'))]"
-                    ]
-                }
-            ],
-            "sku": {
-                "name": "F0"
-            }
-        },
+			"location": "global",
+			"kind": "sdk",
+			"dependsOn": [
+				"[resourceId('Microsoft.Web/sites', variables('botName'))]"
+			],
+			"properties": {
+				"displayName": "[parameters('appDisplayName')]",
+				"description": "[parameters('appDescription')]",
+				"msaAppId": "[parameters('botClientId')]",
+				"endpoint": "[concat(variables('botAppUrl'), '/api/messages')]",
+				"developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', variables('botName')), '2015-05-01').InstrumentationKey]",
+				"luisAppIds": [
+					"[variables('luisAppId')]"
+				],
+				"luisKey": "[listKeys(variables('luisCognitiveServicesName'), '2016-02-01-preview').key1]"
+			},
+			"resources": [
+				{
+					"name": "[concat(variables('botName'), '/MsTeamsChannel')]",
+					"type": "Microsoft.BotService/botServices/channels",
+					"apiVersion": "2018-07-12",
+					"location": "global",
+					"sku": {
+						"name": "F0"
+					},
+					"properties": {
+						"channelName": "MsTeamsChannel",
+						"location": "global",
+						"properties": {
+							"isEnabled": true
+						}
+					},
+					"dependsOn": [
+						"[concat('Microsoft.BotService/botServices/', variables('botName'))]"
+					]
+				}
+			],
+			"sku": {
+				"name": "F0"
+			}
+		},
 		{
-            "type": "Microsoft.Web/sites",
+			"type": "Microsoft.Web/sites",
 			"name": "[variables('configAppName')]",
-            "apiVersion": "2016-08-01",
-            "location": "[parameters('location')]",
+			"apiVersion": "2016-08-01",
+			"location": "[parameters('location')]",
 			"kind": "app",
 			"identity": {
 				"type": "SystemAssigned"
 			},
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', variables('botName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
-				"[resourceId('Microsoft.Web/sites', variables('botName'))]"
-            ],
-            "properties": {
-                "name": "[variables('configAppName')]",
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('botName'))]",
-                "enabled": true,
-                "reserved": false,
-                "scmSiteAlsoStopped": false,
-                "clientAffinityEnabled": true,
-                "clientCertEnabled": false,
-                "hostNamesDisabled": false,
-                "containerSize": 0,
-                "dailyMemoryTimeQuota": 0,
-                "httpsOnly": true,
-                "siteConfig": {
-                    "alwaysOn": false,
-                    "appSettings": [
-                        {
-                            "name": "SITE_ROLE",
-                            "value": "configuration"
-                        },
-                        {
-                            "name": "Tenant",
-                            "value": "[variables('tenantId')]"
-                        },
-                        {
-                            "name": "Instance",
-                            "value": "https://login.microsoftonline.com/"
-                        },
-                        {
-                            "name": "ClientId",
-                            "value": "[parameters('botClientId')]"
-                        },
-                        {
-                            "name": "UPN",
-                            "value": "[parameters('UPN')]"
-                        },
-                        {
-                            "name": "TokenEnpoint",
-                            "value": "[concat('https://login.microsoftonline.com/', variables('tenantId'), '/oauth2/v2.0/token')]"
-                        },
-                        {
-                            "name": "AllowedHosts",
-                            "value": "*"
-                        },
-                        {
-                            "name": "StorageConnectionString",
-                            "value": "[Concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountName'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
-                        },
-                        {
-                            "name": "KeyVaultBaseURL",
-                            "value": "[concat('https://', variables('keyVaultName'), '.vault.azure.net/')]"
-                        },
-                        {
-                            "name": "WEBSITE_NODE_DEFAULT_VERSION",
-                            "value": "6.9.5"
-                        }
-                    ]
-                }
-            },
-            "resources": [
-                {
-                    "apiVersion": "2016-08-01",
-                    "name": "web",
-                    "type": "sourcecontrols",
-                    "condition": "[not(empty(variables('gitRepoUrl')))]",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/sites', variables('configAppName'))]"
-                    ],
-                    "properties": {
-                        "RepoUrl": "[variables('gitRepoUrl')]",
-                        "branch": "[variables('gitBranch')]",
-                        "IsManualIntegration": true
-                    }
-                }
-            ]
-        },
-		{
-            "type": "Microsoft.KeyVault/vaults",
-            "name": "[variables('keyVaultName')]",
-			"apiVersion": "2018-02-14",
-            "location": "[parameters('location')]",
 			"dependsOn": [
-                "[resourceId('Microsoft.Web/sites', variables('botName'))]",
+				"[resourceId('Microsoft.Web/serverfarms', variables('botName'))]",
+				"[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
+				"[resourceId('Microsoft.Web/sites', variables('botName'))]"
+			],
+			"properties": {
+				"name": "[variables('configAppName')]",
+				"serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('botName'))]",
+				"enabled": true,
+				"reserved": false,
+				"scmSiteAlsoStopped": false,
+				"clientAffinityEnabled": true,
+				"clientCertEnabled": false,
+				"hostNamesDisabled": false,
+				"containerSize": 0,
+				"dailyMemoryTimeQuota": 0,
+				"httpsOnly": true,
+				"siteConfig": {
+					"alwaysOn": false,
+					"appSettings": [
+						{
+							"name": "SITE_ROLE",
+							"value": "configuration"
+						},
+						{
+							"name": "Tenant",
+							"value": "[variables('tenantId')]"
+						},
+						{
+							"name": "Instance",
+							"value": "https://login.microsoftonline.com/"
+						},
+						{
+							"name": "ClientId",
+							"value": "[parameters('botClientId')]"
+						},
+						{
+							"name": "UPN",
+							"value": "[parameters('UPN')]"
+						},
+						{
+							"name": "TokenEnpoint",
+							"value": "[concat('https://login.microsoftonline.com/', variables('tenantId'), '/oauth2/v2.0/token')]"
+						},
+						{
+							"name": "AllowedHosts",
+							"value": "*"
+						},
+						{
+							"name": "StorageConnectionString",
+							"value": "[Concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountName'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
+						},
+						{
+							"name": "KeyVaultBaseURL",
+							"value": "[concat('https://', variables('keyVaultName'), '.vault.azure.net/')]"
+						},
+						{
+							"name": "WEBSITE_NODE_DEFAULT_VERSION",
+							"value": "6.9.5"
+						}
+					]
+				}
+			},
+			"resources": [
+				{
+					"apiVersion": "2016-08-01",
+					"name": "web",
+					"type": "sourcecontrols",
+					"condition": "[not(empty(variables('gitRepoUrl')))]",
+					"dependsOn": [
+						"[resourceId('Microsoft.Web/sites', variables('configAppName'))]"
+					],
+					"properties": {
+						"RepoUrl": "[variables('gitRepoUrl')]",
+						"branch": "[variables('gitBranch')]",
+						"IsManualIntegration": true
+					}
+				}
+			]
+		},
+		{
+			"type": "Microsoft.KeyVault/vaults",
+			"name": "[variables('keyVaultName')]",
+			"apiVersion": "2018-02-14",
+			"location": "[parameters('location')]",
+			"dependsOn": [
+				"[resourceId('Microsoft.Web/sites', variables('botName'))]",
 				"[resourceId('Microsoft.Web/sites', variables('configAppName'))]"
-            ],
-            "tags": {
-                "displayName": "KeyVault"
-            },
-            "properties": {
-                "enabledForDeployment": "true",
-                "enabledForTemplateDeployment": "true",
-                "enabledForDiskEncryption": "true",
-                "tenantId": "[variables('tenantId')]",
-                "accessPolicies": [
+			],
+			"tags": {
+				"displayName": "KeyVault"
+			},
+			"properties": {
+				"enabledForDeployment": "true",
+				"enabledForTemplateDeployment": "true",
+				"enabledForDiskEncryption": "true",
+				"tenantId": "[variables('tenantId')]",
+				"accessPolicies": [
 					{
 						"tenantId": "[reference(resourceId('Microsoft.Web/sites', variables('botName')), '2016-08-01', 'Full').identity.tenantId]",
 						"objectId": "[reference(resourceId('Microsoft.Web/sites', variables('botName')), '2016-08-01', 'Full').identity.principalId]",
@@ -477,119 +476,112 @@
 						}
 					}
 				],
-                "sku": {
-                    "name": "Standard",
-                    "family": "A"
-                },
-                "networkAcls": {
-                    "value": {
-                        "defaultAction": "Allow",
-                        "bypass": "AzureServices"
-                    }
-                }
-            }
-        },
-
+				"sku": {
+					"name": "Standard",
+					"family": "A"
+				},
+				"networkAcls": {
+					"value": {
+						"defaultAction": "Allow",
+						"bypass": "AzureServices"
+					}
+				}
+			}
+		},
 		{
-            "type": "Microsoft.KeyVault/vaults/secrets",
-            "name": "[concat(variables('keyVaultName'), '/MicrosoftAppIdUrl')]",
-            "apiVersion": "2018-02-14",
-            "location": "[parameters('location')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
-            ],
-            "properties": {
-                "value": "[parameters('botClientId')]"
-            }
-        },
-
+			"type": "Microsoft.KeyVault/vaults/secrets",
+			"name": "[concat(variables('keyVaultName'), '/MicrosoftAppIdUrl')]",
+			"apiVersion": "2018-02-14",
+			"location": "[parameters('location')]",
+			"dependsOn": [
+				"[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
+			],
+			"properties": {
+				"value": "[parameters('botClientId')]"
+			}
+		},
 		{
-            "type": "Microsoft.KeyVault/vaults/secrets",
-            "name": "[concat(variables('keyVaultName'), '/MicrosoftAppPwdUrl')]",
-            "apiVersion": "2018-02-14",
-            "location": "[parameters('location')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
-            ],
-            "properties": {
-                "value": "[parameters('botClientSecret')]"
-            }
-        },
-
+			"type": "Microsoft.KeyVault/vaults/secrets",
+			"name": "[concat(variables('keyVaultName'), '/MicrosoftAppPwdUrl')]",
+			"apiVersion": "2018-02-14",
+			"location": "[parameters('location')]",
+			"dependsOn": [
+				"[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
+			],
+			"properties": {
+				"value": "[parameters('botClientSecret')]"
+			}
+		},
 		{
-            "type": "Microsoft.KeyVault/vaults/secrets",
-            "name": "[concat(variables('keyVaultName'), '/EncryptionKey')]",
-            "apiVersion": "2018-02-14",
-            "location": "[parameters('location')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
-            ],
-            "properties": {
-                "value": "SDBikUjzq/00iK57fW2wnAqhma15OSl="
-            }
-        },
-
+			"type": "Microsoft.KeyVault/vaults/secrets",
+			"name": "[concat(variables('keyVaultName'), '/EncryptionKey')]",
+			"apiVersion": "2018-02-14",
+			"location": "[parameters('location')]",
+			"dependsOn": [
+				"[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
+			],
+			"properties": {
+				"value": "SDBikUjzq/00iK57fW2wnAqhma15OSl="
+			}
+		},
 		{
-            "type": "Microsoft.KeyVault/vaults/secrets",
-            "name": "[concat(variables('keyVaultName'), '/EncryptionIV')]",
-            "apiVersion": "2018-02-14",
-            "location": "[parameters('location')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
-            ],
-            "properties": {
-                "value": "bki0U8Q1iQ2FPk=="
-            }
-        },
-
+			"type": "Microsoft.KeyVault/vaults/secrets",
+			"name": "[concat(variables('keyVaultName'), '/EncryptionIV')]",
+			"apiVersion": "2018-02-14",
+			"location": "[parameters('location')]",
+			"dependsOn": [
+				"[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
+			],
+			"properties": {
+				"value": "bki0U8Q1iQ2FPk=="
+			}
+		},
 		{
-            "type": "Microsoft.KeyVault/vaults/secrets",
-            "name": "[concat(variables('keyVaultName'), '/AzureTableStorageConnectionString')]",
-            "apiVersion": "2018-02-14",
-            "location": "[parameters('location')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
-                "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
-            ],
-            "properties": {
-                "value": "[Concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountName'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
-            }
-        },
-
+			"type": "Microsoft.KeyVault/vaults/secrets",
+			"name": "[concat(variables('keyVaultName'), '/AzureTableStorageConnectionString')]",
+			"apiVersion": "2018-02-14",
+			"location": "[parameters('location')]",
+			"dependsOn": [
+				"[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
+				"[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
+			],
+			"properties": {
+				"value": "[Concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountName'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
+			}
+		},
 		{
-            "type": "Microsoft.KeyVault/vaults/secrets",
-            "name": "[concat(variables('keyVaultName'), '/KronosWfcSuperUserName')]",
-            "apiVersion": "2018-02-14",
-            "location": "[parameters('location')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
-            ],
-            "properties": {
-                "value": ""
-            }
-        },
-
+			"type": "Microsoft.KeyVault/vaults/secrets",
+			"name": "[concat(variables('keyVaultName'), '/KronosWfcSuperUserName')]",
+			"apiVersion": "2018-02-14",
+			"location": "[parameters('location')]",
+			"dependsOn": [
+				"[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
+			],
+			"properties": {
+				"value": ""
+			}
+		},
 		{
-            "type": "Microsoft.KeyVault/vaults/secrets",
-            "name": "[concat(variables('keyVaultName'), '/KronosWfcSuperUserPwd')]",
-            "apiVersion": "2018-02-14",
-            "location": "[parameters('location')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
-            ],
-            "properties": {
-                "value": ""
-            }
-        }
-    ],
-    "outputs": {
-        "botId": {
-            "type": "string",
-            "value": "[parameters('botClientId')]"
-        },
-        "appDomain": {
-            "type": "string",
-            "value": "[variables('botAppDomain')]"
-        }
-    }
+			"type": "Microsoft.KeyVault/vaults/secrets",
+			"name": "[concat(variables('keyVaultName'), '/KronosWfcSuperUserPwd')]",
+			"apiVersion": "2018-02-14",
+			"location": "[parameters('location')]",
+			"dependsOn": [
+				"[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
+			],
+			"properties": {
+				"value": ""
+			}
+		}
+	],
+	"outputs": {
+		"botId": {
+			"type": "string",
+			"value": "[parameters('botClientId')]"
+		},
+		"appDomain": {
+			"type": "string",
+			"value": "[variables('botAppDomain')]"
+		}
+	}
 }
