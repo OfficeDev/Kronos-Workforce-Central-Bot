@@ -284,6 +284,10 @@
 						{
 							"name": "SuperuserPasswordUri",
 							"value": "[concat(variables('keyVaultUrl'), 'KronosWfcSuperUserPwd')]"
+						},
+						{
+							"name": "WEBSITE_NODE_DEFAULT_VERSION",
+							"value": "10.14.1"
 						}
 					]
 				}
@@ -417,7 +421,7 @@
 						},
 						{
 							"name": "WEBSITE_NODE_DEFAULT_VERSION",
-							"value": "6.9.5"
+							"value": "10.14.1"
 						}
 					]
 				}
