@@ -1,13 +1,13 @@
 # Prerequisites
 To begin, you will need:
 * An Azure subscription where you can create the following kinds of resources
-* App service
-* App service plan
-* Bot channels registration
-* Azure storage account
-* LUIS cognitive service
-* Application Insights
-* Azure KeyVault
+	* App service
+	* App service plan
+	* Bot channels registration
+	* Azure storage account
+	* LUIS cognitive service
+	* Application Insights
+	* Azure KeyVault
 
 * This is for one to one user (end-user) need to install personally, in order to run this app.
 * A copy of the Kronos Workforce Central GitHub repo (https://github.com/OfficeDev/Kronos-Workforce-Central-Bot)
@@ -31,9 +31,9 @@ Register Azure AD applications in your tenant's directory.
 7. Once the client secret is created, copy its **Value**; we will need it later.
 8. Leave the "Redirect URI" field blank for now.
 At this point you have 3 unique values:
-* Application (client) ID for the bot
-* Client secret for the bot
-* Directory (tenant) ID
+	* Application (client) ID for the bot
+	* Client secret for the bot
+	* Directory (tenant) ID
 
 We recommend that you copy these values into a text file, using an application like Notepad. We will need these values later during deployment.
 
@@ -51,80 +51,62 @@ We recommend that you copy these values into a text file, using an application l
 
 4. Select a subscription and resource group.
 
-* We recommend creating a new resource group.
-* The resource group location MUST be in a datacenter that supports: Application Insights; and LUIS. For an up-to-date list, click [here](https://azure.microsoft.com/en-us/global-infrastructure/services/?products=logic-apps,cognitive-services,search,monitor), and select a region where the following services are available:
-* Application Insights
-
-* LUIS services
+	* We recommend creating a new resource group.
+	* The resource group location MUST be in a datacenter that supports: Application Insights; and LUIS. For an up-to-date list, click [here](https://azure.microsoft.com/en-us/global-infrastructure/services/?products=logic-apps,cognitive-services,search,monitor), and select a region where the following services are available:
+		* Application Insights
+		* LUIS services
 5. Enter a "Base Resource Name", which the template uses to generate names for the other resources.
-* The app service name `[Base Resource Name]`, `[Base Resource Name]-config`, and `[Base Resource Name]-luis` will be available at the end of deployment. For example, if you select `kronos` as the base name, the names `kronos`, `kronos-config`, and `kronos-luis` will be available.
-
-* Remember the base resource name that you selected. We will need it later.
+	* The app service name `[Base Resource Name]`, `[Base Resource Name]-config`, and `[Base Resource Name]-luis` will be available at the end of deployment. For example, if you select `kronos` as the base name, the names `kronos`, `kronos-config`, and `kronos-luis` will be available.
+	* Remember the base resource name that you selected. We will need it later.
 6. Fill in the various IDs in the template:
 	1. **Bot Client ID**: The application (client) ID of the Microsoft Teams Bot app
 	2. **Bot Client Secret**: The client secret of the Microsoft Teams Bot app.
-	3. **Tenant Id**: The tenant ID saved in previous steps.
 
-Make sure that the values are copied as-is, with no extra spaces. The template checks that GUIDs are exactly 36 characters.
+	Make sure that the values are copied as-is, with no extra spaces. The template checks that GUIDs are exactly 36 characters.
 
 7. Provide the below values
-	1. **LUISRegion**: The region where the LUIS resource will be deployed.
-	2. **appDisplayName**: App display name.
-	3. **appDescription**: App description.
+	1. **LUIS Region**: The region where the LUIS resource will be deployed.
+	2. **App Display Name**: App display name.
+	3. **App Description**: App description.
 
 8. Fill in the "Config Admin UPN List", which is a semicolon-delimited list of users who will be allowed to access the configuration app.
-* For example, to allow Megan Bowen (meganb@contoso.com) and Adele Vance (adelev@contoso.com) to access the configuration app, set this parameter to `meganb@contoso.com;adelv@contoso.com`.
-* You can change this list later by going to the configuration app service's "Configuration" blade.
-9. If you wish to change the app name, description, and icon from the defaults, modify the corresponding template parameters.
-10. Provide the  **KronosWfcSuperUserName** and **KronosWfcSuperUserPwd**. These values will be saved in key vault and later can be changed using Configuration App.
-11. Agree to the Azure terms and conditions by clicking on the check box "I agree to the terms and conditions stated above" located at the bottom of the page.
-12. Click on "Purchase" to start the deployment.
-13. Wait for the deployment to finish. You can check the progress of the deployment from the "Notifications" pane of the Azure Portal. It can take more than 25 minutes for the deployment to finish.
+	* For example, to allow Megan Bowen (meganb@contoso.com) and Adele Vance (adelev@contoso.com) to access the configuration app, set this parameter to `meganb@contoso.com;adelv@contoso.com`.
+	* You can change this list later by going to the configuration app service's "Configuration" blade.
+9. If you wish to change the Sku, Plan Size and Location from the defaults, modify the corresponding template parameters.
+10. Agree to the Azure terms and conditions by clicking on the check box "I agree to the terms and conditions stated above" located at the bottom of the page.
+11. Click on "Purchase" to start the deployment.
+12. Wait for the deployment to finish. You can check the progress of the deployment from the "Notifications" pane of the Azure Portal. It can take more than 25 minutes for the deployment to finish.
 
-14. Once the deployment has finished, you would be directed to a page that has the following fields:
-* botId - This is the Microsoft Application ID for the Kronos workforce central bot.
-* appDomain - This is the base domain for the Kronos workforce central Bot.
-* configurationAppUrl - This is the URL for the configuration web application.
-
-# Step 3: Configure Key Vault access policies
-
- 1. Go to App Service. The name will be same as the bot resource name provided in "Deploy to Azure subscription step". , for example you choose "kronosbot"
- 2. Go to settings then click on Identity 
- 3.  click on 'On' to the status and wait till object ID will not get generated, as soon as the object ID get generated copy that ID.
- 4. Go to KeyVault, for example you choose "kronosbotvault".
- 5. Go to settings then click on Access policies and then add policy there.
- 6. In add policy, select 'secret management' from the configuration from template.
- 7. click on select principal paste the object ID which you have copied from App Service and select it.
- 8. Last step is just to click on Add.
- 9. Repeat the steps from 1 to 8 for Configuration App service (kronosbot-config).
- 
-# Step 4:Set up authentication for the configuration app
-
+13. Once the deployment has finished, you would be directed to a page that has the following fields:
+	* botId - This is the Microsoft Application ID for the Kronos workforce central bot.
+	* appDomain - This is the base domain for the Kronos workforce central Bot.
+	* configurationAppUrl - This is the URL for the configuration web application. 
+# Step 3: Set up authentication for the configuration app
 1. Note location for configurator app that you deployed, which is `https://[BaseResourceName]-config.azurewebsites.net`. For example, if you chose "kronos" as the base name, the configuration app will be at `https://kronos-config.azurewebsites.net`
 2. Go back to the "App Registrations" page [here](https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredAppsPreview).
 3. Click on the configuration app in the application list. Under "Manage", click on "Authentication" to bring up authentication settings.
 
 4. Add a new entry to "Redirect URIs":
-* **Type**: Web
-* **Redirect URI**: Location (URL) of your configuration app.
-5. Under "Implicit grant", check "ID tokens".
+	* **Type**: Web
+	* **Redirect URI**: Location (URL) of your configuration app.
+5. Under "Implicit grant", check "ID tokens" and "Access tokens"
 6. Click "Save" to commit your changes.
 ![azure-config-app-step](https://github.com/OfficeDev/Kronos-Workforce-Central-Bot/wiki/Images/azure-config-app-step.png)
-# Step 5 : Configure LUIS app
+# Step 4: Configure LUIS public app (optional)
 1. If you want to create a luis public app with your microsoft ID, following the instructions in the [Sign in to LUIS portal](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-how-to-start-new-app#sign-in-to-luis-portal) (https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-how-to-start-new-app#create-new-app-in-luis).
 2. Import json from [https://github.com/OfficeDev/Kronos-Workforce-Central-Bot/blob/kronosext/LuisTraining.json](https://github.com/OfficeDev/Kronos-Workforce-Central-Bot/blob/kronosext/LuisTraining.json)
 
 3. Update the LUIS Application ID in ARM template under variables before starting the deployment.
 
-# Step 6: Finish configuring the Kronos app
+# Step 5: Finish configuring the Kronos app
 1. Go to the configuration app, which is at `https://[BaseResourceName]-config.azurewebsites.net`. For example, if you choose “Kronos” as the base name, the configuration app will be at `https://Kronos-config.azurewebsites.net`.
-2. You will be prompted to login with your credentials. Make sure that you log in with **KronosWfcSuperUserName** and **KronosWfcSuperUserPwd** entered during the deployment.
+2. You will be prompted to login with your credentials. Make sure that you log in with the UPN entered during the deployment.
 
 3. Fill the Tenant configuration : Tenant Id (you will get it from azure portal), Kronos endpoint URL(provided by kronos).
-4. Provide the Superuser name and password.
+4. Provide the Kronos Superuser name and Kronos Superuser password.
 5. Provide the Paycode configuration, Select paycode type from dropdown and Paycode name then add them.
 6.  click on submit to proceed.
-# Step 7: Create the Teams app packages
+# Step 6: Create the Teams app packages
 Create Teams app package for end-users to install personally.
 1. Open the `Manifest\manifest.json` file in a text editor available at [https://github.com/OfficeDev/Kronos-Workforce-Central-Bot/blob/kronosext/Manifest/manifest.json](https://github.com/OfficeDev/Kronos-Workforce-Central-Bot/blob/kronosext/Manifest/manifest.json)
 
@@ -143,7 +125,7 @@ Create Teams app package for end-users to install personally.
 	* Make sure that the 3 files are the _top level_ of the ZIP package, with no nested folders.
 ![file-explorer](https://github.com/OfficeDev/Kronos-Workforce-Central-Bot/wiki/Images/file%20explorer.png)
 
-# Step 8: Run the apps in Microsoft Teams
+# Step 7: Run the apps in Microsoft Teams
 1. If your tenant has side-loading apps enabled, you can install your app by following the instructions [here](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/apps/apps-upload#load-your-package-into-teams)
 2. You can also upload it to your tenant's app catalog, so that it can be available for everyone in your tenant to install. See [here](https://docs.microsoft.com/en-us/microsoftteams/tenant-apps-catalog-teams)
 3. Install the bot (the `manifest.zip` package) to your users.
