@@ -42,4 +42,26 @@ namespace Microsoft.Teams.App.KronosWfc.Models
         public List<Intent> intents { get; set; }
         public List<Entity> entities { get; set; }
     }
+    public class LuisEntity
+    {
+        public string entity { get; set; }
+        public string type { get; set; }
+        public int startIndex { get; set; }
+        public int endIndex { get; set; }
+        public LuisResolution resolution { get; set; }
+    }
+
+    public class LuisResolution
+    {
+        public LuisValue[] values { get; set; }
+    }
+
+    public class LuisValue
+    {
+        public string timex { get; set; }
+        public string type { get; set; }
+        public string value { get; set; }
+        public string start { get; set; }
+        public string end { get; set; }
+    }
 }

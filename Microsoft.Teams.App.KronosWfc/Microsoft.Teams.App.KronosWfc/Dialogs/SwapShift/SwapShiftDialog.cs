@@ -229,9 +229,13 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.SwapShift
         private async Task ProcessCommand(IDialogContext context, IAwaitable<string> result)
         {
             var activity = context.Activity as Activity;
-            var message = await result;
+           // var message = await result;
             JObject tenant = context.Activity.ChannelData as JObject;
             string tenantId = tenant?["tenant"].SelectToken("id").ToString();
+            string resultString = await result;
+            string message = JsonConvert.DeserializeObject<Message>(resultString).message;
+            var luisResult = JsonConvert.DeserializeObject<Message>(resultString).luisResult;
+            var luisMessage = JsonConvert.SerializeObject(new Message { luisResult = luisResult });
             AppInsightsLogger.CustomEventTrace("SwapShiftDialog", new Dictionary<string, string>() { { "TenantId", tenantId }, { "User", context.Activity.From.Id }, { "methodName", "ProcessCommand" }, { "Command", message } });
 
             if (message == Constants.SwapShift)
@@ -400,6 +404,10 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.SwapShift
             {
                 await this.SubmitApproval(context, message);
             }
+            else
+            {
+                await this.ShowShiftSelectionCard(context, Constants.SwapShift, luisResult);
+            }
 
             context.Done(default(string));
         }
@@ -519,17 +527,44 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.SwapShift
             return personIdentities;
         }
 
-        private async Task ShowShiftSelectionCard(IDialogContext context, string command)
+        private async Task ShowShiftSelectionCard(IDialogContext context, string command, LuisResultModel luisResult = null)
         {
+
             string jSession = string.Empty;
             var reply = context.MakeMessage();
             JObject tenant = context.Activity.ChannelData as JObject;
             string tenantId = tenant["tenant"].SelectToken("id").ToString();
-
-            string startDate = DateTime.Today.AddDays(1).ToString("M/d/yyyy", CultureInfo.InvariantCulture);
-            DateTime start = context.Activity.LocalTimestamp.Value.DateTime.StartWeekDate(DayOfWeek.Sunday).AddDays(6);
             AdaptiveCard card;
-            string endDate = start.EndOfWeek().ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+            string startDate = "" ;
+            string endDate = "" ;
+            if (luisResult == null)
+            {
+                startDate = DateTime.Today.AddDays(1).ToString("M/d/yyyy", CultureInfo.InvariantCulture);
+                DateTime start = context.Activity.LocalTimestamp.Value.DateTime.StartWeekDate(DayOfWeek.Sunday).AddDays(6);
+                endDate = start.EndOfWeek().ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+            }
+            else
+            {
+            var t = luisResult?.entities?.FirstOrDefault()?.resolution?.values?.FirstOrDefault();
+            switch (t.type)
+            {
+                case "date":
+                    startDate = DateTime.Parse(t.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                    endDate = DateTime.Parse(t.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                    break;
+                case "daterange":
+                    startDate = DateTime.Parse(t.start).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                    endDate = DateTime.Parse(t.end).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                    break;
+                default:
+                    await context.PostAsync("Could not recognise command.");
+                    break;
+            }
+                //        string startDate = DateTime.Today.AddDays(1).ToString("M/d/yyyy", CultureInfo.InvariantCulture);
+                //DateTime start = context.Activity.LocalTimestamp.Value.DateTime.StartWeekDate(DayOfWeek.Sunday).AddDays(6);
+                //AdaptiveCard card;
+                //string endDate = start.EndOfWeek().ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+            }
 
             // get person number
             string personNumber = string.Empty;

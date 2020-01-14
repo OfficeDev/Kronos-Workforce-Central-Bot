@@ -191,6 +191,9 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.SupervisorViewTimeoff
         private async Task ProcessRequest(IDialogContext context, IAwaitable<string> result)
         {
             var activity = context.Activity as Activity;
+            string resultString = await result;
+            string msg = JsonConvert.DeserializeObject<Message>(resultString).message;
+            var luisResult = JsonConvert.DeserializeObject<Message>(resultString).luisResult;
 
             string isManager = await this.authUser.IsUserManager(context);
             if (isManager.ToLowerInvariant().Equals(Constants.Yes.ToLowerInvariant()))
@@ -247,9 +250,209 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.SupervisorViewTimeoff
                 }
                 else
                 {
-                    context.PrivateConversationData.RemoveValue("FiltersHashTable");
-                    await this.ShowTimeOffRequests(context);
+                    try
+                    {
+                        string startDate = "";
+                        string endDate = "";
+                        string empName = "";
+                        if (luisResult?.entities?.Count != 0)
+                        {
+                            JObject jsonResult = JObject.Parse(resultString);
+                            var jsonEntityResult = jsonResult["luisResult"]["entities"];
+                            var lstLuisEntity = jsonEntityResult.ToObject<List<LuisEntity>>();
+                            foreach (var luisEntity in lstLuisEntity)
+                            {
+                                if (luisEntity.type == "builtin.personName")
+                                {
+                                    empName = luisEntity.entity;
+                                }
+
+                                if (luisEntity.type == "builtin.datetimeV2.date")
+                                {
+                                    var value = luisEntity.resolution.values.FirstOrDefault();
+                                    if (value != null)
+                                    {
+                                        if (value.type == "date")
+                                        {
+                                            startDate = DateTime.Parse(value.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                                            endDate = DateTime.Parse(value.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                                        }
+                                        else if (value.type == "daterange")
+                                        {
+                                            startDate = DateTime.Parse(value.start).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                                            endDate = DateTime.Parse(value.end).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                        context.UserData.TryGetValue(context.Activity.From.Id + Constants.SuperUser, out string superSession);
+                        string jSessionId = this.response?.JsessionID;
+                        string personNumber = this.response?.PersonNumber;
+
+                        var employeesResult = await this.hyperFindActivity.GetHyperFindQueryValues(tenantId, jSessionId, DateTime.Now.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture), DateTime.Now.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture), "Report", "Private");
+                        if (employeesResult.Status == ApiConstants.Failure && employeesResult.Error.ErrorCode == ApiConstants.UserNotLoggedInError)
+                        {
+                            await this.authenticationService.SendAuthCardAsync(context, (Activity)context.Activity);
+                        }
+
+                        AdaptiveCard card = new AdaptiveCard("1.0");
+                        DateTime sdt1 = DateTime.Now;
+                        DateTime edt = DateTime.Now;
+                        var showCompletedRequests = "true";
+                        if (employeesResult.Status == ApiConstants.Success)
+                        {
+                            Hashtable employeesHashTable = new Hashtable();
+                            Hashtable employeesRoleHashTable = new Hashtable();
+                            Hashtable filtersHashTable = new Hashtable();
+                            List<Models.ResponseEntities.HyperFind.ResponseHyperFindResult> filteredEmployees = new List<Models.ResponseEntities.HyperFind.ResponseHyperFindResult>();
+                            if (!string.IsNullOrEmpty(empName))
+                            {
+                                var empSplit = empName.Split(';');
+                                filteredEmployees = employeesResult.HyperFindResult.Where(n => empSplit.Any(m => n.FullName.ToLower().Contains(m.ToLower()))).ToList();
+                            }
+                            else
+                            {
+                                filteredEmployees = employeesResult.HyperFindResult;
+                            }
+
+                            empName = string.Join(";", filteredEmployees.Select(w => w.FullName).ToArray());
+                            filtersHashTable.Add("EmpName", empName);
+
+                            foreach (var item in filteredEmployees)
+                            {
+                                employeesHashTable.Add(item.PersonNumber, item.FullName);
+                            }
+
+                            context.PrivateConversationData.SetValue("EmployeeHashTable", employeesHashTable);
+
+                            if (!string.IsNullOrEmpty(startDate))
+                            {
+                                DateTime.TryParse(startDate, CultureInfo.InvariantCulture, DateTimeStyles.None, out sdt1);
+                                DateTime.TryParse(endDate, CultureInfo.InvariantCulture, DateTimeStyles.None, out edt);
+                                filtersHashTable.Add("DateRange", startDate + ";" + endDate);
+                            }
+
+                            if (filteredEmployees.Count == 0)
+                            {
+                                await context.PostAsync(KronosResourceText.NoEmployees);
+                            }
+                            else
+                            {
+                                var response = await this.timeOffActivity.GetTimeOffRequest(tenantId, jSessionId, sdt1.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture), edt.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture), filteredEmployees);
+
+                                var requests = response.RequestMgmt?.RequestItems?.GlobalTimeOffRequestItem;
+                                requests = requests.Where(w => w.StatusName.ToLowerInvariant() == Constants.Submitted.ToLowerInvariant() || w.StatusName.ToLowerInvariant() == Constants.Approved.ToLowerInvariant() || w.StatusName.ToLowerInvariant() == Constants.Refused.ToLowerInvariant()).ToList();
+                                for (int i = 0; i < requests.Count; i++)
+                                {
+                                    DateTime.TryParse(requests[i].TimeOffPeriods.TimeOffPeriod.StartDate, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime sdt);
+                                    requests[i].TimeOffPeriods.TimeOffPeriod.Sdt = sdt;
+                                }
+
+                                requests = requests.OrderBy(w => w.TimeOffPeriods.TimeOffPeriod.Sdt).ToList();
+
+                                var personNumbers = (from d in requests select d.Employee.PersonIdentity.PersonNumber).Distinct().ToList();
+                                var tasks = personNumbers.Select(async emp =>
+                                {
+                                    if (!employeesRoleHashTable.ContainsKey(Convert.ToString(emp)))
+                                    {
+                                        var jobAssignent = await this.commonActivity.GetJobAssignment(Convert.ToString(emp), tenantId, superSession);
+                                        var role = jobAssignent?.JobAssign?.PrimaryLaborAccList?.PrimaryLaborAcc?.OrganizationPath?.Split('/').LastOrDefault();
+                                        employeesRoleHashTable.Add(Convert.ToString(emp), role);
+                                    }
+                                });
+                                await Task.WhenAll(tasks);
+                                context.PrivateConversationData.SetValue("EmployeeRoleHashTable", employeesRoleHashTable);
+                                if (!string.IsNullOrEmpty(showCompletedRequests))
+                                {
+                                    if (showCompletedRequests.ToLowerInvariant() == "true")
+                                    {
+                                        requests = requests.Where(w => (w.StatusName.ToLowerInvariant() == Constants.Approved.ToLowerInvariant()) || (w.StatusName.ToLowerInvariant() == Constants.Refused.ToLowerInvariant())).ToList();
+                                    }
+                                    else
+                                    {
+                                        requests = requests.Where(w => (w.StatusName.ToLowerInvariant() == Constants.Submitted.ToLowerInvariant())).ToList();
+                                    }
+
+                                    filtersHashTable.Add("ShowCompletedRequests", showCompletedRequests);
+                                }
+                                else
+                                {
+                                    requests = requests.Where(w => (w.StatusName.ToLowerInvariant() == Constants.Submitted.ToLowerInvariant())).ToList();
+                                }
+
+                                int totalPages = (requests?.Count > 0) ? (int)Math.Ceiling((double)requests.Count / 5) : 0;
+                                var currentPageItems = this.GetPage(requests, 0, 5);
+
+                                Hashtable pagewiseRequests = new Hashtable();
+                                for (int i = 0; i < totalPages; i++)
+                                {
+                                    pagewiseRequests.Add(i.ToString(), JsonConvert.SerializeObject(this.GetPage(requests, i, 5)).ToString());
+                                }
+
+                                context.PrivateConversationData.SetValue("PagewiseRequests", pagewiseRequests);
+                                context.PrivateConversationData.SetValue("FiltersHashTable", filtersHashTable);
+                                ViewTorListObj obj = new ViewTorListObj
+                                {
+                                    Employees = employeesHashTable,
+                                    EmployeesRoles = employeesRoleHashTable,
+                                    Filters = filtersHashTable,
+                                    TotalPages = totalPages,
+                                    CurrentPageCount = 1,
+                                };
+
+                                // string actionSet = "FR";
+                                string actionSet = "F";
+                                if (obj.CurrentPageCount < obj.TotalPages)
+                                {
+                                    // actionSet = "FRN";
+                                    actionSet = "FN";
+                                }
+
+                                obj.ConversationId = context.Activity.Conversation.Id;
+                                obj.ActivityId = context.Activity.ReplyToId;
+
+                                var comments = context.PrivateConversationData.GetValue<List<Models.ResponseEntities.CommentList.Comment>>("Comments");
+                                if (requests.Count > 0)
+                                {
+                                    card = this.supervisorTimeOffcard.GetCard(JsonConvert.DeserializeObject<List<TimeOffResponse.GlobalTimeOffRequestItem>>(Convert.ToString(pagewiseRequests[Convert.ToString(obj.CurrentPageCount - 1)])), obj, actionSet, comments);
+                                }
+                                else
+                                {
+                                    card = this.supervisorTimeOffcard.GetCard(new List<TimeOffResponse.GlobalTimeOffRequestItem>(), obj, actionSet, comments);
+                                }
+
+                                if (requests.Count > 0)
+                                {
+                                    var page = JsonConvert.DeserializeObject<List<TimeOffResponse.GlobalTimeOffRequestItem>>(Convert.ToString(pagewiseRequests[Convert.ToString(obj.CurrentPageCount - 1)]));
+                                    card = this.supervisorTimeOffcard.GetCard(page, obj, actionSet, comments);
+                                }
+                                else
+                                {
+                                    card = this.supervisorTimeOffcard.GetCard(new List<TimeOffResponse.GlobalTimeOffRequestItem>(), obj, actionSet, comments);
+                                }
+
+                                var reply = activity.CreateReply();
+                                reply.Attachments = new List<Attachment>
+                        {
+                            new Attachment()
+                            {
+                                Content = card,
+                                ContentType = "application/vnd.microsoft.card.adaptive",
+                            },
+                        };
+                                await context.PostAsync(reply);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+
                 }
+
             }
 
             context.Done(default(string));

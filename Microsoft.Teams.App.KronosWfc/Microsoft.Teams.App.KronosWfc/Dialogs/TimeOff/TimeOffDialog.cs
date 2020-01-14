@@ -26,6 +26,7 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.TimeOff
     using Microsoft.Teams.App.KronosWfc.Common;
     using Microsoft.Teams.App.KronosWfc.Models;
     using Microsoft.Teams.App.KronosWfc.Provider.Core;
+    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
     /// <summary>
@@ -264,12 +265,16 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.TimeOff
         private async Task ProcessRequest(IDialogContext context, IAwaitable<string> result)
         {
             var activity = context.Activity as Activity;
-            var message = activity.Text?.ToLowerInvariant().Trim();
+           // var message = activity.Text?.ToLowerInvariant().Trim();
             JObject tenant = context.Activity.ChannelData as JObject;
             string tenantId = tenant["tenant"].SelectToken("id").ToString();
+            string resultString = await result;
+            string message = JsonConvert.DeserializeObject<Message>(resultString).message;
+            var luisResult = JsonConvert.DeserializeObject<Message>(resultString).luisResult;
+            var luisMessage = JsonConvert.SerializeObject(new Message { luisResult = luisResult });
             AppInsightsLogger.CustomEventTrace("TimeOffDialog", new Dictionary<string, string>() { { "TenantId", tenantId }, { "User", context.Activity.From.Id }, { "methodName", "ProcessRequest" }, { "Command", message } });
 
-            if (message.ToLowerInvariant().Equals(Constants.SubmitTimeOff.ToLowerInvariant()))
+            if (message.ToLowerInvariant().Equals(Constants.SubmitTimeOff.ToLowerInvariant()) && activity.Value != null )
             {
                 await this.SubmitTimeOffRequest(context);
             }
@@ -303,7 +308,7 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.TimeOff
             }
             else if (message.ToLowerInvariant() == Constants.SubmitAdvancedTimeOff.ToLowerInvariant())
             {
-                await this.SubmitAdvancedTimeOffRequest(context);
+                await this.SubmitAdvancedTimeOffRequest(context, message);
             }
             else if (message.ToLowerInvariant() == Constants.ApproveTimeoff.ToLowerInvariant() || message.ToLowerInvariant() == Constants.RefuseTimeoff.ToLowerInvariant())
             {
@@ -311,13 +316,13 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.TimeOff
             }
             else if (message.ToLowerInvariant().Contains("advanced"))
             {
-                await this.ProcessAdvancedTimeOffRequest(context);
+                await this.ProcessAdvancedTimeOffRequest(context, message);
             }
             else
             {
                 var allPaycodes = await this.azureTableStorageHelper.GetTimeOffPaycodes(AppSettings.Instance.OvertimeMappingtableName);
                 var filteredPaycodes = (from d in allPaycodes where d.RowKey.Contains(tenantId) select d).Select(w => w.Properties["PayCodeName"].StringValue).ToList();
-                IMessageActivity reply = this.timeOffCard.GetBasicTimeOffRequestCard(context, filteredPaycodes);
+                IMessageActivity reply = this.timeOffCard.GetBasicTimeOffRequestCard(context, filteredPaycodes, luisMessage);
                 if (reply.Attachments.Count > 0)
                 {
                     await context.PostAsync(reply);
@@ -336,7 +341,7 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.TimeOff
         /// </summary>
         /// <param name="context">Dialog context.</param>
         /// <returns>Task.</returns>
-        private async Task ProcessAdvancedTimeOffRequest(IDialogContext context)
+        private async Task ProcessAdvancedTimeOffRequest(IDialogContext context, string message)
         {
             var activity = context.Activity as Activity;
             JToken token = JObject.Parse(activity.Value.ToString());
@@ -577,7 +582,7 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.TimeOff
         /// </summary>
         /// <param name="context">Dialog context.</param>
         /// <returns>Task.</returns>
-        private async Task SubmitAdvancedTimeOffRequest(IDialogContext context)
+        private async Task SubmitAdvancedTimeOffRequest(IDialogContext context, string message)
         {
             var superUserLogonRes = await this.authenticationService.LoginSuperUser((Activity)context.Activity);
             if (superUserLogonRes?.Status == ApiConstants.Success)

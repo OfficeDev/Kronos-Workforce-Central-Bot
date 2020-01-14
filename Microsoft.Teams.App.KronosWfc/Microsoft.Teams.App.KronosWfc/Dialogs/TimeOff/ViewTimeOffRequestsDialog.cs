@@ -85,7 +85,11 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.TimeOff
         private async Task ProcessRequest(IDialogContext context, IAwaitable<string> result)
         {
             var activity = context.Activity as Activity;
-            var message = activity.Text?.Trim();
+            //var message = activity.Text?.Trim();
+            string resultString = await result;
+            string message = JsonConvert.DeserializeObject<Message>(resultString).message;
+            var luisResult = JsonConvert.DeserializeObject<Message>(resultString).luisResult;
+            // string jSessionId = JsonConvert.DeserializeObject<Message>(resultString).jID;
 
             JObject tenant = context.Activity.ChannelData as JObject;
             string tenantId = tenant["tenant"].SelectToken("id").ToString();
@@ -100,11 +104,10 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.TimeOff
 
             AppInsightsLogger.CustomEventTrace("ViewTimeOffRequestsDialog", new Dictionary<string, string>() { { "TenantId", tenantId }, { "User", context.Activity.From.Id }, { "methodName", "ProcessRequest" }, { "Command", message } });
 
-            if (message.ToLowerInvariant().Contains(Constants.ShowAllTimeOff.ToLowerInvariant()))
-            {
-                await this.ProcessShowAllTimeoff(context, tenantId, jSessionId, personNumber, message);
-            }
-
+            //  if (message.ToLowerInvariant().Contains(Constants.ShowAllTimeOff.ToLowerInvariant()))
+            // {
+            await this.ProcessShowAllTimeoff(context, tenantId, jSessionId, personNumber, message);
+         //}
             context.Done(default(string));
         }
 

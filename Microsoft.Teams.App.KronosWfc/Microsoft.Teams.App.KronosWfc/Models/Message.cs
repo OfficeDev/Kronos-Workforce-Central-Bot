@@ -9,5 +9,7 @@ namespace Microsoft.Teams.App.KronosWfc.Models
     {
         public string message { get; set; }
         public LuisResultModel luisResult { get; set; }
+
+        public string jID { get; set;  }
     }
 }
