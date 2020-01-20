@@ -19,9 +19,13 @@ namespace Microsoft.Teams.App.KronosWfc.Cards.AdaptiveCards
     using Microsoft.Teams.App.KronosWfc.Models;
     using Microsoft.Teams.App.KronosWfc.Models.ResponseEntities.TimeOffRequests;
     using Microsoft.Teams.App.KronosWfc.Resources;
+    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
+    
     /// <summary>
+
+
     /// time off request card class.
     /// </summary>
     [Serializable]
@@ -33,17 +37,58 @@ namespace Microsoft.Teams.App.KronosWfc.Cards.AdaptiveCards
         /// <param name="context">Dialog context.</param>
         /// <param name="paycodes">Paycodes from azure table storage.</param>
         /// <returns>Basic time off request card.</returns>
-        public IMessageActivity GetBasicTimeOffRequestCard(IDialogContext context, List<string> paycodes)
+        public IMessageActivity GetBasicTimeOffRequestCard(IDialogContext context, List<string> paycodes, string resultString)
         {
             var repoMessage = context.MakeMessage();
             string fullPath = HttpContext.Current.Server.MapPath("/Cards/AdaptiveCards/TimeOff/CreateTimeOffRequestCard.json");
 
             var adaptiveCard = File.ReadAllText(fullPath);
+            var luisResult = JsonConvert.DeserializeObject<Message>(resultString).luisResult;
+            string startDate = default(string);
+            string endDate = default(string);
+            int duration = 0;
+            if (luisResult?.entities?.Count != 0)
+            {
+                JObject rss = JObject.Parse(resultString);
+                var rssTitle = rss["luisResult"]["entities"];
+                var lstLuisEntity = rssTitle.ToObject<List<LuisEntity>>();
+                foreach (var luisEntity in lstLuisEntity)
+                {
+                    if (luisEntity.type == "builtin.datetimeV2.duration")
+                    {
+                        int.TryParse(luisEntity?.resolution?.values?.FirstOrDefault()?.value, out duration);
+                        startDate = DateTime.Now.ToString("MMM,d yyyy", CultureInfo.InvariantCulture);
+                        endDate = DateTime.Now.ToString("MMM,d yyyy", CultureInfo.InvariantCulture);
+                    }
 
-            var now = DateTime.Now.ToString("MMM,d yyyy", CultureInfo.InvariantCulture);
+                    if (luisEntity.type == "builtin.datetimeV2.date")
+                    {
+                        var value = luisEntity?.resolution?.values?.FirstOrDefault();
+                        if (value != null)
+                        {
+                            if (value.type == "date")
+                            {
+                                startDate = DateTime.Parse(value.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                                endDate = DateTime.Parse(value.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                            }
+                            else if (value.type == "daterange")
+                            {
+                                startDate = DateTime.Parse(value.start).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                                endDate = DateTime.Parse(value.end).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                startDate = DateTime.Now.ToString("MMM,d yyyy", CultureInfo.InvariantCulture);
+                endDate = DateTime.Now.ToString("MMM,d yyyy", CultureInfo.InvariantCulture);
+            }
+
             adaptiveCard = adaptiveCard.Replace("{Title}", KronosResourceText.TimeOffRequstText).Replace("{TypeOfTimeOff}", KronosResourceText.TypeOfTimeoff).Replace("{Advanced}", KronosResourceText.Advanced);
             adaptiveCard = adaptiveCard.Replace("{StartDate}", KronosResourceText.StartDate).Replace("{EndDate}", KronosResourceText.EndDate).Replace("{Cancel}", KronosResourceText.Cancel).Replace("{Submit}", KronosResourceText.Submit);
-            adaptiveCard = adaptiveCard.Replace("sdtValue", now).Replace("edtValue", now);
+            adaptiveCard = adaptiveCard.Replace("sdtValue", startDate).Replace("edtValue", endDate);
 
             if (paycodes.Count > 0)
             {
