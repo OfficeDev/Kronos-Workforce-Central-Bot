@@ -17,9 +17,14 @@
     public class CommonActivity : ICommonActivity
     {
         private readonly AzureTableStorageHelper azureTableStorageHelper;
-
+        private IKeyVaultHelper keyVaultHelper;
         public CommonActivity()
+            : this(new KeyVaultHelper())
         {
+        }
+        public CommonActivity(IKeyVaultHelper keyVaultHelper)
+        {
+            this.keyVaultHelper = keyVaultHelper;
             this.azureTableStorageHelper = new AzureTableStorageHelper();
         }
 
@@ -182,8 +187,7 @@
             try
             {
                 Request request = new Request();
-                IKeyVaultHelper keyVaultHelper = new KeyVaultHelper();
-                LogonActivity logonActivity = new LogonActivity(request, this.azureTableStorageHelper, keyVaultHelper);
+                LogonActivity logonActivity = new LogonActivity(request, this.azureTableStorageHelper, this.keyVaultHelper);
                 var logonResponse = await logonActivity.LogonSuperUser(tenantId);
 
                 return logonResponse;
