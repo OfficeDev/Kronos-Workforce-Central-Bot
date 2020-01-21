@@ -182,7 +182,8 @@
             try
             {
                 Request request = new Request();
-                LogonActivity logonActivity = new LogonActivity(request, this.azureTableStorageHelper);
+                IKeyVaultHelper keyVaultHelper = new KeyVaultHelper();
+                LogonActivity logonActivity = new LogonActivity(request, this.azureTableStorageHelper, keyVaultHelper);
                 var logonResponse = await logonActivity.LogonSuperUser(tenantId);
 
                 return logonResponse;
