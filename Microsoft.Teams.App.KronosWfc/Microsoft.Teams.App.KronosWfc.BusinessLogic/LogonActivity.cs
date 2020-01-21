@@ -3,10 +3,10 @@
 //     Copyright (c) Microsoft. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 namespace Microsoft.Teams.App.KronosWfc.BusinessLogic
 {
     using System;
-    using System.Configuration;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Xml.Linq;
@@ -16,6 +16,7 @@ namespace Microsoft.Teams.App.KronosWfc.BusinessLogic
     using Microsoft.Teams.App.KronosWfc.Models;
     using Microsoft.Teams.App.KronosWfc.Models.RequestEntities.Logon;
     using Microsoft.Teams.App.KronosWfc.Models.ResponseEntities.Logon;
+
     /// <summary>
     /// Logon Activity class.
     /// </summary>
@@ -26,30 +27,23 @@ namespace Microsoft.Teams.App.KronosWfc.BusinessLogic
         /// Login request.
         /// </summary>
         private Request loginRequest;
+
         /// <summary>
         /// Azure table storage helper.
         /// </summary>
         private IAzureTableStorageHelper azureTableStorageHelper;
-        private IKeyVaultHelper keyVaultHelper;
-        public LogonActivity()
-            : this(new KeyVaultHelper())
-        {
-        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LogonActivity" /> class.
         /// </summary>
         /// <param name="loginRequest">Login Request.</param>
         /// <param name="azureTableStorageHelper">Azure table storage helper.</param>
-        public LogonActivity(Request loginRequest, IAzureTableStorageHelper azureTableStorageHelper, IKeyVaultHelper keyVaultHelper)
+        public LogonActivity(Request loginRequest, IAzureTableStorageHelper azureTableStorageHelper)
         {
             this.loginRequest = loginRequest;
             this.azureTableStorageHelper = azureTableStorageHelper;
-            this.keyVaultHelper = keyVaultHelper;
         }
-        public LogonActivity(KeyVaultHelper keyVaultHelper)
-        {
-            this.keyVaultHelper = keyVaultHelper;
-        }
+
         /// <summary>
         /// This method calls the logOn api to log the user to kronos.
         /// </summary>
@@ -62,6 +56,7 @@ namespace Microsoft.Teams.App.KronosWfc.BusinessLogic
                 string xmlLoginRequest = this.CreateLogOnRequest(user);
                 TenantMapEntity tenantMapEntity = await this.azureTableStorageHelper.ExecuteQueryUsingPointQueryAsync<TenantMapEntity>(Constants.ActivityChannelId, user.TenantId);
                 var tupleResponse = await ApiHelper.Instance.SendSoapPostRequest(tenantMapEntity.EndpointUrl, ApiConstants.SoapEnvOpen, xmlLoginRequest, ApiConstants.SoapEnvClose, string.Empty);
+
                 Response logonResponse = this.ProcessResponse(tupleResponse.Item1);
                 logonResponse.Jsession = tupleResponse.Item2;
                 return logonResponse;
@@ -71,6 +66,7 @@ namespace Microsoft.Teams.App.KronosWfc.BusinessLogic
                 return null;
             }
         }
+
         /// <summary>
         /// Used to create xml logon request string.
         /// </summary>
@@ -84,6 +80,7 @@ namespace Microsoft.Teams.App.KronosWfc.BusinessLogic
             this.loginRequest.Password = user.Password;
             return this.loginRequest.XmlSerialize<Request>();
         }
+
         /// <summary>
         /// Read the xml response into Response object.
         /// </summary>
@@ -95,6 +92,7 @@ namespace Microsoft.Teams.App.KronosWfc.BusinessLogic
             var xResponse = xDoc.Root.Descendants().FirstOrDefault(d => d.Name.LocalName.Equals(ApiConstants.Response));
             return XmlConvertHelper.DeserializeObject<Response>(xResponse.ToString());
         }
+
         /// <summary>
         /// Install method.
         /// </summary>
@@ -103,7 +101,9 @@ namespace Microsoft.Teams.App.KronosWfc.BusinessLogic
         public async Task<Response> Install(string tennantId)
         {
             Response installResponse = new Response();
+
             TenantMapEntity tenantMapEntity = await this.azureTableStorageHelper.ExecuteQueryUsingPointQueryAsync<TenantMapEntity>(Constants.ActivityChannelId, tennantId);
+
             if (tenantMapEntity != null)
             {
                 installResponse.Message = tenantMapEntity.EndpointUrl;
@@ -112,8 +112,10 @@ namespace Microsoft.Teams.App.KronosWfc.BusinessLogic
             {
                 installResponse.ErrorCode = "404";
             }
+
             return installResponse;
         }
+
         /// <summary>
         /// logon super user method.
         /// </summary>
@@ -123,21 +125,23 @@ namespace Microsoft.Teams.App.KronosWfc.BusinessLogic
         {
             try
             {
-                //var keyVaultHelper = new KeyVaultHelper();
-                var username = this.keyVaultHelper.GetSecretByUri(ConfigurationManager.AppSettings["SuperuserUsernameUri"]);
-                var password = this.keyVaultHelper.GetSecretByUri(ConfigurationManager.AppSettings["SuperuserPasswordUri"]);
+                TenantMapEntity tenantMapEntity = await this.azureTableStorageHelper.ExecuteQueryUsingPointQueryAsync<TenantMapEntity>(Constants.ActivityChannelId, tenantId);
                 User user = new User();
                 user.TenantId = tenantId;
-                if (username != null && password != null)
+
+                if (tenantMapEntity?.SuperUserName != null && tenantMapEntity?.SuperUserPwd != null)
                 {
-                    user.UserName = username;
-                    user.Password = password;
+                    user.UserName = EncryptDecrypt.Decrypt256(tenantMapEntity.SuperUserName);
+                    user.Password = EncryptDecrypt.Decrypt256(tenantMapEntity.SuperUserPwd);
                 }
+
                 string xmlLoginRequest = this.CreateLogOnRequest(user);
-                TenantMapEntity tenantMapEntity = await this.azureTableStorageHelper.ExecuteQueryUsingPointQueryAsync<TenantMapEntity>(Constants.ActivityChannelId, user.TenantId);
+
                 var tupleResponse = await ApiHelper.Instance.SendSoapPostRequest(tenantMapEntity.EndpointUrl, ApiConstants.SoapEnvOpen, xmlLoginRequest, ApiConstants.SoapEnvClose, string.Empty);
+
                 Response logonResponse = this.ProcessResponse(tupleResponse.Item1);
                 logonResponse.Jsession = tupleResponse.Item2;
+
                 return logonResponse;
             }
             catch (Exception)
@@ -145,6 +149,7 @@ namespace Microsoft.Teams.App.KronosWfc.BusinessLogic
                 return null;
             }
         }
+
         /// <summary>
         /// get schedule url based on tenant.
         /// </summary>
