@@ -129,10 +129,13 @@ namespace Microsoft.Teams.App.KronosWfc.BusinessLogic
                 User user = new User();
                 user.TenantId = tenantId;
 
-                if (tenantMapEntity?.SuperUserName != null && tenantMapEntity?.SuperUserPwd != null)
+                string userName = AppSettings.Instance.SuperuserUsernameUri;
+                string userPassword = AppSettings.Instance.SuperuserPasswordUri;
+
+                if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(userPassword))
                 {
-                    user.UserName = EncryptDecrypt.Decrypt256(tenantMapEntity.SuperUserName);
-                    user.Password = EncryptDecrypt.Decrypt256(tenantMapEntity.SuperUserPwd);
+                    user.UserName = userName;//EncryptDecrypt.Decrypt256(tenantMapEntity.SuperUserName);
+                    user.Password = userPassword;//EncryptDecrypt.Decrypt256(tenantMapEntity.SuperUserPwd);
                 }
 
                 string xmlLoginRequest = this.CreateLogOnRequest(user);

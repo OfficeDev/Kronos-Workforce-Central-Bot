@@ -61,6 +61,16 @@ namespace Microsoft.Teams.App.KronosWfc.Common
 
         }
 
+        public string SuperuserUsernameUri
+        {
+            get => this.keyVaultHelper.GetSecretByUri(ConfigurationManager.AppSettings["SuperuserUsernameUri"]);
+        }
+
+        public string SuperuserPasswordUri
+        {
+            get => this.keyVaultHelper.GetSecretByUri(ConfigurationManager.AppSettings["SuperuserPasswordUri"]);
+        }
+
         public string TableName { get => ConfigurationManager.AppSettings["TenantMappingTable"]; }
 
         public string AppInsightKey { get => ConfigurationManager.AppSettings["APPINSIGHTS_INSTRUMENTATIONKEY"]; }
