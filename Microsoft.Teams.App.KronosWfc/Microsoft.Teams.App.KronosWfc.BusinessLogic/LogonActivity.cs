@@ -147,7 +147,7 @@ namespace Microsoft.Teams.App.KronosWfc.BusinessLogic
 
                 return logonResponse;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return null;
             }

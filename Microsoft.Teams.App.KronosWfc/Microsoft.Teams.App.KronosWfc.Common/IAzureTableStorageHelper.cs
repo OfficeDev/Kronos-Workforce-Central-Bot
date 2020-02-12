@@ -22,5 +22,6 @@ namespace Microsoft.Teams.App.KronosWfc.Common
         Task<string> Retrive<T>(string personNumber, string tenantId, string channelId, string tableName = "KronosUserDetails");
         Task<int> RetriveAndDelete<T>(string personNumber, string tenantId, string channelId, string teamsUserId, string tableName = "KronosUserDetails");
         Task<IEnumerable<T>> ExecuteQueryUsingPointQueryAsyncFiltered<T>(string partitionKey, string rowKey, string tableName = null) where T : TableEntity, new();
+        Task<List<DynamicTableEntity>> GetRecordsBasedOnType(string tableName, string type);
     }
 }

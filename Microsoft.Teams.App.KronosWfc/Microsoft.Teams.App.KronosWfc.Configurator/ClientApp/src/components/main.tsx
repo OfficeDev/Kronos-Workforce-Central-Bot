@@ -30,7 +30,10 @@ interface IState {
     superuserConfigLoading: boolean,
     tenantPaycodesLoading: boolean,
     modalStateOpen: boolean,
-    editViewBtnState: boolean
+    editViewBtnState: boolean,
+    showPaycodeAddError: boolean,
+    showMandatoryFieldsErrorMessage: boolean,
+    showPaycodeErrorMessage: boolean
 };
 
 /** AddFavourites component. */
@@ -84,7 +87,10 @@ class main extends React.Component<IProps, IState> {
             superuserConfigLoading: false,
             tenantPaycodesLoading: false,
             modalStateOpen: false,
-            editViewBtnState: false
+            editViewBtnState: false,
+	    showPaycodeAddError: false,
+            showPaycodeErrorMessage: false,
+            showMandatoryFieldsErrorMessage: false
         };
         this.appInsights = new ApplicationInsights({
             config: {
@@ -233,7 +239,7 @@ class main extends React.Component<IProps, IState> {
     /** Save paycodes */
     setPaycodes = async () => {
         this.setState({ tenantPaycodesLoading: true });
-        const res = await fetch( "/api/TenantConfig/SetPaycodeMapping", {
+        const res = await fetch("/api/TenantConfig/SetPaycodeMapping", {
             method: "POST",
             headers: new Headers({
                 "Authorization": this.bearer,
@@ -298,21 +304,54 @@ class main extends React.Component<IProps, IState> {
         this.setState({ tenantPaycodes: paycodes })
     }
 
-    addPaycodeMapping = () => {
+    addPaycodeMapping = async () => {
+        this.setState({ showMandatoryFieldsErrorMessage: false });
+        this.setState({ showPaycodeErrorMessage: false });
         var paycode = this.state.paycodeMapping;
         var tenantPaycodes = this.state.tenantPaycodes;
-        var existingPaycode = tenantPaycodes.filter(function (tenantPaycode) { return tenantPaycode.PayCodeType == paycode.PaycodeType });
+        var existingPaycode = tenantPaycodes.filter(function (tenantPaycode) { return tenantPaycode.PayCodeType === paycode.PaycodeType && tenantPaycode.PayCodeName == paycode.PaycodeName });
+
+        var endpoint = this.state.tenantInfo.EndpointUrl;
+        var tenantId = this.state.tenantInfo.RowKey;
+        var userName = this.state.tenantSuperuserInfo.SuperUsername;
+        var password = this.state.tenantSuperuserInfo.SuperUserPassword;
+
         if (existingPaycode.length > 0) {
+            this.setState({ showPaycodeErrorMessage: true });
+        }
+        else if (tenantId === undefined || tenantId === "" 
+	|| endpoint === undefined || endpoint === "" 
+	|| userName === undefined || userName === "" 
+	|| password === undefined || password === "") {
+            this.setState({ showMandatoryFieldsErrorMessage: true });
         }
         else {
-            if (this.state.paycodeMapping.PaycodeName !== undefined && this.state.paycodeMapping.PaycodeName !== "") {
-                if (this.state.paycodeMapping.PaycodeType !== undefined && this.state.paycodeMapping.PaycodeType !== null) {
-                    let paycodes = this.state.tenantPaycodes;
-                    paycodes.push({ PartitionKey: 'msteams', RowKey: this.state.tenantInfo.RowKey + '$' + this.state.paycodeMapping.PaycodeType, PayCodeName: this.state.paycodeMapping.PaycodeName, PayCodeType: this.state.paycodeMapping.PaycodeType });
-                    this.setState({ tenantPaycodes: paycodes, paycodeMapping: { PaycodeName: "", PaycodeType: "" } });
+            const res = await fetch("/api/TenantConfig/GetValuesFromKronos?endpoint=" + endpoint + "&tenantId=" + tenantId + "&username=" + userName
+                + "&password=" + password, {
+                method: "GET",
+                headers: new Headers({
+                    "Authorization": this.bearer,
+                    "Content-Type": "application/json",
+                }),
+                //body: JSON.stringify(this.state.tenantInfo.EndpointUrl)
+            });
+            if (res.status === 200) {
+                const response = await res.json();
+                
+                if (response.result.indexOf(this.state.paycodeMapping.PaycodeName) > -1) {
+                    if (this.state.paycodeMapping.PaycodeName !== undefined && this.state.paycodeMapping.PaycodeName !== "") {
+                        if (this.state.paycodeMapping.PaycodeType !== undefined && this.state.paycodeMapping.PaycodeType !== null) {
+                            let paycodes = this.state.tenantPaycodes;
+                            paycodes.push({ PartitionKey: 'msteams', RowKey: this.state.tenantInfo.RowKey + '$' + this.state.paycodeMapping.PaycodeType + '$' + this.state.paycodeMapping.PaycodeName.replace(/\s/g, ''), PayCodeName: this.state.paycodeMapping.PaycodeName, PayCodeType: this.state.paycodeMapping.PaycodeType });
+                            this.setState({ tenantPaycodes: paycodes, paycodeMapping: { PaycodeName: "", PaycodeType: "" }, showPaycodeAddError: false });
+                        }
+                    }
+                }
+                else {
+                    this.setState({ showPaycodeAddError: true });
                 }
             }
-        }        
+        }
     }
 
     close = () => this.setState({ modalStateOpen: false })
@@ -320,7 +359,7 @@ class main extends React.Component<IProps, IState> {
     toggleViewMode = () => {
         this.setState({ editViewBtnState: this.state.editViewBtnState == true ? false : true });
     }
-    
+
     render()
     {
         const renderDetails = () => {
@@ -410,6 +449,11 @@ class main extends React.Component<IProps, IState> {
                                                                 <label>Paycode name</label>
                                                                 <input disabled={!this.state.editViewBtnState} placeholder='Enter paycode name' value={this.state.paycodeMapping.PaycodeName} onChange={(e) => { this.setState({ paycodeMapping: { ...this.state.paycodeMapping, PaycodeName: e.target.value } }) }} />
                                                             </Form.Field>
+                                                            <Form.Field>
+                                                                <label style={{ display: this.state.showPaycodeAddError ? 'block' : 'none', color:"red" }}>Entered Paycode Name is not available in Kronos.</label>
+								{this.state.showMandatoryFieldsErrorMessage && <label style={{ color: 'red' }}>Please fill all the fields under Tenant and Kronos Superuser configuration.</label>}
+                                                                {this.state.showPaycodeErrorMessage && <label style={{ color: 'red' }}>Paycode type and Paycode name is already available.</label>}
+                                                            </Form.Field>
                                                         </Form>
                                                     </GridColumn>
                                                     <GridColumn width={3}>
@@ -452,7 +496,25 @@ class main extends React.Component<IProps, IState> {
                                     </Card.Content>
                                     <Card.Content extra>
                                         <Button disabled={!this.state.editViewBtnState} floated="right" secondary type='submit'
-                                            onClick={() => this.setState({ modalStateOpen: true })}>
+                                            onClick={() => {
+                                                var endpoint = this.state.tenantInfo.EndpointUrl;
+                                                var tenantId = this.state.tenantInfo.RowKey;
+                                                var userName = this.state.tenantSuperuserInfo.SuperUsername;
+                                                var password = this.state.tenantSuperuserInfo.SuperUserPassword;
+                                                if (tenantId === undefined || tenantId === ""
+                                                    || endpoint === undefined || endpoint === ""
+                                                    || userName === undefined || userName === ""
+                                                    || password === undefined || password === "") {
+                                                    this.setState({ showMandatoryFieldsErrorMessage: true });
+                                                }
+                                                else {
+                                                    this.setState({ showMandatoryFieldsErrorMessage: false });
+                                                    this.setState({ showPaycodeErrorMessage: false });
+                                                    this.setState({ showPaycodeAddError: false });
+                                                    this.setState({ modalStateOpen: true });
+                                                }
+                                            }
+                                            }>
                                             Submit
                                         </Button>
                                         <Modal size="mini" open={this.state.modalStateOpen}>

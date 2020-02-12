@@ -261,7 +261,7 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.TeamOvertimes
                     context.UserData.TryGetValue(context.Activity.From.Id + Constants.SuperUser, out string superSession);
                     if (hyperFindResponse.HyperFindResult.Count > 0)
                     {
-                        var overtimeMappingEntity = await this.azureTableStorageHelper.ExecuteQueryUsingPointQueryAsync<OvertimeMappingEntity>(Constants.ActivityChannelId, $"{tenantId}${Constants.TeamOvertimes}", AppSettings.Instance.OvertimeMappingtableName);
+                        //var overtimeMappingEntity = await this.azureTableStorageHelper.ExecuteQueryUsingPointQueryAsync<OvertimeMappingEntity>(Constants.ActivityChannelId, $"{tenantId}${Constants.TeamOvertimes}", AppSettings.Instance.OvertimeMappingtableName);
 
                         List<string> lst = new List<string>();
                         var emplist = hyperFindResponse.HyperFindResult.Where(w => w.PersonNumber != personNumber);

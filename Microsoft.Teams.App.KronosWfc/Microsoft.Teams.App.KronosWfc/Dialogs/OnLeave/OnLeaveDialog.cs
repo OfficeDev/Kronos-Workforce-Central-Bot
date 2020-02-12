@@ -101,9 +101,11 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.OnLeave
                var leaveResult = await this.supervisorViewTimeOffActivity.GetTimeOffRequest(tenantId, jSession, startDate, endDate, hyperFindResponse?.HyperFindResult);
                if (leaveResult?.Status == ApiConstants.Success)
                 {
-                    OvertimeMappingEntity entitySick = await this.azureTableStorageHelper.ExecuteQueryUsingPointQueryAsync<OvertimeMappingEntity>(Constants.ActivityChannelId, tenantId + "$" + Constants.SickAZTS, AppSettings.Instance.OvertimeMappingtableName);
-                    OvertimeMappingEntity entityVacation = await this.azureTableStorageHelper.ExecuteQueryUsingPointQueryAsync<OvertimeMappingEntity>(Constants.ActivityChannelId, tenantId + "$" + Constants.VacationAZTS, AppSettings.Instance.OvertimeMappingtableName);
-                    var vacationResult = leaveResult?.RequestMgmt?.RequestItems?.GlobalTimeOffRequestItem?.FindAll(x => (x.TimeOffPeriods?.TimeOffPeriod.PayCodeName.ToLowerInvariant() == entityVacation?.PayCodeName.ToLowerInvariant() || x.TimeOffPeriods?.TimeOffPeriod.PayCodeName.ToLowerInvariant() == entitySick?.PayCodeName.ToLowerInvariant()) && x.StatusName.ToLowerInvariant() == Constants.Approved.ToLowerInvariant());
+                    var entitySick = string.Join(",", (await this.azureTableStorageHelper.GetRecordsBasedOnType(AppSettings.Instance.OvertimeMappingtableName, Constants.SickAZTS))
+                        .Select(w => w.Properties["PayCodeName"].StringValue).ToArray());
+                    var entityVacation = string.Join(",", (await this.azureTableStorageHelper.GetRecordsBasedOnType(AppSettings.Instance.OvertimeMappingtableName, Constants.VacationAZTS))
+                        .Select(w => w.Properties["PayCodeName"].StringValue).ToArray());
+                    var vacationResult = leaveResult?.RequestMgmt?.RequestItems?.GlobalTimeOffRequestItem?.FindAll(x => (entityVacation.ToLower().Contains(x.TimeOffPeriods?.TimeOffPeriod.PayCodeName.ToLowerInvariant()) || entitySick.ToLower().Contains(x.TimeOffPeriods?.TimeOffPeriod.PayCodeName.ToLowerInvariant())) && x.StatusName.ToLowerInvariant() == Constants.Approved.ToLowerInvariant());
 
                     Dictionary<string, string> resultData = new Dictionary<string, string>();
                     foreach (var v in vacationResult)

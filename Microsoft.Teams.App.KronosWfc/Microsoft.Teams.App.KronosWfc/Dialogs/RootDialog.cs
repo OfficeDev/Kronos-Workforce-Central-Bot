@@ -77,7 +77,7 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs
         public async Task Default(IDialogContext context, IActivity activity)
         {
             var message = ((Activity)activity).Text;
-            if (!string.IsNullOrWhiteSpace(message) && message != Constants.SignInCompleteText)
+            if (!string.IsNullOrWhiteSpace(message) && message != Constants.SignInCompleteText) 
             {
                 await context.PostAsync(Constants.CommandNotRecognized);
             }
@@ -311,20 +311,20 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs
             }
         }
 
-        /// <summary>
-        /// Luis returned with "None" as the winning intent, so drop down to next level of ScorableGroups.
-        /// </summary>
-        /// <param name="context">DialogContext object.</param>
-        /// <param name="result">LuisResult object.</param>
-        /// <returns>A task.</returns>
-        [LuisIntent("")]
-        [LuisIntent("None")]
-        [ScorableGroup(1)]
-        public Task None(IDialogContext context, LuisResult result)
-        {
-            this.ContinueWithNextGroup();
-            return Task.CompletedTask;
-        }
+        ///// <summary>
+        ///// Luis returned with "None" as the winning intent, so drop down to next level of ScorableGroups.
+        ///// </summary>
+        ///// <param name="context">DialogContext object.</param>
+        ///// <param name="result">LuisResult object.</param>
+        ///// <returns>A task.</returns>
+        //[LuisIntent("")]
+        //[LuisIntent("None")]
+        //[ScorableGroup(1)]
+        //public Task None(IDialogContext context, LuisResult result)
+        //{
+        //    this.ContinueWithNextGroup();
+        //    return Task.CompletedTask;
+        //}
 
         /// <summary>
         /// Validates incoming activity and forwards it to ShowHoursWorkedDialog.
@@ -592,8 +592,9 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs
         /// <param name="activity">Activity object.</param>
         /// <returns>A task.</returns>
         [RegexPattern("(?i)" + Constants.TeamOvertimes)]
-        [ScorableGroup(0)]
+        [RegexPattern("(?i)" + Constants.PreviousWeekTeamOvertimes)]
         [LuisIntent("TeamOverTimes")]
+        [ScorableGroup(1)]
         public async Task TeamOverTimes(IDialogContext context, LuisResult result)
         {
             var response = await this.authenticateUser.GetUserInfo(context);

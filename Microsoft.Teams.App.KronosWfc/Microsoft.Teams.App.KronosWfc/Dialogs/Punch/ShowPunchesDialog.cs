@@ -118,145 +118,155 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.Punch
         private async Task ShowPunches(IDialogContext context, IAwaitable<string> result)
         {
 
-            string resultString = await result;
-            string msg = JsonConvert.DeserializeObject<Message>(resultString).message;
-            var luisResult = JsonConvert.DeserializeObject<Message>(resultString).luisResult;
-
-            var activity = context.Activity as Activity;
-            JObject tenant = context.Activity.ChannelData as JObject;
-            string tenantId = tenant["tenant"].SelectToken("id").ToString();
-
-            string startDate = string.Empty;
-            string endDate = string.Empty;
-            var personNumber = string.Empty;
-            var jSession = string.Empty;
-            string allHours = string.Empty;
-            double assignedHours = default(double);
-            DateTime stDateTime = default(DateTime);
-            DateTime eDateTime = default(DateTime);
-
-            if (!context.UserData.TryGetValue(context.Activity.From.Id, out LoginResponse response))
+            string resultString = "";
+            try
             {
-                response = this.response;
-            }
-            else
-            {
-                personNumber = response.PersonNumber;
-                jSession = response.JsessionID;
-            }
+                resultString = await result;
 
-            var message = activity.Text?.ToLowerInvariant().Trim();
-            Response showPunchesResponse = default(Response);
-            var punchText = string.Empty;
-            AppInsightsLogger.CustomEventTrace("ShowPunchesDialog", new Dictionary<string, string>() { { "TenantId", tenantId }, { "User", context.Activity.From.Id }, { "methodName", "ShowPunches" }, { "Command", message } });
-            if (luisResult.entities.Count == 0)
-            {
-                switch (message)
+                string msg = JsonConvert.DeserializeObject<Message>(resultString).message;
+                var luisResult = JsonConvert.DeserializeObject<Message>(resultString).luisResult;
+
+                var activity = context.Activity as Activity;
+                JObject tenant = context.Activity.ChannelData as JObject;
+                string tenantId = tenant["tenant"].SelectToken("id").ToString();
+
+                string startDate = string.Empty;
+                string endDate = string.Empty;
+                var personNumber = string.Empty;
+                var jSession = string.Empty;
+                string allHours = string.Empty;
+                double assignedHours = default(double);
+                DateTime stDateTime = default(DateTime);
+                DateTime eDateTime = default(DateTime);
+
+                if (!context.UserData.TryGetValue(context.Activity.From.Id, out LoginResponse response))
                 {
-                    case string command when command == Constants.PreviousPayPeriodPunches:
-                        punchText = Constants.PreviousPayPeriodPunchesText;
-                        CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.PreviousPayPeriodPunches);
-                        break;
+                    response = this.response;
+                }
+                else
+                {
+                    personNumber = response.PersonNumber;
+                    jSession = response.JsessionID;
+                }
 
-                    case string command when command == Constants.CurrentpayPeriodPunches || command == Constants.Punches || command == Constants.ShowMeMyPunches:
-                        punchText = Constants.CurrentpayPeriodPunchesText;
-                        CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.CurrentpayPeriodPunches);
-                        break;
+                var message = activity.Text?.ToLowerInvariant().Trim();
+                Response showPunchesResponse = default(Response);
+                var punchText = string.Empty;
+                AppInsightsLogger.CustomEventTrace("ShowPunchesDialog", new Dictionary<string, string>() { { "TenantId", tenantId }, { "User", context.Activity.From.Id }, { "methodName", "ShowPunches" }, { "Command", message } });
+                if (luisResult.entities.Count == 0)
+                {
+                    switch (message)
+                    {
+                        case string command when command == Constants.PreviousPayPeriodPunches:
+                            punchText = Constants.PreviousPayPeriodPunchesText;
+                            CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.PreviousPayPeriodPunches);
+                            break;
 
-                    case string command when command.Contains(Constants.DateRangePunches):
-                        await this.dateRangeCard.ShowDateRange(context, Constants.SubmitDateRangePunches, Constants.PunchesDateRangeText);
-                        return;
+                        case string command when command == Constants.CurrentpayPeriodPunches || command == Constants.Punches || command == Constants.ShowMeMyPunches:
+                            punchText = Constants.CurrentpayPeriodPunchesText;
+                            CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.CurrentpayPeriodPunches);
+                            break;
 
-                    case string command when command.Contains(Constants.SubmitDateRangePunches):
-                        dynamic value = activity.Value;
-                        DateRange dateRange;
+                        case string command when command.Contains(Constants.DateRangePunches):
+                            await this.dateRangeCard.ShowDateRange(context, Constants.SubmitDateRangePunches, Constants.PunchesDateRangeText);
+                            return;
 
-                        if (value != null)
-                        {
-                            dateRange = DateRange.Parse(value);
-                            var results = new List<ValidationResult>();
-                            bool valid = Validator.TryValidateObject(dateRange, new ValidationContext(dateRange, null, null), results, true);
-                            if (!valid)
+                        case string command when command.Contains(Constants.SubmitDateRangePunches):
+                            dynamic value = activity.Value;
+                            DateRange dateRange;
+
+                            if (value != null)
                             {
-                                var errors = string.Join("\n", results.Select(o => " - " + o.ErrorMessage));
-                                await context.PostAsync($"{Constants.DateRangeParseError}" + errors);
-                                return;
+                                dateRange = DateRange.Parse(value);
+                                var results = new List<ValidationResult>();
+                                bool valid = Validator.TryValidateObject(dateRange, new ValidationContext(dateRange, null, null), results, true);
+                                if (!valid)
+                                {
+                                    var errors = string.Join("\n", results.Select(o => " - " + o.ErrorMessage));
+                                    await context.PostAsync($"{Constants.DateRangeParseError}" + errors);
+                                    return;
+                                }
+
+                                startDate = DateTime.Parse(dateRange.StartDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                                endDate = DateTime.Parse(dateRange.EndDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
                             }
 
-                            startDate = DateTime.Parse(dateRange.StartDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                            endDate = DateTime.Parse(dateRange.EndDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                        }
-
-                        break;
-                    default:
-                        punchText = Constants.CurrentpayPeriodPunchesText;
-                        CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.CurrentpayPeriodPunches);
-                        break;
-                }
-            }
-            else
-            {
-                if ((luisResult?.entities?.FirstOrDefault()?.resolution?.values?.FirstOrDefault()) != null)
-                {
-                    var t = luisResult?.entities?.FirstOrDefault()?.resolution?.values?.FirstOrDefault();
-                    switch (t.type)
-                    {
-                        case "date":
-                            startDate = DateTime.Parse(t.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                            endDate = DateTime.Parse(t.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                            break;
-                        case "daterange":
-                            startDate = DateTime.Parse(t.start).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                            endDate = DateTime.Parse(t.end).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
                             break;
                         default:
-                            await context.PostAsync("Could not recognise command.");
+                            punchText = Constants.CurrentpayPeriodPunchesText;
+                            CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.CurrentpayPeriodPunches);
                             break;
                     }
                 }
                 else
                 {
-                    // default shifts for today
-                    startDate = context.Activity.LocalTimestamp.Value.DateTime.Date.ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                    endDate = context.Activity.LocalTimestamp.Value.DateTime.Date.ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                }
-            }
-            showPunchesResponse = await this.showPunchesActivity.ShowPunches(tenantId, jSession, personNumber, startDate, endDate);
-
-            if (showPunchesResponse?.Status == ApiConstants.Success)
-            {
-                // get all hours worked and assigned hours
-                context.UserData.TryGetValue(context.Activity.From.Id + Constants.SuperUser, out string superSession);
-                UpcomingShiftsAlias.Response scheduleResponse = await this.upcomingShiftsActivity.ShowUpcomingShifts(tenantId, superSession, startDate, endDate, personNumber);
-                List<UpcomingShiftsAlias.ScheduleShift> scheduleShifts = scheduleResponse?.Schedule?.ScheduleItems?.ScheduleShift?.OrderBy(x => x.StartDate).ToList();
-                if (scheduleShifts != null)
-                {
-                    foreach (var scheduleShift in scheduleShifts)
+                    if ((luisResult?.entities?.FirstOrDefault()?.resolution?.values?.FirstOrDefault()) != null)
                     {
-                        var shiftSegment = scheduleShift.ShiftSegments.FirstOrDefault();
-                        var lastShiftSeg = scheduleShift.ShiftSegments.LastOrDefault();
-                        stDateTime = DateTime.Parse($"{shiftSegment.StartDate} {shiftSegment.StartTime}", CultureInfo.InvariantCulture, DateTimeStyles.None);
-                        eDateTime = DateTime.Parse($"{lastShiftSeg?.EndDate} {lastShiftSeg?.EndTime}", CultureInfo.InvariantCulture, DateTimeStyles.None);
-                        assignedHours = assignedHours + Math.Abs(Math.Round((stDateTime - eDateTime).TotalHours, 2));
+                        var t = luisResult?.entities?.FirstOrDefault()?.resolution?.values?.FirstOrDefault();
+                        switch (t.type)
+                        {
+                            case "date":
+                                startDate = DateTime.Parse(t.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                                endDate = DateTime.Parse(t.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                                break;
+                            case "daterange":
+                                startDate = DateTime.Parse(t.start).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                                endDate = DateTime.Parse(t.end).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                                break;
+                            default:
+                                await context.PostAsync("Could not recognise command.");
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        // default shifts for today
+                        startDate = context.Activity.LocalTimestamp.Value.DateTime.Date.ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                        endDate = context.Activity.LocalTimestamp.Value.DateTime.Date.ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
                     }
                 }
+                showPunchesResponse = await this.showPunchesActivity.ShowPunches(tenantId, jSession, personNumber, startDate, endDate);
 
-                // Getting the list of recorded punches
-                var showPunchesDataOrderedList = showPunchesResponse?.Timesheet?.TotaledSpans?.TotaledSpan?
-                                    .Where(x => x.InPunch.Punch.EnteredOnDate != null).ToList();
+                if (showPunchesResponse?.Status == ApiConstants.Success)
+                {
+                    // get all hours worked and assigned hours
+                    context.UserData.TryGetValue(context.Activity.From.Id + Constants.SuperUser, out string superSession);
+                    UpcomingShiftsAlias.Response scheduleResponse = await this.upcomingShiftsActivity.ShowUpcomingShifts(tenantId, superSession, startDate, endDate, personNumber);
+                    List<UpcomingShiftsAlias.ScheduleShift> scheduleShifts = scheduleResponse?.Schedule?.ScheduleItems?.ScheduleShift?.OrderBy(x => x.StartDate).ToList();
+                    if (scheduleShifts != null)
+                    {
+                        foreach (var scheduleShift in scheduleShifts)
+                        {
+                            var shiftSegment = scheduleShift.ShiftSegments.FirstOrDefault();
+                            var lastShiftSeg = scheduleShift.ShiftSegments.LastOrDefault();
+                            stDateTime = DateTime.Parse($"{shiftSegment.StartDate} {shiftSegment.StartTime}", CultureInfo.InvariantCulture, DateTimeStyles.None);
+                            eDateTime = DateTime.Parse($"{lastShiftSeg?.EndDate} {lastShiftSeg?.EndTime}", CultureInfo.InvariantCulture, DateTimeStyles.None);
+                            assignedHours = assignedHours + Math.Abs(Math.Round((stDateTime - eDateTime).TotalHours, 2));
+                        }
+                    }
 
-                // Getting all hours worked time
-                var showHoursWorkedOrderedList = showPunchesResponse?.Timesheet?.PeriodTotalData?.PeriodTotals?.Totals?.Total?.FindAll(x => x.PayCodeName == Constants.AllHours).Select(x => new { x.PayCodeName, x.AmountInTime }).FirstOrDefault();
-                allHours = string.IsNullOrEmpty(showHoursWorkedOrderedList?.AmountInTime) ? "0" : showHoursWorkedOrderedList?.AmountInTime.Replace(':', '.');
+                    // Getting the list of recorded punches
+                    var showPunchesDataOrderedList = showPunchesResponse?.Timesheet?.TotaledSpans?.TotaledSpan?
+                                        .Where(x => x.InPunch.Punch.EnteredOnDate != null).ToList();
 
-                await this.showPunchesDataCard.ShowPunchesData(context, showPunchesDataOrderedList, punchText, startDate, endDate, response, string.Format("{0:0.00}", assignedHours), allHours);
+                    // Getting all hours worked time
+                    var showHoursWorkedOrderedList = showPunchesResponse?.Timesheet?.PeriodTotalData?.PeriodTotals?.Totals?.Total?.FindAll(x => x.PayCodeName == Constants.AllHours).Select(x => new { x.PayCodeName, x.AmountInTime }).FirstOrDefault();
+                    allHours = string.IsNullOrEmpty(showHoursWorkedOrderedList?.AmountInTime) ? "0" : showHoursWorkedOrderedList?.AmountInTime.Replace(':', '.');
+
+                    await this.showPunchesDataCard.ShowPunchesData(context, showPunchesDataOrderedList, punchText, startDate, endDate, response, string.Format("{0:0.00}", assignedHours), allHours);
+                }
+                else
+                {
+                    await this.authenticationService.SendAuthCardAsync(context, (Activity)context.Activity);
+                }
+
+                context.Done(showPunchesResponse);
             }
-            else
+            catch (Exception)
             {
-                await this.authenticationService.SendAuthCardAsync(context, (Activity)context.Activity);
-            }
-
-            context.Done(showPunchesResponse);
+                Response showPunchesResponse = default(Response);
+                context.Done(showPunchesResponse);
+            }            
         }
     }
 }

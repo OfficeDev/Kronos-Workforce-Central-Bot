@@ -115,108 +115,187 @@ namespace Microsoft.Teams.App.KronosWfc.Dialogs.Hours
         private async Task ShowHoursWorked(IDialogContext context, IAwaitable<string> result)
         {
 
-            string resultString = await result;
-            string msg = JsonConvert.DeserializeObject<Message>(resultString).message;
-            var luisResult = JsonConvert.DeserializeObject<Message>(resultString).luisResult;
-            var activity = context.Activity as Activity;
-            JObject tenant = context.Activity.ChannelData as JObject;
-            string tenantId = tenant["tenant"].SelectToken("id").ToString();
-
-            string startDate = string.Empty;
-            string endDate = string.Empty;
-            bool status = false;
-
-            if (!context.UserData.TryGetValue(context.Activity.From.Id, out LoginResponse response))
+            string resultString = "";
+            try
             {
-                response = this.response;
-            }
+                resultString = await result;
 
-            var message = activity.Text?.ToLowerInvariant().Trim();
-            Response showHoursWorkedResponse = default(Response);
-            var punchText = string.Empty;
+                string msg = JsonConvert.DeserializeObject<Message>(resultString).message;
+                var luisResult = JsonConvert.DeserializeObject<Message>(resultString).luisResult;
+                var activity = context.Activity as Activity;
+                JObject tenant = context.Activity.ChannelData as JObject;
+                string tenantId = tenant["tenant"].SelectToken("id").ToString();
 
-            AppInsightsLogger.CustomEventTrace("ShowHoursWorkedDialog", new Dictionary<string, string>() { { "TenantId", tenantId }, { "User", context.Activity.From.Id }, { "methodName", "ShowHoursWorked" }, { "Command", message } });
+                string startDate = string.Empty;
+                string endDate = string.Empty;
+                bool status = false;
 
-            var overtimeMappingEntity = await this.azureTableStorageHelper.ExecuteQueryUsingPointQueryAsyncFiltered<OvertimeMappingEntity>(Constants.ActivityChannelId, tenantId, AppSettings.Instance.OvertimeMappingtableName);
-            var filteredResults = overtimeMappingEntity.Where(x => x.PayCodeType == Constants.TeamOvertimes || x.PayCodeType == Constants.Regular).Select(x => x.PayCodeName);
-            if (luisResult.entities.Count == 0)
-            {
-                switch (message)
+                if (!context.UserData.TryGetValue(context.Activity.From.Id, out LoginResponse response))
                 {
-                    case string command when command.Contains(Constants.PreviousPayPeriodHoursWorkedText):
-                        punchText = Constants.PreviousPayPeriodPunchesText;
-                        CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.PreviousPayPeriodPunches);
-                        break;
+                    response = this.response;
+                }
 
-                    case string command when command.Contains(Constants.DateRangeHoursWorked):
-                        await this.dateRangeCard.ShowDateRange(context, Constants.SubmitDateRangeHoursWorked, Constants.HoursWorkedDateRangeText);
-                        return;
+                var message = activity.Text?.ToLowerInvariant().Trim();
+                Response showHoursWorkedResponse = default(Response);
+                var punchText = string.Empty;
 
-                    case string command when command.Contains(Constants.SubmitDateRangeHoursWorked):
-                        dynamic value = activity.Value;
-                        DateRange dateRange;
+                AppInsightsLogger.CustomEventTrace("ShowHoursWorkedDialog", new Dictionary<string, string>() { { "TenantId", tenantId }, { "User", context.Activity.From.Id }, { "methodName", "ShowHoursWorked" }, { "Command", message } });
 
-                        if (value != null)
-                        {
-                            dateRange = DateRange.Parse(value);
-                            var results = new List<ValidationResult>();
-                            bool valid = Validator.TryValidateObject(dateRange, new ValidationContext(dateRange, null, null), results, true);
+                var overtimeMappingEntity = await this.azureTableStorageHelper.ExecuteQueryUsingPointQueryAsyncFiltered<OvertimeMappingEntity>(Constants.ActivityChannelId, tenantId, AppSettings.Instance.OvertimeMappingtableName);
+                var filteredResults = overtimeMappingEntity.Where(x => x.PayCodeType == Constants.TeamOvertimes || x.PayCodeType == Constants.Regular).Select(x => x.PayCodeName);
+                if (luisResult.entities.Count == 0)
+                {
+                    switch (message)
+                    {
+                        case string command when command.Contains(Constants.PreviousPayPeriodHoursWorkedText):
+                            punchText = Constants.PreviousPayPeriodPunchesText;
+                            CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.PreviousPayPeriodPunches);
+                            break;
 
-                            if (!valid)
+                        case string command when command.Contains(Constants.DateRangeHoursWorked):
+                            await this.dateRangeCard.ShowDateRange(context, Constants.SubmitDateRangeHoursWorked, Constants.HoursWorkedDateRangeText);
+                            return;
+
+                        case string command when command.Contains(Constants.SubmitDateRangeHoursWorked):
+                            dynamic value = activity.Value;
+                            DateRange dateRange;
+
+                            if (value != null)
                             {
-                                var errors = string.Join("\n", results.Select(o => " - " + o.ErrorMessage));
-                                await context.PostAsync($"{Constants.DateRangeParseError}" + errors);
-                                return;
+                                dateRange = DateRange.Parse(value);
+                                var results = new List<ValidationResult>();
+                                bool valid = Validator.TryValidateObject(dateRange, new ValidationContext(dateRange, null, null), results, true);
+
+                                if (!valid)
+                                {
+                                    var errors = string.Join("\n", results.Select(o => " - " + o.ErrorMessage));
+                                    await context.PostAsync($"{Constants.DateRangeParseError}" + errors);
+                                    return;
+                                }
+
+                                startDate = DateTime.Parse(dateRange.StartDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                                endDate = DateTime.Parse(dateRange.EndDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
                             }
 
-                            startDate = DateTime.Parse(dateRange.StartDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                            endDate = DateTime.Parse(dateRange.EndDate, CultureInfo.InvariantCulture, DateTimeStyles.None).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                        }
+                            break;
 
-                        break;
-
-                    case string command when command.Contains(Constants.CurrentpayPeriodHoursWorkedText) || command.Contains(Constants.HowManyHoursWorked) || command.Contains(Constants.Hour):
-                        punchText = Constants.CurrentpayPeriodPunchesText;
-                        CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.CurrentpayPeriodPunches);
-                        break;
+                        case string command when command.Contains(Constants.CurrentpayPeriodHoursWorkedText) || command.Contains(Constants.HowManyHoursWorked) || command.Contains(Constants.Hour):
+                            punchText = Constants.CurrentpayPeriodPunchesText;
+                            CalculatePayPeriod(context.Activity.LocalTimestamp, out startDate, out endDate, Constants.CurrentpayPeriodPunches);
+                            break;
+                    }
                 }
-            }
-            else
-            {
-                var t = luisResult?.entities?.FirstOrDefault()?.resolution?.values?.FirstOrDefault();
-                switch (t.type)
+                else
                 {
-                    case "date":
-                        startDate = DateTime.Parse(t.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                        endDate = DateTime.Parse(t.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                        break;
-                    case "daterange":
-                        startDate = DateTime.Parse(t.start).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                        endDate = DateTime.Parse(t.end).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
-                        break;
-                    default:
-                        await context.PostAsync("Could not recognise command.");
-                        break;
+                    var t = luisResult?.entities?.FirstOrDefault()?.resolution?.values?.FirstOrDefault();
+                    switch (t.type)
+                    {
+                        case "date":
+                            startDate = DateTime.Parse(t.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                            endDate = DateTime.Parse(t.value).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                            break;
+                        case "daterange":
+                            startDate = DateTime.Parse(t.start).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                            endDate = DateTime.Parse(t.end).ToString(ApiConstants.DateFormat, CultureInfo.InvariantCulture);
+                            break;
+                        default:
+                            await context.PostAsync("Could not recognise command.");
+                            break;
+                    }
                 }
+
+                showHoursWorkedResponse = await this.hoursWorkedActivity.ShowHoursWorked(tenantId, response, startDate, endDate);
+                status = this.CheckResponseStatus(context, showHoursWorkedResponse);
+
+                if (status)
+                {
+                    var showHoursWorkedOrderedList = showHoursWorkedResponse?.Timesheet?.PeriodTotalData?.PeriodTotals?.Totals?.Total?.FindAll(x => filteredResults.Contains(x.PayCodeName) || x.PayCodeName == Constants.AllHours).Select(x => new { x.PayCodeName, x.AmountInTime }).ToList();
+
+                    //Regular Updated
+                    var regular = showHoursWorkedOrderedList?.FindAll(x => x.PayCodeName.Contains(Constants.Regular));
+                    //var regular1 = showHoursWorkedOrderedList?.FirstOrDefault(x => x.PayCodeName.Contains(Constants.Regular))?.AmountInTime ?? "0:00";
+                    int regularTotalHours = 0;
+                    int regularTotalMin = 0;
+                    string regularTotalHourTime = string.Empty;
+                    string regularTotalMinTime = string.Empty;
+                    foreach (var item in regular)
+                    {
+                        regularTotalHours += int.Parse((item?.AmountInTime ?? "0:00")?.Split(':')[0]);
+                        regularTotalMin += int.Parse((item?.AmountInTime ?? "0:00")?.Split(':')[1]);
+                    }
+
+                    if (regularTotalMin > 60)
+                    {
+                        regularTotalHours += regularTotalMin / 60;
+                        regularTotalMin = regularTotalMin % 60;
+                    }
+
+                    regularTotalHourTime = regularTotalHours < 10 ? "0" + regularTotalHours : regularTotalHours.ToString();
+                    regularTotalMinTime = regularTotalMin < 10 ? "0" + regularTotalMin : regularTotalMin.ToString();
+
+
+
+                    //Overtime Updated
+                    var overtime = showHoursWorkedOrderedList?.FindAll(x => x.PayCodeName.Contains(Constants.TeamOvertimes));
+
+                    int overtimeTotalHours = 0;
+                    int overtimeTotalMin = 0;
+                    string overtimeTotalHourTime = string.Empty;
+                    string overtimeTotalMinTime = string.Empty;
+                    foreach (var item in overtime)
+                    {
+                        overtimeTotalHours += int.Parse((item?.AmountInTime ?? "0:00")?.Split(':')[0]);
+                        overtimeTotalMin += int.Parse((item?.AmountInTime ?? "0:00")?.Split(':')[1]);
+                    }
+
+                    if (overtimeTotalMin > 60)
+                    {
+                        overtimeTotalHours += overtimeTotalMin / 60;
+                        overtimeTotalMin = overtimeTotalMin % 60;
+                    }
+
+                    overtimeTotalHourTime = overtimeTotalHours < 10 ? "0" + overtimeTotalHours : overtimeTotalHours.ToString();
+                    overtimeTotalMinTime = overtimeTotalMin < 10 ? "0" + overtimeTotalMin : overtimeTotalMin.ToString();
+
+                    //All Hours Updated
+                    var allHours = showHoursWorkedOrderedList?.FindAll(x => x.PayCodeName.Contains(Constants.AllHours));
+
+                    int allHoursTotalHours = 0;
+                    int allHoursTotalMin = 0;
+                    string allHoursTotalHourTime = string.Empty;
+                    string allHoursTotalMinTime = string.Empty;
+                    foreach (var item in allHours)
+                    {
+                        allHoursTotalHours += int.Parse((item?.AmountInTime ?? "0:00")?.Split(':')[0]);
+                        allHoursTotalMin += int.Parse((item?.AmountInTime ?? "0:00")?.Split(':')[1]);
+                    }
+
+                    if (allHoursTotalMin > 60)
+                    {
+                        allHoursTotalHours += allHoursTotalMin / 60;
+                        allHoursTotalMin = allHoursTotalMin % 60;
+                    }
+
+                    allHoursTotalHourTime = allHoursTotalHours < 10 ? "0" + allHoursTotalHours : allHoursTotalHours.ToString();
+                    allHoursTotalMinTime = allHoursTotalMin < 10 ? "0" + allHoursTotalMin : allHoursTotalMin.ToString();
+
+                    await this.showHoursWorkedCard.ShowHoursWorkedData(context, showHoursWorkedResponse, punchText, startDate, endDate,
+                        regularTotalHourTime + ":" + regularTotalMinTime, overtimeTotalHourTime + ":" + overtimeTotalMinTime,
+                        allHoursTotalHourTime + ":" + allHoursTotalMinTime);
+                }
+                else
+                {
+                    await this.authenticationService.SendAuthCardAsync(context, (Activity)context.Activity);
+                }
+
+                context.Done(showHoursWorkedResponse);
             }
-
-            showHoursWorkedResponse = await this.hoursWorkedActivity.ShowHoursWorked(tenantId, response, startDate, endDate);
-            status = this.CheckResponseStatus(context, showHoursWorkedResponse);
-
-            if (status)
+            catch (Exception)
             {
-                var showHoursWorkedOrderedList = showHoursWorkedResponse?.Timesheet?.PeriodTotalData?.PeriodTotals?.Totals?.Total?.FindAll(x => filteredResults.Contains(x.PayCodeName) || x.PayCodeName == Constants.AllHours).Select(x => new { x.PayCodeName, x.AmountInTime }).ToList();
-                var regular = showHoursWorkedOrderedList?.FirstOrDefault(x => x.PayCodeName.Contains(Constants.Regular))?.AmountInTime ?? "0:00";
-                var overtime = showHoursWorkedOrderedList?.FirstOrDefault(x => x.PayCodeName.Contains(Constants.TeamOvertimes))?.AmountInTime ?? "0:00";
-                var allHours = showHoursWorkedOrderedList?.FirstOrDefault(x => x.PayCodeName.Contains(Constants.AllHours))?.AmountInTime;
-                await this.showHoursWorkedCard.ShowHoursWorkedData(context, showHoursWorkedResponse, punchText, startDate, endDate, regular, overtime, allHours);
+                Response showHoursWorkedResponse = default(Response);
+                context.Done(showHoursWorkedResponse);
             }
-            else
-            {
-                await this.authenticationService.SendAuthCardAsync(context, (Activity)context.Activity);
-            }
-
-            context.Done(showHoursWorkedResponse);
+            
         }
 
         private bool CheckResponseStatus(IDialogContext context, Response showHoursWorkedResponse)

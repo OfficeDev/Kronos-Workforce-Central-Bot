@@ -257,5 +257,28 @@ namespace Microsoft.Teams.App.KronosWfc.Common
                 throw;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public async Task<List<DynamicTableEntity>> GetRecordsBasedOnType(string tableName, string type)
+        {
+            try
+            {
+                CloudTable table = this.TableClient.GetTableReference(tableName);
+                string typeQ = TableQuery.GenerateFilterCondition("PayCodeType", QueryComparisons.Equal, type);
+                TableQuery query = new TableQuery().Where(typeQ);
+                TableContinuationToken token = null;
+                var result = await table.ExecuteQuerySegmentedAsync(query, token);
+                return result.Results;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

@@ -50,7 +50,7 @@ namespace Microsoft.Teams.App.KronosWfc.Common
         public const string UserNotLoggedInError = "1307";
         public const string UserUnauthorizedError = "1305";
 
-        public const string LoadJobs = "LoadJobs";        
+        public const string LoadJobs = "LoadJobs";
         public const string RetrieveAllForUpdate = "RetrieveAllForUpdate";
         public const string RetrieveWithDetails = "RetrieveWithDetails";
 
@@ -62,5 +62,6 @@ namespace Microsoft.Teams.App.KronosWfc.Common
         public const string SwapShift = "SWAP_SHIFT";
         public const string LoadActiveComments = "LoadActiveComments";
         public const string REQUESTS = "REQUESTS";
+        public const string LoadAllPayCodes = "LoadAllPayCodes";
     }
 }

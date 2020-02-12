@@ -16,6 +16,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Teams.App.KronosWfc.Tests", "Microsoft.Teams.App.KronosWfc.Tests\Microsoft.Teams.App.KronosWfc.Tests.csproj", "{068CF21B-4D5A-4E28-9DFA-B986EEF40429}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Teams.App.KronosWfc.Configurator", "Microsoft.Teams.App.KronosWfc.Configurator\Microsoft.Teams.App.KronosWfc.Configurator.csproj", "{C11D8503-8B06-4C35-A9BC-54EA72096983}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A8957933-7541-4C34-B9DE-7949FAE19AC9} = {A8957933-7541-4C34-B9DE-7949FAE19AC9}
+		{B2CAC781-8BF6-46C6-8111-22D9E74E0318} = {B2CAC781-8BF6-46C6-8111-22D9E74E0318}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
