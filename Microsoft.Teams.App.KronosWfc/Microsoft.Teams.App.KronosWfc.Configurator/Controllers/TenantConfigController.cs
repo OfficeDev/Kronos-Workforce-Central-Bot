@@ -162,7 +162,7 @@ namespace Microsoft.Teams.App.KronosWfc.Configurator.Controllers
         {
             try
             {
-                KronosWfc.Models.RequestEntities.Logon.Request req = new KronosWfc.Models.RequestEntities.Logon.Request();
+                LogonRequest req = new LogonRequest();
                 req.Username = username;
                 req.Password = password;
                 req.Object = ApiConstants.System;
