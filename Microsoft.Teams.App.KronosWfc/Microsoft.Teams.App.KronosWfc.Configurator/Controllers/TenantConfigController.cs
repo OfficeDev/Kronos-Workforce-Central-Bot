@@ -4,22 +4,16 @@
 
 namespace Microsoft.Teams.App.KronosWfc.Configurator.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using System.Xml.Linq;
     using Configurator.Models;
     using Configurator.Providers;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
-    using Microsoft.Teams.App.KronosWfc.BusinessLogic;
-    using Microsoft.Teams.App.KronosWfc.BusinessLogic.Common;
-    using Microsoft.Teams.App.KronosWfc.Common;
-    //using Microsoft.Teams.App.KronosWfc.Models;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Table;
+    using Microsoft.Teams.App.KronosWfc.Configurator.Helpers;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -229,6 +223,7 @@ namespace Microsoft.Teams.App.KronosWfc.Configurator.Controllers
             }
         }
 
+        
 
     }
 }

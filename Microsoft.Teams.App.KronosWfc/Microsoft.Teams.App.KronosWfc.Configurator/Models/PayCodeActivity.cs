@@ -5,15 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Microsoft.Teams.App.KronosWfc.Common;
+using Microsoft.Teams.App.KronosWfc.Configurator.Helpers;
+//using Microsoft.Teams.App.KronosWfc.Common;
 using Microsoft.Teams.App.KronosWfc.Configurator.Models;
-using Microsoft.Teams.App.KronosWfc.Service.Core;
+//using Microsoft.Teams.App.KronosWfc.Service.Core;
 
 namespace Microsoft.Teams.App.KronosWfc.Configurator.Models
 {
     public class PayCodeActivity
     {
-        private readonly IApiHelper apiHelper;
+        private readonly ApiHelper apiHelper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PayCodeActivity"/> class.
@@ -21,7 +22,7 @@ namespace Microsoft.Teams.App.KronosWfc.Configurator.Models
         /// </summary>
         /// <param name="telemetryClient">Telemetry initialize.</param>
         /// <param name="apiHelper">API helper to fetch tuple response by post soap requests.</param>
-        public PayCodeActivity( IApiHelper apiHelper)
+        public PayCodeActivity(ApiHelper apiHelper)
         {
             this.apiHelper = apiHelper;
         }
