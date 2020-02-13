@@ -24,7 +24,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Teams.App.KronosWfc.BusinessLogic\Microsoft.Teams.App.KronosWfc.BusinessLogic.csproj" />
     <ProjectReference Include="..\Microsoft.Teams.App.KronosWfc.Common\Microsoft.Teams.App.KronosWfc.Common.csproj" />
-    <ProjectReference Include="..\Microsoft.Teams.App.KronosWfc\Microsoft.Teams.App.KronosWfc.csproj" />
   </ItemGroup>
 
  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
