@@ -388,7 +388,7 @@
 							"value": "configuration"
 						},
 						{
-							"name": "Tenant",
+							"name": "TenantId",
 							"value": "[variables('tenantId')]"
 						},
 						{
